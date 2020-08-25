@@ -36,7 +36,7 @@ description: |
         <dd>Процесс создания схемы базы данных и определения необходимых ограничений целостности.</dd>
     </dl>
     <div style="text-align: center">
-        <img style="height: 300px" src="not-so-easy.jpg"/>
+        <img style="height: 300px" src="not-so-easy.jpg" alt="not-so-easy"/>
     </div>
 </section>
 
@@ -1521,6 +1521,7 @@ FROM test;
         </tbody>
     </table>
 </section>
+
 <section class="slide">
     <h2>GROUP BY. Формирование групп</h2>
     <pre><code class="sql">SELECT grade, department, COUNT(*)
@@ -1598,7 +1599,7 @@ FROM persons;
         <tbody>
         <tr>
             <td>avg(expression)</td>
-            <td>Среднее арифмитическое</td>
+            <td>Среднее арифметическое</td>
         </tr>
         <tr>
             <td>max(expression)</td>
@@ -1867,7 +1868,6 @@ SELECT * FROM recursetree;
             <td>2</td>
             <td>Бутово</td>
         </tr>
-        </tr>
         </tbody>
     </table>
 </section>
@@ -1924,7 +1924,6 @@ ORDER BY path;
             <td>2.5</td>
             <td>Вашингтон</td>
         </tr>
-        </tr>
         </tbody>
     </table>
 </section>
@@ -1973,7 +1972,7 @@ ON CONFLICT (id) DO UPDATE SET dname = EXCLUDED.dname;
 INSERT INTO distributors (id, dname) VALUES (7, 'Redline GmbH')
 ON CONFLICT (id) DO NOTHING;
 </code></pre>
-        </code>
+    </div>
 </section>
 
 <section class="slide">
@@ -2017,8 +2016,7 @@ UPDATE weather
 <section class="slide">
     <h2>UPDATE</h2>
     <div style="font-size: 80%">
-	<pre><code class="sql">
-UPDATE accounts SET
+	<pre><code class="sql">UPDATE accounts SET
   contact_first_name = (
     SELECT first_name FROM salesmen WHERE salesmen.id = accounts.sales_id
   ),

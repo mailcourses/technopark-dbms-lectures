@@ -331,7 +331,7 @@ WHERE oid = 'films'::regclass;</code></pre>
 
 <section class="slide">
     <h2>Оптимизация COUNT(*)</h2>
-    <h3>Получение кол-ва записей после выполения запроса</h3>
+    <h3>Получение кол-ва записей после выполнения запроса</h3>
     <pre><code class="sql">SELECT COUNT(*) FROM (
   SELECT * FROM tags WHERE name LIKE 'Zombie%'
 );
@@ -343,7 +343,7 @@ WHERE oid = 'films'::regclass;</code></pre>
 
 <section class="slide">
     <h2>Оптимизация COUNT(*)</h2>
-    <h3>Получение кол-ва записей после выполения запроса</h3>
+    <h3>Получение кол-ва записей после выполнения запроса</h3>
     <pre style="font-size: 75%"><code class="sql">CREATE FUNCTION count_estimate(query text) RETURNS INTEGER AS
 $func$
 DECLARE
@@ -495,7 +495,7 @@ ALTER TABLE test_2
     <h3>Минусы:</h3>
     <ul>
         <li>Строго говоря, это костыль;</li>
-        <li>При вставке данных нужно явно добавлять данные в соответвующую партицию;</li>
+        <li>При вставке данных нужно явно добавлять данные в соответствующую партицию;</li>
         <li>Нужно аккуратно следить за индексами и ограничениями;</li>
         <li>Не работают FOREIGN KEY.</li>
     </ul>

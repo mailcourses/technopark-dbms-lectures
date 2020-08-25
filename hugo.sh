@@ -1,6 +1,6 @@
 #!/bin/bash -ex
 cd `dirname $0`
-HUGO_VER=0.27
+HUGO_VER=0.74.3
 OS=`uname`
 case "${OS}" in
 	Linux)

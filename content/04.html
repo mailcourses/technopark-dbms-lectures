@@ -19,141 +19,141 @@ description: |
 ---
 <div>
     <style>
-tr.read {
-    background: linear-gradient(
-        -45deg,
-        transparent 49.9%,
-        skyblue 49.9%,
-        skyblue 60%,
-        transparent 60%
-    ), linear-gradient(
-        -45deg,
-        skyblue 10%,
-        transparent 10%
-    );
-    background-size: 8px 8px;
-}
+        tr.read {
+            background: linear-gradient(
+                    -45deg,
+                    transparent 49.9%,
+                    skyblue 49.9%,
+                    skyblue 60%,
+                    transparent 60%
+            ), linear-gradient(
+                    -45deg,
+                    skyblue 10%,
+                    transparent 10%
+            );
+            background-size: 8px 8px;
+        }
 
-tr.update {
-    background-color: #ffb !important;
-}
+        tr.update {
+            background-color: #ffb !important;
+        }
 
-tr.delete {
-    background-color: #fbb !important;
-}
+        tr.delete {
+            background-color: #fbb !important;
+        }
 
-tr.insert {
-    background-color: #bfb !important;
-    font-weight: bold;
-}
+        tr.insert {
+            background-color: #bfb !important;
+            font-weight: bold;
+        }
 
-.changed {
-    font-weight: bold;
-}
+        .changed {
+            font-weight: bold;
+        }
 
-.obsolete {
-    font-style: italic;
-}
+        .obsolete {
+            font-style: italic;
+        }
 
-.label-l, .label-r {
-    position: absolute;
-    padding-top: 2px;
-    height: 36px;
-    font-size: 80%;
-    font-weight: bold;
-    font-style: normal;
-}
+        .label-l, .label-r {
+            position: absolute;
+            padding-top: 2px;
+            height: 36px;
+            font-size: 80%;
+            font-weight: bold;
+            font-style: normal;
+        }
 
-.label-l {
-    left: 100px;
-    width: 99px;
-    padding-left: 6px;
-}
+        .label-l {
+            left: 100px;
+            width: 99px;
+            padding-left: 6px;
+        }
 
-.label-l:after {
-    content: "";
-    position: absolute;
-    top: 0px;
-    left: 98px;
-    height: 36px;
-    width: 19px;
-    border: 18px solid transparent;
-    border-right: 0;
-}
+        .label-l:after {
+            content: "";
+            position: absolute;
+            top: 0px;
+            left: 98px;
+            height: 36px;
+            width: 19px;
+            border: 18px solid transparent;
+            border-right: 0;
+        }
 
-.update .label-l {
-    background-color: #ffb;
-}
+        .update .label-l {
+            background-color: #ffb;
+        }
 
-.delete .label-l {
-    background-color: #fbb;
-}
+        .delete .label-l {
+            background-color: #fbb;
+        }
 
-.insert .label-l {
-    background-color: #bfb;
-}
+        .insert .label-l {
+            background-color: #bfb;
+        }
 
-.update .label-l:after {
-    border-left-color: #ffb;
-}
+        .update .label-l:after {
+            border-left-color: #ffb;
+        }
 
-.delete .label-l:after {
-    border-left-color: #fbb;
-}
+        .delete .label-l:after {
+            border-left-color: #fbb;
+        }
 
-.insert .label-l:after {
-    border-left-color: #bfb;
-}
+        .insert .label-l:after {
+            border-left-color: #bfb;
+        }
 
-.read .label-r {
-    background-color: #bbf;
-}
+        .read .label-r {
+            background-color: #bbf;
+        }
 
-.read .label-r:before {
-    border-right-color: #bbf;
-}
+        .read .label-r:before {
+            border-right-color: #bbf;
+        }
 
-.label-r {
-    right: 100px;
-    width: 99px;
-    padding-left: 6px;
-}
+        .label-r {
+            right: 100px;
+            width: 99px;
+            padding-left: 6px;
+        }
 
-.label-r:before {
-    content: "";
-    position: absolute;
-    top: 0px;
-    right: 98px;
-    height: 36px;
-    width: 19px;
-    border: 18px solid transparent;
-    border-left: 0;
-}
+        .label-r:before {
+            content: "";
+            position: absolute;
+            top: 0px;
+            right: 98px;
+            height: 36px;
+            width: 19px;
+            border: 18px solid transparent;
+            border-left: 0;
+        }
 
-.mvcc {
-    margin-left: 120px;
-    margin-right: 120px;
-}
+        .mvcc {
+            margin-left: 120px;
+            margin-right: 120px;
+        }
 
-.mvcc table {
-    width: 100%;
-}
+        .mvcc table {
+            width: 100%;
+        }
 
-.tx-r, .tx-g, .tx-y {
-    text-align: center;
-}
+        .tx-r, .tx-g, .tx-y {
+            text-align: center;
+        }
 
-.tx-r {
-    background-color: #fbb !important;
-}
+        .tx-r {
+            background-color: #fbb !important;
+        }
 
-.tx-g {
-    background-color: #bfb !important;
-}
+        .tx-g {
+            background-color: #bfb !important;
+        }
 
-.tx-y {
-    background-color: #ffb !important;
-}
+        .tx-y {
+            background-color: #ffb !important;
+        }
     </style>
 </div>
 <section class="slide">
@@ -252,7 +252,7 @@ COMMIT;</code></pre>
     <img style="position: absolute; right: 50px; bottom: 50px" height="280" src="hdd.png">
     <p>Общий алгоритм:</p>
     <ul class="compact">
-        <li>измения пишутся в журнал транзакций (состояние до и после) и изменяются страницы БД в памяти;</li>
+        <li>изменения пишутся в журнал транзакций (состояние до и после) и изменяются страницы БД в памяти;</li>
         <li>в журнал транзакций сбрасывается маркер успешного завершения транзакции;</li>
         <li>журнал транзакций сбрасывается на диск;</li>
         <li>данные страниц БД пишутся на диск;</li>
@@ -1151,28 +1151,28 @@ COMMIT;</code></pre>
 </section>
 
 <section class="slide">
-	<h2>Проблемы MVCC</h2>
-	<ul>
-		<li>MVCC работает идеально, когда мы пишем номер окончания отранзакции, но мы его заранее не знаем;</li>
-		<li>Надо как-то избавляться от "мертвых" кортежей.</li>
-	</ul>
+    <h2>Проблемы MVCC</h2>
+    <ul>
+        <li>MVCC работает идеально, когда мы пишем номер окончания транзакции, но мы его заранее не знаем;</li>
+        <li>Надо как-то избавляться от "мертвых" кортежей.</li>
+    </ul>
 </section>
 
 <section class="slide">
-	<h2>Варианты реализации MVCC</h2>
-	<h3>Heap (PostgreSQL)</h3>
-	<ul class="compact" style="font-size: 90%">
-		<li>Все кортежи лежат в общей "куче".</li>
-		<li>Мертвые кортежи удаляются в фоне отдельным сборщиком мусора (AUTOVACUUM).</li>
-		<li>Фискация и откат транзакции имеют одинаковую стоимость.</li>
-	</ul>
-	<h3>Rollback segment (MySQL, Oracle)</h3>
-	<ul class="compact" style="font-size: 90%">
-		<li>В страницах таблицы лежат только актуальные данные.</li>
-		<li>Старые версии хранятся в журнале отката.</li>
-		<li>Не требуется сборщик мусора и более эффективное использование дискового пространства.</li>
-		<li>Долгий откат транзакции.</li>
-	</ul>
+    <h2>Варианты реализации MVCC</h2>
+    <h3>Heap (PostgreSQL)</h3>
+    <ul class="compact" style="font-size: 90%">
+        <li>Все кортежи лежат в общей "куче".</li>
+        <li>Мертвые кортежи удаляются в фоне отдельным сборщиком мусора (AUTOVACUUM).</li>
+        <li>Фиксация и откат транзакции имеют одинаковую стоимость.</li>
+    </ul>
+    <h3>Rollback segment (MySQL, Oracle)</h3>
+    <ul class="compact" style="font-size: 90%">
+        <li>В страницах таблицы лежат только актуальные данные.</li>
+        <li>Старые версии хранятся в журнале отката.</li>
+        <li>Не требуется сборщик мусора и более эффективное использование дискового пространства.</li>
+        <li>Долгий откат транзакции.</li>
+    </ul>
 </section>
 
 <section class="slide">
@@ -1290,12 +1290,14 @@ COMMIT
     </ul>
     <table class="classic bordered" style="font-size: 70%">
         <thead>
-        <th>Уровень изоляции</th>
-        <th>Потерянное обновление</th>
-        <th>«Грязное» чтение</th>
-        <th>Неповторяющееся чтение</th>
-        <th>Фантомное чтение</th>
-        <th>Аномалии сериализации</th>
+        <tr>
+            <th>Уровень изоляции</th>
+            <th>Потерянное обновление</th>
+            <th>«Грязное» чтение</th>
+            <th>Неповторяющееся чтение</th>
+            <th>Фантомное чтение</th>
+            <th>Аномалии сериализации</th>
+        </tr>
         </thead>
         <tbody>
         <tr>
@@ -1337,12 +1339,14 @@ COMMIT
 
 <section class="slide">
     <h2>Потерянное обновление (Lost Update)</h2>
-    <p>Потерянное обновление происходит в случае перезатирания изменений другой транзакцией до заврешнения транзакции,
+    <p>Потерянное обновление происходит в случае перезатирания изменений другой транзакцией до завершения транзакции,
         сделавшей изменения.</p>
     <table class="classic bordered">
         <thead>
-        <th>Транзакция 1</th>
-        <th>Транзакция 2</th>
+        <tr>
+            <th>Транзакция 1</th>
+            <th>Транзакция 2</th>
+        </tr>
         </thead>
         <tbody style="font-size: 70%">
         <tr>
@@ -1366,8 +1370,10 @@ COMMIT
     <p>Чтение данных, добавленных или изменённых еще не завершенной транзакцией.</p>
     <table class="classic bordered">
         <thead>
+        <tr>
         <th>Транзакция 1</th>
         <th>Транзакция 2</th>
+        </tr>
         </thead>
         <tbody style="font-size: 70%">
         <tr>
@@ -1409,8 +1415,10 @@ f2
     <p>При повторном чтении в рамках одной транзакции ранее прочитанные данные оказываются изменёнными.</p>
     <table class="classic bordered">
         <thead>
+        <tr>
         <th>Транзакция 1</th>
         <th>Транзакция 2</th>
+        </tr>
         </thead>
         <tbody style="font-size: 70%">
         <tr>
@@ -1449,8 +1457,10 @@ f2
         изменения/удаления самих этих данных, а из-за появления новых (фантомных) данных.</p>
     <table class="classic bordered">
         <thead>
+        <tr>
         <th>Транзакция 1</th>
         <th>Транзакция 2</th>
+        </tr>
         </thead>
         <tbody style="font-size: 70%">
         <tr>
@@ -1487,8 +1497,10 @@ f2
         выполнении тех же транзакций.</p>
     <table class="classic bordered">
         <thead>
+        <tr>
         <th>Транзакция 1</th>
         <th>Транзакция 2</th>
+        </tr>
         </thead>
         <tbody style="font-size: 70%">
         <tr>
@@ -1533,12 +1545,14 @@ VALUES (300, 1)</code></pre>
     <h2>Уровни изолированности транзакций</h2>
     <table class="classic bordered" style="font-size: 70%">
         <thead>
+        <tr>
         <th>Уровень изоляции</th>
         <th>Потерянное обновление</th>
         <th>«Грязное» чтение</th>
         <th>Неповторяющееся чтение</th>
         <th>Фантомное чтение</th>
         <th>Аномалии сериализации</th>
+        </tr>
         </thead>
         <tbody>
         <tr>
@@ -1576,20 +1590,21 @@ VALUES (300, 1)</code></pre>
         </tbody>
     </table>
     <div class="important next">
-        <p>Более выской уровень изоляции транзакций уменьшает количество аномалий за счет увеличения количества блокировок и вероятности отката транзакции.</p>
+        <p>Более высокий уровень изоляции транзакций уменьшает количество аномалий за счет увеличения количества
+            блокировок и вероятности отката транзакции.</p>
     </div>
 </section>
 
 <section class="slide">
-	<h2>READ COMMITED</h2>
-	<h3>Вариант A</h3>
+    <h2>READ COMMITED</h2>
+    <h3>Вариант A</h3>
     <pre><code class="sql" style="font-size: 75%">SELECT id, money FROM account WHERE name = 'Romeo';
 SELECT id, money FROM account WHERE name = 'Giulietta';
 UPDATE account SET money = 500 WHERE id = 13 AND money = 600;
 UPDATE account SET money = 200 WHERE id = 42 AND money = 100;
 COMMIT;
 </code></pre>
-	<h3>Вариант B</h3>
+    <h3>Вариант B</h3>
     <pre><code class="sql" style="font-size: 75%">SELECT id, money FROM account WHERE name = 'Romeo';
 COMMIT;
 ---
@@ -1630,8 +1645,8 @@ LANGUAGE PLPGSQL;</code></pre>
     <p>В более старых версиях PostgreSQL можно довольствоваться только функциями.</p>
     <h3 class="next">Чем отличаются хранимые процедуры от функций?</h3>
     <ul class="next">
-    	<li>Фукнции можно использовать в запросах</li>
-    	<li>Хранимые процедуры могут начинать транзакции</li>
+        <li>Функции можно использовать в запросах</li>
+        <li>Хранимые процедуры могут начинать транзакции</li>
     </ul>
     <footer class="footer">https://blog.2ndquadrant.com/postgresql-11-server-side-procedures-part-2/</footer>
 </section>
@@ -1925,11 +1940,13 @@ PREPARE TRANSACTION 'tx-42';
 SELECT * FROM pg_prepared_xacts;</code></pre>
     <table class="classic bordered" style="font-size: 95%">
         <thead>
+        <tr>
         <th>transaction</th>
         <th>gid</th>
         <th>prepared</th>
         <th>owner</th>
         <th>database</th>
+        </tr>
         </thead>
         <tbody>
         <tr>

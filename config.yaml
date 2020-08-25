@@ -13,8 +13,8 @@ blackfriday:
   sourceRelativeLinksEval: true
 
 params:
-  author: "Навроцкий Артем"
-  email: bozaro@yandex.ru
+  author: "Стрелков Никита / Стулов Игорь"
+  email: "n.strelkov@corp.mail.ru / i.stulov@corp.mail.ru"
   description: "Лекции для Технопарка по курсу СУБД"
   highlightTheme: "idea"
   useMath: false

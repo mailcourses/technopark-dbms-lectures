@@ -17,11 +17,6 @@ description: |
      - Nested loop join;
      - Hash join.
 ---
-<style>
-.covering_index {
-	font-size: 75%;
-}
-</style>
 
 <section class="slide">
     <h2>Индексы. Профилирование и оптимизация</h2>
@@ -458,17 +453,16 @@ WHERE title = 'Alice in Wonderland';
 
 CREATE INDEX test_index ON test_table (col varchar_pattern_ops);
 </code></pre>
-    <p>Класс_операторов:
+    <p>Класс_операторов:</p>
     <ul class="compact">
         <li>text_pattern_ops</li>
         <li>varchar_pattern_ops</li>
         <li>bpchar_pattern_ops</li>
     </ul>
-    </p>
 </section>
 
 <section class="slide">
-    <h2>Индексирование. Подытоживание</h2>
+    <h2>Индексирование. Итог</h2>
     <ul class="compact">
         <li>В большинстве случаев нужен btree-индекс;</li>
         <li>Для специфических случаев нужны GIN и GiST-индексы;</li>

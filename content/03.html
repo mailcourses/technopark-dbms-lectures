@@ -165,7 +165,7 @@ SELECT * FROM person WHERE LOWER(name) = LOWER('Jack Sparrow');
         <li>Если вы объявляете столбец как UNIQUE или PRIMARY KEY, неявно создаваемый индекс будет чувствительным к
             регистру.
         </li>
-        <ul>
+    </ul>
 </section>
 
 <section class="slide">
@@ -1754,7 +1754,7 @@ ORDER BY path;
 
 <section class="slide">
     <h2>Еще немного про WITH</h2>
-    <p>Надо всем аватарам, у которых сдан квест на "Кащея" отправить "Меч кладенец" по игровой почте.</p>
+    <p>Надо всем аватарам, у которых сдан квест на "Кощея" отправить "Меч кладенец" по игровой почте.</p>
     <pre style="font-size: 65%"><code class="sql">CREATE TABLE avatar (
     id        SERIAL PRIMARY KEY,
     name      VARCHAR(64)
@@ -1779,7 +1779,7 @@ CREATE TABLE item (
 
 <section class="slide">
     <h2>Еще немного про WITH</h2>
-    <p>Надо всем аватарам, у которых сдан квест на "Кащея" отправить "Меч кладенец" по игровой почте.</p>
+    <p>Надо всем аватарам, у которых сдан квест на "Кощея" отправить "Меч кладенец" по игровой почте.</p>
     <div style="font-size: 80%">
     <pre><code class="sql">-- Получить всех, кто выполнил квест
 SELECT * FROM quest q WHERE q.quest_rid = 42;
@@ -1801,7 +1801,7 @@ FROM mail m WHERE ???;
 
 <section class="slide">
     <h2>Еще немного про WITH</h2>
-    <p>Надо всем аватарам, у которых сдан квест на "Кащея" отправить "Меч кладенец" по игровой почте.</p>
+    <p>Надо всем аватарам, у которых сдан квест на "Кощея" отправить "Меч кладенец" по игровой почте.</p>
     <div style="font-size: 80%">
     <pre><code class="sql">--- Сохраняем номер последнего добавленного письма
 CREATE TEMPORARY TABLE tmp_mail ON COMMIT DROP AS
@@ -1823,7 +1823,7 @@ FROM mail m WHERE m.id > (SELECT last_id FROM tmp_mail);
 
 <section class="slide">
     <h2>Еще немного про WITH</h2>
-    <p>Надо всем аватарам, у которых сдан квест на "Кащея" отправить "Меч кладенец" по игровой почте.</p>
+    <p>Надо всем аватарам, у которых сдан квест на "Кощея" отправить "Меч кладенец" по игровой почте.</p>
     <div style="font-size: 80%">
     <pre><code class="sql">-- Создать письма и сохранить их идентификаторы
 CREATE TEMPORARY TABLE tmp_mail ON COMMIT DROP AS
@@ -1846,7 +1846,7 @@ FROM mail m WHERE m.id > (SELECT last_id FROM tmp_mail);
 
 <section class="slide">
     <h2>Еще немного про WITH</h2>
-    <p>Надо всем аватарам, у которых сдан квест на "Кащея" отправить "Меч кладенец" по игровой почте.</p>
+    <p>Надо всем аватарам, у которых сдан квест на "Кощея" отправить "Меч кладенец" по игровой почте.</p>
     <div style="font-size: 80%">
     <pre><code class="sql">-- Создать письма и предметы в письмах
 WITH new_mail AS (
