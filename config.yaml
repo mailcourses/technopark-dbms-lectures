@@ -1,7 +1,7 @@
 baseUrl: "/"
 languageCode: "ru"
 title: "СУБД"
-theme: "tech-template"
+theme: "technopark-theme-template"
 
 relativeURLs: true
 disableKinds:

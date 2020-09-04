@@ -1,3 +1,3 @@
-[submodule "themes/tech-template"]
-	path = themes/tech-template
+[submodule "themes/technopark-theme-template"]
+	path = themes/technopark-theme-template
 	url = https://github.com/mailcourses/technopark-theme-template.git

@@ -53,9 +53,9 @@ zip ../gh-pages.zip -r -q .
                 branch 'master'
             }
             steps {
-                withCredentials([usernamePassword(credentialsId: 'github_bozaro_user', passwordVariable: 'GITHUB_TOKEN', usernameVariable: 'GITHUB_LOGIN')]) {
+                withCredentials([usernamePassword(credentialsId: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN', usernameVariable: 'GITHUB_LOGIN')]) {
                     sh """
-git push -qf https://\${GITHUB_LOGIN}:\${GITHUB_TOKEN}@github.com/bozaro/tech-db-lectures.git gh-pages
+git push -qf https://\${GITHUB_LOGIN}:\${GITHUB_TOKEN}@github.com:mailcourses/technopark-dbms-lectures.git gh-pages
 """
                 }
             }
