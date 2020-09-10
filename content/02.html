@@ -132,20 +132,20 @@ description: |
         <dd>Создание схемы базы данных для конкретной СУБД.</dd>
     </dl>
     <div style="position: absolute; margin-left: 35%; margin-right: 50px; text-align: right">
-		<img src="logo-firebird.png" height="80" style="padding: 10pt"/>
-		<img src="logo-mysql.png" height="80" style="padding: 10pt"/>
-		<img src="logo-pgsql.png" height="80" style="padding: 10pt"/>
-		<img src="logo-sqlite.png" height="80" style="padding: 10pt"/>
-		<img src="logo-mssql.png" height="80" style="padding: 10pt"/>
-		<img src="logo-hadoop.png" height="80" style="padding: 10pt"/>
-		<img src="logo-redis.png" height="80" style="padding: 10pt"/>
-		<img src="logo-tarantool.png" height="80" style="padding: 10pt"/>
-		<img src="logo-neo4j.svg" height="80" style="padding: 10pt" />
-		<img src="logo-orientdb.png" height="80" style="padding: 10pt" />
-		<img src="logo-cache.png" height="80" style="padding: 10pt" />
-		<br/>
-		<img src="logo-oracle.png" width="200" style="padding: 10pt" />
-	</div>
+        <img src="logo-firebird.png" height="80" style="padding: 10pt"/>
+        <img src="logo-mysql.png" height="80" style="padding: 10pt"/>
+        <img src="logo-pgsql.png" height="80" style="padding: 10pt"/>
+        <img src="logo-sqlite.png" height="80" style="padding: 10pt"/>
+        <img src="logo-mssql.png" height="80" style="padding: 10pt"/>
+        <img src="logo-hadoop.png" height="80" style="padding: 10pt"/>
+        <img src="logo-redis.png" height="80" style="padding: 10pt"/>
+        <img src="logo-tarantool.png" height="80" style="padding: 10pt"/>
+        <img src="logo-neo4j.svg" height="80" style="padding: 10pt"/>
+        <img src="logo-orientdb.png" height="80" style="padding: 10pt"/>
+        <img src="logo-cache.png" height="80" style="padding: 10pt"/>
+        <br/>
+        <img src="logo-oracle.png" width="200" style="padding: 10pt"/>
+    </div>
     <br/>
     <ul>
         <li>группирование данных</li>
@@ -643,6 +643,28 @@ description: |
 </section>
 
 <section class="slide">
+    <h2>Функциональная зависимость</h2>
+    <dl>
+        <dt>Формальное определение:</dt>
+        <dd>
+            Пусть дано отношение r со схемой R. A и B — некоторые подмножества множества R, то есть атрибутов отношения
+            r.
+            Множество B функционально зависит от A тогда и только тогда, когда каждое значение множества A связано в
+            точности с одним значением множества B.
+            Обозначается <code>A -> B</code>.
+        </dd>
+    </dl>
+    <dl>
+        <dt>Менее формальное определение:</dt>
+        <dd>
+            Если мы знаем, что для некоторого отношения выполняется правило:
+            если кортежи отношения r совпадают по значению атрибута A, то они совпадают и по значению B.
+            Тогда говорится, что <strong>B функционально зависит от A</strong> или <strong>A функционально определяет B</strong>.
+        </dd>
+    </dl>
+</section>
+
+<section class="slide">
     <h2>2-ая нормальная форма</h2>
     <p style="font-size: 80%">Переменная отношения находится во второй нормальной форме тогда и только тогда, когда она
         находится в первой нормальной форме, и каждый неключевой атрибут неприводимо зависит от ее потенциального ключа.
@@ -982,10 +1004,16 @@ description: |
     </table>
 </section>
 
+<!--
+
 <section class="slide">
-    <h2>4-ая нормальная форма</h2>
-    <p style="font-size: 80%">Переменная отношения находится в четвёртой нормальной форме, если она находится в третьей
-        нормальной форме и не содержит нетривиальных многозначных зависимостей.
+    <h2>Нормальная форма Бойса — Кодда (НБКФ)</h2>
+    <p style="font-size: 80%">Переменная отношения находится в BCNF тогда и только тогда, когда каждая её нетривиальная
+        и неприводимая слева функциональная зависимость имеет в качестве своего детерминанта некоторый потенциальный
+        ключ.
+    </p>
+    <p style="font-size: 80%"> Менее формально, переменная отношения находится в нормальной форме Бойса — Кодда тогда и
+        только тогда, когда детерминанты всех её функциональных зависимостей являются потенциальными ключами.
     </p>
     <table class="classic bordered" style="font-size: 80%">
         <thead>
@@ -1039,11 +1067,14 @@ description: |
         </tbody>
     </table>
 </section>
-
 <section class="slide">
-    <h2>4-ая нормальная форма</h2>
-    <p style="font-size: 80%">Переменная отношения находится в четвёртой нормальной форме, если она находится в третьей
-        нормальной форме и не содержит нетривиальных многозначных зависимостей.
+    <h2>Нормальная форма Бойса — Кодда (НБКФ)</h2>
+    <p style="font-size: 80%">Переменная отношения находится в BCNF тогда и только тогда, когда каждая её нетривиальная
+        и неприводимая слева функциональная зависимость имеет в качестве своего детерминанта некоторый потенциальный
+        ключ.
+    </p>
+    <p style="font-size: 80%"> Менее формально, переменная отношения находится в нормальной форме Бойса — Кодда тогда и
+        только тогда, когда детерминанты всех её функциональных зависимостей являются потенциальными ключами.
     </p>
     <div style="display: table; width: 100%">
         <div style="display: table-cell; padding-right: 10px">
@@ -1116,6 +1147,7 @@ description: |
         </div>
     </div>
 </section>
+-->
 
 <section class="slide">
     <h2>Реляционная часть</h2>
@@ -1785,6 +1817,7 @@ OFFSET 20;
 FROM person
 FETCH FIRST 10 ROWS ONLY;
 </code></pre>
+<h3>PostgreSQL поддерживает оба синтаксиса</h3>
 </section>
 
 <section class="slide">

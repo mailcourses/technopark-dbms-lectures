@@ -36,17 +36,15 @@ text {
   </defs>
   <g>
     <path class="line" d="M -100 0 L 100 0" />
-    <g transform="translate(-120, 0)">
+    <g transform="translate(-100, 0)">
       <use xlink:href="#table" />
-      <text class="label">Мужчина</text>
+      <text class="label">Покупатель</text>
     </g>
-    <use xlink:href="#rel" />
-    <text class="label">Брак</text>
-    <g transform="translate(120, 0)">
+    <g transform="translate(100, 0)">
       <use xlink:href="#table" />
-      <text class="label">Женщина</text>
+      <text class="label">Адрес</text>
     </g>
-    <text class="rel" x="-50" y="-3">M</text>
-    <text class="rel" x="50" y="-3">N</text>
+    <text class="rel" x="-40" y="-3">M</text>
+    <text class="rel" x="40" y="-3">N</text>
   </g>
 </svg>

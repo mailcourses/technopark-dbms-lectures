@@ -9,8 +9,10 @@ disableKinds:
 - RSS
 metadataFormat: "yaml"
 
-blackfriday:
-  sourceRelativeLinksEval: true
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
 
 params:
   author: "Стрелков Никита / Стулов Игорь"

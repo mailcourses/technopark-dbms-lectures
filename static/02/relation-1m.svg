@@ -32,21 +32,18 @@ text {
 }
 ]]></style>
     <path id="table" class="table" d="M -50 -20 L -50 20 L 50 20 L 50 -20 Z" />
-    <path id="rel" class="table" d="M -33 0 L -20 20 L 20 20 L 33 0 L 20 -20 L -20 -20 Z" />
   </defs>
   <g>
-    <path class="line" d="M -100 0 L 100 0" />
-    <g transform="translate(-120, 0)">
+    <path class="line" d="M -50 0 L 50 0" />
+    <g transform="translate(-100, 0)">
       <use xlink:href="#table" />
-      <text class="label">Мужчина</text>
+      <text class="label">Учитель</text>
     </g>
-    <use xlink:href="#rel" />
-    <text class="label">Брак</text>
-    <g transform="translate(120, 0)">
+    <g transform="translate(100, 0)">
       <use xlink:href="#table" />
-      <text class="label">Женщина</text>
+      <text class="label">Ученик</text>
     </g>
-    <text class="rel" x="-50" y="-3">1</text>
-    <text class="rel" x="50" y="-3">M</text>
+    <text class="rel" x="-40" y="-3">1</text>
+    <text class="rel" x="40" y="-3">N</text>
   </g>
 </svg>
