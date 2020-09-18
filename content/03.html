@@ -2021,7 +2021,7 @@ FROM (
     SELECT M.mID, M.year, AVG(R.stars) as stars
     FROM movie M
     JOIN rating R ON R.mID = M.mID
-    GROUP BY M.mID
+    GROUP BY M.mID, M.year
 ) AS R
 </code></pre>
 </section>
