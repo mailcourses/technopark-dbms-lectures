@@ -2050,7 +2050,7 @@ CREATE TABLE rating (
 <span style="display: none">FROM (</span>
     SELECT M.mID, M.year, AVG(R.stars) as stars
     FROM movie M
-    JOIN rating R USING (mID)
+    JOIN rating R ON R.mID = M.mID
     GROUP BY M.mID, M.year
 <span style="display: none">) AS R</span>
 </code></pre>
@@ -2061,7 +2061,7 @@ SELECT
 FROM (
 <span style="display: none">    SELECT M.mID, M.year, AVG(R.stars) as stars</span>
 <span style="display: none">    FROM Movie M</span>
-<span style="display: none">    JOIN Rating R USING (mID)</span>
+<span style="display: none">    JOIN rating R ON R.mID = M.mID</span>
 <span style="display: none">    GROUP BY M.mID, M.year</span>
 ) AS R
 </code></pre>
@@ -2078,7 +2078,7 @@ SELECT
 FROM (
     SELECT M.mID, M.year, AVG(R.stars) as stars
     FROM movie M
-    JOIN rating R USING (mID)
+    JOIN rating R ON R.mID = M.mID
     GROUP BY M.mID
 ) AS R
 </code></pre>
@@ -2095,7 +2095,7 @@ FROM (
         AVG(CASE WHEN year > 1980 THEN stars ELSE NULL END) AS s_after,
         AVG(CASE WHEN year < 1980 THEN stars ELSE NULL END) AS s_before
     FROM movie M 
-    JOIN rating R USING (mID)
+    JOIN rating R ON R.mID = M.mID
     GROUP BY M.mID
 ) AS R
 </code></pre>
