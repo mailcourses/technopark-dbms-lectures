@@ -42,15 +42,15 @@ description: |
 <section class="slide">
     <h2>Индексирование</h2>
     <ul class="compact">
-        <li>Быстрый поиск записей по условию WHERE;</li>
-        <li>Объединение таблиц с посредством JOIN. Необходимо использовать одинаковые типы сравниваемых полей.
+        <li>Быстрый поиск записей по условию WHERE;</li>
+        <li>Объединение таблиц с посредством JOIN. Необходимо использовать одинаковые типы сравниваемых полей.
             Если для сравнения необходимо произвести преобразование типов, то индексы использоваться не будут;
         </li>
         <li>Выборка наименьшего количества записей из таблицы. Если есть множественный индекс, то использоваться
             будет тот индекс, который находит самое маленький число строк;
         </li>
-        <li>Поиск MAX и MIN значений для ключевых полей;</li>
-        <li>Сортировка и группировка таблиц (…ORDER BY и GROUP BY);</li>
+        <li>Поиск MAX и MIN значений для ключевых полей;</li>
+        <li>Сортировка и группировка таблиц (…ORDER BY и GROUP BY);</li>
         <li>Извлечения данных не из таблицы с данными, а из индексного файла. Это возможно только в некоторых
             случаях, например, когда все извлекаемые поля проиндексированы.
         </li>
@@ -358,6 +358,22 @@ ON movies USING gin (genres);
 </section>
 
 <section class="slide">
+    <h2>Селективность</h2>
+    <p>Селективность колонки определяется количеством записей в таблице с одинаковыми значениями. <br>
+        Когда записей с одинаковым значением мало — селективность высокая.
+        Такие колонки необходимо использовать первыми в составных индексах.</p>
+    <pre style="font-size: 80%"><code class="sql">SELECT * FROM users WHERE age = 29 AND gender = 'male'
+
+CREATE INDEX idx_users_age_gender
+    ON people USING btree
+(age, gender);
+
+CREATE INDEX idx_users_gender_age
+    ON people USING btree
+(gender, age);</code></pre>
+</section>
+
+<section class="slide">
     <h2>Частичный индекс</h2>
     <pre style="font-size: 80%"><code class="sql">CREATE TABLE items (
     id BIGSERIAL PRIMARY KEY,
@@ -490,7 +506,8 @@ CREATE INDEX test_index ON test_table (col varchar_pattern_ops);
             <nobr><a href="https://movielens.org/">https://movielens.org/</a></nobr>
         </li>
         <li>Скрипт для разворачивания:
-            <nobr><a href="https://github.com/mailcourses/technopark-dbms-lectures/blob/master/scripts/movielens/load-pgsql.sh">load-pgsql.sh</a>
+            <nobr><a
+                    href="https://github.com/mailcourses/technopark-dbms-lectures/blob/master/scripts/movielens/load-pgsql.sh">load-pgsql.sh</a>
             </nobr>
         </li>
     </ul>
