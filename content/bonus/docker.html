@@ -13,7 +13,7 @@ description: |
     <img src="docker.svg" style="position: absolute; bottom: 50px; right: 50px; width: 320px"/>
     <ul>
         <li>Почему Docker?</li>
-        <li>Какие есть виды вируализации?</li>
+        <li>Какие есть виды виртуализации?</li>
         <li>Что такое Dockerfile?</li>
         <li>Работа с контейнерами.</li>
     </ul>
@@ -100,6 +100,14 @@ description: |
 </section>
 
 <section class="slide">
+    <img src="docker-containerized-appliction-blue-border_2.png" style="position: absolute; max-width: 830px; top: 0; left: 80px; max-height: 640px;"/>
+</section>
+
+<section class="slide">
+    <img src="container-vm-whatcontainer_2.png" style="position: absolute; max-width: 830px; top: 0; left: 154px; max-height: 640px;"/>
+</section>
+
+<section class="slide">
     <h2>Производительность (TCP, CPU cycles/byte)</h2>
     <div style="width: 100%; text-align: center">
         <img src="docker-rtl.png" style="max-width: 100%; max-height: 460px"/>
@@ -133,11 +141,11 @@ description: |
 
 <section class="slide">
     <h2>Dockerfile</h2>
-    <pre><code class="text">FROM ubuntu:18.04
-LABEL maintainer="Artem V. Navrotskiy"
+    <pre><code class="text">FROM ubuntu:20.04
+LABEL maintainer="Ivanov Ivan"
 RUN apt-get -y update
 RUN apt-get install -y openjdk-8-jdk-headless
-ENV WORK /opt/tech-db-hello
+ENV WORK /opt/tech-db-init
 ADD java-spring/ $WORK/java-spring/
 ADD common/ $WORK/common/
 WORKDIR $WORK/java-spring
@@ -162,7 +170,7 @@ IMAGE               CREATED             CREATED BY                              
 142e08487e9f        3 minutes ago       /bin/sh -c #(nop)  CMD ["/bin/sh" "-c" "java    0 B                 
 89554758e753        3 minutes ago       /bin/sh -c #(nop)  EXPOSE 5000/tcp              0 B                 
 5bf1ec77528d        3 minutes ago       /bin/sh -c ./gradlew assemble                   209.4 MB            
-f627d2a79e3b        5 minutes ago       /bin/sh -c #(nop)  WORKDIR /opt/tech-db-hello   0 B                 
+f627d2a79e3b        5 minutes ago       /bin/sh -c #(nop)  WORKDIR /opt/tech-db-init    0 B
 c86551883943        5 minutes ago       /bin/sh -c #(nop) ADD dir:f6c361eff4dcd18df9a   3.968 MB            
 854f85a7870a        5 minutes ago       /bin/sh -c #(nop) ADD dir:b3d037b5a457bd71162   23.65 MB            
 92a00899fc26        5 minutes ago       /bin/sh -c #(nop)  ENV WORK=/opt/tech-db-hell   0 B                 
