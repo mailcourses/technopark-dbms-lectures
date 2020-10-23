@@ -708,7 +708,7 @@ COMMIT;
   GROUP BY level FOR UPDATE;
 
   UPDATE players SET spent_daily = 0;
-END;
+COMMIT;
 
 UPDATE players SET
   spent_day = spent_day + :delta,
@@ -727,7 +727,7 @@ WHERE id = :id;
     WHEN spent_day = :day THEN spent_prev
     WHEN spent_day = :day - 1 THEN spent_last
   END) FROM players;
-END;
+COMMIT;
 
 UPDATE players SET
   spent_prev = CASE
