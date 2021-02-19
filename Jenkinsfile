@@ -35,7 +35,7 @@ git submodule update --init --recursive
         stage ('Generate gh-pages') {
             steps {
                 sh """
-# Generage gh-pages
+# Generate gh-pages
 git branch -fD gh-pages || true
 git branch -rd origin/gh-pages || true
 ghp-import -n public
