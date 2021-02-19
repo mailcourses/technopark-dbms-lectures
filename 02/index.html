@@ -2050,6 +2050,29 @@ ORDER BY path;
 </section>
 
 <section class="slide">
+    <h2>WITH RECURSIVE</h2>
+    <pre><code class="sql" style="font-size: 80%">WITH RECURSIVE t(n) AS (
+    VALUES (1)
+    UNION ALL
+    SELECT n+1 FROM t WHERE n < 100
+)
+SELECT sum(n) FROM t;
+    </code></pre>
+    <table class="classic bordered next" style="font-size: 67%">
+        <thead>
+        <tr>
+            <th>sum</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>5050</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
     <h2>INSERT</h2>
     <pre style="font-size: 70%"><code class="sql">[ WITH [ RECURSIVE ] with_query [, ...] ]
 INSERT INTO table_name [ AS alias ] [ ( column_name [, ...] ) ]
@@ -2137,7 +2160,7 @@ UPDATE weather
 <section class="slide">
     <h2>UPDATE</h2>
     <div style="font-size: 80%">
-	<pre><code class="sql">UPDATE accounts SET
+        <pre><code class="sql">UPDATE accounts SET
   contact_first_name = (
     SELECT first_name FROM salesmen WHERE salesmen.id = accounts.sales_id
   ),
