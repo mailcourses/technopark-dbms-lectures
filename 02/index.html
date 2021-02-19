@@ -93,7 +93,7 @@
     <h2>Проектирования БД</h2>
     <dl>
         <dt>Проектирование баз данных</dt>
-        <dd>Процесс создания схемы базы данных и определения необходимых ограничений целостности.</dd>
+        <dd>Процесс создания схемы базы данных и определения необходимых ограничений целостности.</dd>
     </dl>
     <div style="text-align: center">
         <img style="height: 300px" src="not-so-easy.jpg" alt="not-so-easy"/>
@@ -142,7 +142,7 @@
         <img src="scheme-01.png" style="width: 450px"/>
     </div>
     <dl>
-        <dt>Внешнее представление (внешняя схема) данных</dt>
+        <dt>Внешнее представление (внешняя схема) данных</dt>
         <dd>Совокупностью требований со стороны конкретной функции, выполняемой пользователем.</dd>
         <dt>Концептуальная схема</dt>
         <dd>Полная совокупностью всех требований к данным, полученной из пользовательских представлений о реальном
@@ -174,7 +174,7 @@
     <h2>Логическое проектирование</h2>
     <dl>
         <dt>Логическое (даталогическое) проектирование</dt>
-        <dd>Создание схемы базы данных на основе конкретной модели данных, например, реляционной модели данных.</dd>
+        <dd>Создание схемы базы данных на основе конкретной модели данных, например, реляционной модели данных.</dd>
     </dl>
     <img src="scheme-03.jpg" style="float: right"/>
     <br/>
@@ -189,7 +189,7 @@
     <h2>Физическое проектирование</h2>
     <dl>
         <dt>Физическое проектирование</dt>
-        <dd>Создание схемы базы данных для конкретной СУБД.</dd>
+        <dd>Создание схемы базы данных для конкретной СУБД.</dd>
     </dl>
     <div style="position: absolute; margin-left: 35%; margin-right: 50px; text-align: right">
         <img src="logo-firebird.png" height="80" style="padding: 10pt"/>
@@ -1484,6 +1484,7 @@ SELECT [ ALL | DISTINCT [ ON ( expression [, ...] ) ] ]
         <li>Постоянные таблицы</li>
         <li>Временные таблицы</li>
         <li>Виртуальные таблицы (представления)</li>
+        <li>Подзапросы (вложенные запросы)</li>
     </ul>
 </section>
 
@@ -2191,103 +2192,158 @@ DELETE FROM films USING producers
 </section>
 
 <section class="slide">
-    <h2>Список смежных вершин (Adjacency List)</h2>
-    <div style="text-align: center; height: 100%">
-        <img style="height: 70%" src="tree-al.png"/>
-    </div>
+    <h2 class="shout">Регистронезависимый поиск</h2>
 </section>
 
 <section class="slide">
-    <h2>Список смежных вершин (Adjacency List)</h2>
-    <div style="font-size: 85%">
-        <p>Главный недостаток такого подхода — необходимо достоверно знать количество уровней вложенности в вашей
-            иерархии, кроме того, чем больше иерархия, тем больше JOIN'ов — тем ниже производительность.</p>
-        <p>Тем не менее, данный способ обладает и существенными достоинствами — в дерево легко вносить изменения, менять
-            местами и удалять узлы.</p>
-        <p>Данный алгоритм хорошо применим, если вы оперируете с небольшими древовидными структурами, которые часто
-            поддаются изменениям.</p>
-        <p>С другой стороны, этот алгоритм также довольно уверенно себя чувствует и с большими деревьями, если считывать
-            их порциями вида «знаю родителя — прочитать всех наследников». Хороший пример такого случая — динамически
-            подгружаемые деревья.</p>
-        <p>Однако он плохо применим, когда нужно вычитывать какие-либо иные куски дерева, находить пути, предыдущие и
-            следующие узлы при обходе и вычитывать ветки дерева целиком (на всю глубину).</p>
-    </div>
-</section>
-
-<section class="slide">
-    <h2>Вложенное множество (Nested Set)</h2>
-    <div style="text-align: center; height: 100%">
-        <img style="height: 70%" src="tree-ns.png"/>
-    </div>
-</section>
-
-<section class="slide">
-    <h2>Вложенное множество (Nested Set)</h2>
-    <div>
-        <p>Nested Set действительно хорош, когда нам необходимо считывать структуру деревьев из БД. При этом он
-            одинаково хорош для деревьев любого объема.</p>
-        <p>Тем не менее, для иерархических структур, которые подвергаются частому изменению он, очевидно, не будет
-            являться оптимальным выбором.</p>
-    </div>
-</section>
-
-<section class="slide">
-    <h2>Материализованный путь (Materialized Path)</h2>
-    <div style="text-align: center; height: 100%">
-        <img style="height: 70%" src="tree-mp.png"/>
-    </div>
-</section>
-
-<section class="slide">
-    <h2>Материализованный путь (Materialized Path)</h2>
-    <div style="font-size: 90%">
-        <p>Во-первых, по сравнению с Nested Set, он более поддается изменениям. В то же время остается достаточно
-            удобным для выборки деревьев целиком и их частей. Но, и он не идеален. Особенно по части поиска предков
-            ветки.</p>
-        <p>Использование именно этого алгоритма может быть заметно удобнее, для деревьев, над которыми часто
-            выполняются как операции чтения, так и изменения.</p>
-        <p>Алгоритм довольно уверенно себя чувствует на достаточно больших объемах данных.</p>
-        <p>Наиболее неприятной в данном алгоритме будет операция вставки узла в середину уже существующей структуры и
-            перенос одной ветки в другую.</p>
-        <p>А вот удаление, добавление в конец или изменение узла — это операции довольно простые, и, как правило, не
-            вызывают сложностей в данной модели.</p>
-    </div>
-</section>
-
-<section class="slide">
-    <h2>Комбинированный подход</h2>
-    <p>По сути вопроса следует отметить, что скомбинировать приведенные методы можно лишь в двух направлениях:</p>
+    <h2>Регистронезависимый поиск. Способы</h2>
     <ul>
-        <li>Списки смежности + материализованный путь (Adjacency List + Materialized Path)</li>
-        <li>Списки смежности + вложенные множества (Adjacency List + Nested Set)</li>
-    </ul>
-    <p>Комбинировать же Nested Set и Materialized Path особого смысла не имеет, т.к. существенного выигрыша ни в
-        чтении, ни в записи вы не получите.</p>
-</section>
-
-<section class="slide">
-    <h2>Adjacency List + Materialized Path</h2>
-    <h3>Для AL при использовании с MP:</h3>
-    <ul>
-        <li>Улучшаются операции выборки ветвей и поддеревьев целиком;</li>
-        <li>Ухудшаются операции переноса ветвей.</li>
-    </ul>
-    <h3>Для MP при использовании с AL:</h3>
-    <ul>
-        <li>Улучшаются операции выборки наследников заданного узла;</li>
-        <li>Улучшаются операции выборки родителей заданного узла.</li>
+        <li>COLLATION</li>
+        <li>LOWER(name)</li>
+        <li>CITEXT</li>
     </ul>
 </section>
 
 <section class="slide">
-    <h2>Adjacency List + Nested Set</h2>
-    <p>Для связки AL+NS взаимовыгодность не столь очевидна.</p>
-    <p>В первую очередь это объясняется тем, что недостатки от проблем изменения узлов дерева в модели NS напрочь
-        убивают в этой сфере все достоинства AL.</p>
-    <p>Это значит, что такую связку следует рассматривать лишь как качественное улучшение поиска родителей и наследников
-        заданного узла в алгоритме NS, а также как повышение надежности самого алгоритма (ключи можно всегда перестроить
-        в случае порчи — информацию о связях хранит AL).</p>
-    <p>Но ведь и это качественное улучшение, хотя и не такое очевидное.</p>
+    <h2>COLLATION</h2>
+    <p>Это ряд правил, согласно которым сортируются и сравниваются данные.</p>
+    <p>Простая сортировка обычно даёт не тот результат, который ожидается пользователем.</p>
+    <table class="classic bordered" style="font-size: 90%">
+        <thead>
+        <tr>
+            <th width="33%">ucs_basic (C)</th>
+            <th width="34%">en_US.utf8 (ISO-14651)</th>
+            <th width="33%">ru_RU.utf8</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>_ель</td>
+            <td>ґвалт</td>
+            <td>джаз</td>
+        </tr>
+        <tr>
+            <td>Есенин</td>
+            <td>джаз</td>
+            <td>ґвалт</td>
+        </tr>
+        <tr>
+            <td>джаз</td>
+            <td>ель</td>
+            <td>ель</td>
+        </tr>
+        <tr>
+            <td>ель</td>
+            <td>_ель</td>
+            <td>_ель</td>
+        </tr>
+        <tr>
+            <td>жаркое</td>
+            <td>Есенин</td>
+            <td>Есенин</td>
+        </tr>
+        <tr>
+            <td>ёжик</td>
+            <td>ёжик</td>
+            <td>ёжик</td>
+        </tr>
+        <tr>
+            <td>ґвалт</td>
+            <td>жаркое</td>
+            <td>жаркое</td>
+        </tr>
+        </tbody>
+    </table>
+    <a href="http://collation-charts.org/mysql60/mysql604.utf8_general_ci.european.html">http://collation-charts.org/mysql60/mysql604.utf8_general_ci.european.html</a>
+</section>
+
+<section class="slide">
+    <h2>COLLATION</h2>
+    <p>В разных языках разные преобразования в верхний/нижний регистр</p>
+    <pre style="font-size: 90%"><code class="sql">SELECT
+    LOWER('WINDOWS' COLLATE "en_US.utf8"),
+    UPPER('linux' COLLATE "en_US.utf8")
+</code></pre>
+    <table class="classic bordered">
+        <thead>
+        <tr>
+            <th width="50%">lower</th>
+            <th width="50%">upper</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>windows</td>
+            <td>LINUX</td>
+        </tr>
+        </tbody>
+    </table>
+    <pre style="font-size: 90%" class="next"><code class="sql">SELECT
+    LOWER('WINDOWS' COLLATE "tr_TR.utf8"),
+    UPPER('linux' COLLATE "tr_TR.utf8")
+</code></pre>
+    <table class="classic bordered next">
+        <thead>
+        <tr>
+            <th width="50%">lower</th>
+            <th width="50%">upper</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>wındows</td>
+            <td>LİNUX</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>COLLATION</h2>
+    <p>В PostgreSQL поддержка COLLATION реализована на базе C-функции strcoll_l.</p>
+    <p>Это порождает ряд проблем:</p>
+    <ul>
+        <li>Список COLLATION-ов зависит от настроек операционной системы;</li>
+        <li>Разное поведение COLLATION-ов под Linux/Windows/MacOS;</li>
+        <li>Нет регистронезависимого сравнения.</li>
+    </ul>
+    <p class="next">С PostgreSQL 10 (окт 2019) появилась поддержка COLLATION на базе библиотеки ICU.</p>
+</section>
+
+<section class="slide">
+    <h2>LOWER(name)</h2>
+    <pre style="font-size: 90%"><code class="sql">CREATE TABLE person (
+    id SERIAL PRIMARY KEY,
+    name TEXT COLLATE "ru_RU.utf8",
+    ...
+);
+CREATE UNIQUE INDEX uniq_name ON person (LOWER(name));
+
+SELECT * FROM person WHERE LOWER(name) = LOWER('Jack Sparrow');
+
+</code></pre>
+    <p>Проблемы:</p>
+    <ul>
+        <li>Нужно не забывать LOWER(name) во всех запросах.</li>
+        <li>Если вы объявляете столбец как UNIQUE или PRIMARY KEY, неявно создаваемый индекс будет чувствительным к
+            регистру.
+        </li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>CITEXT</h2>
+    <pre style="font-size: 90%"><code class="sql">CREATE EXTENSION IF NOT EXISTS citext;
+CREATE TABLE person (
+    id SERIAL PRIMARY KEY,
+    name CITEXT COLLATE "ru_RU.utf8",
+    ...
+);
+CREATE UNIQUE INDEX uniq_name ON person (name);
+
+SELECT * FROM person WHERE name = 'Jack Sparrow';
+
+</code></pre>
 </section>
 
 	
