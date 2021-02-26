@@ -16,7 +16,6 @@ description: |
 <section class="slide">
     <h2>Выборка данных (продолжение)</h2>
     <ul>
-        <li>COLLATION и регистронезависимый поиск;</li>
         <li>Выборка данных:
             <ul>
                 <li>Подзапросы;</li>
@@ -26,7 +25,9 @@ description: |
                 <li>Рекурсивные запросы.</li>
             </ul>
         </li>
+        <li>Иерархические структуры в базах данных.</li>
         <li>VIEW.</li>
+        <li>Примеры составления запросов.</li>
     </ul>
 </section>
 
@@ -489,7 +490,7 @@ SELECT * FROM sales2011;
     <h2>CROSS JOIN</h2>
     <pre style="font-size: 80%"><code class="sql">SELECT * FROM Employee CROSS JOIN Department;
 </code></pre>
-    <table class="classic bordered" style="font-size: 80%">
+    <table class="classic bordered" style="font-size: 45%">
         <thead>
         <tr>
             <th>Employee.<br/>LastName</th>
@@ -659,7 +660,7 @@ SELECT * FROM sales2011;
     <h2>CROSS JOIN</h2>
     <pre style="font-size: 80%"><code class="sql">SELECT * FROM Employee, Department;
 </code></pre>
-    <table class="classic bordered" style="font-size: 80%">
+    <table class="classic bordered" style="font-size: 45%">
         <thead>
         <tr>
             <th>Employee.<br/>LastName</th>
@@ -2153,7 +2154,7 @@ ORDER BY parent.lft;
 
 <section class="slide">
     <h2>Комбинированный подход</h2>
-    <p>По сути вопроса следует отметить, что скомбинировать приведенные методы можно лишь в двух направлениях:</p>
+    <p>Имеет смысл комбинировать следующие подходы:</p>
     <ul>
         <li>Списки смежности + материализованный путь (Adjacency List + Materialized Path)</li>
         <li>Списки смежности + вложенные множества (Adjacency List + Nested Set)</li>
