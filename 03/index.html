@@ -152,7 +152,7 @@ SELECT *
 FROM t1 AS t
 WHERE 2 = (SELECT COUNT(*) FROM t1 WHERE t1.id = t.id);</code></pre>
     Некоррелирующий:
-<pre style="font-size: 90%"><code class="sql">
+    <pre style="font-size: 90%"><code class="sql">
 SELECT *
 FROM t1
 WHERE column1 = (SELECT MAX(column2) FROM t2);</code></pre>
@@ -168,13 +168,13 @@ WHERE column1 = (SELECT MAX(column2) FROM t2);</code></pre>
         <li>expression operator ALL (subquery)
     </ul>
     <pre style="font-size: 90%"><code class="sql">SELECT s1 FROM t1 WHERE s1 > ANY (SELECT s1 FROM t2);
- 
+
 SELECT s1 FROM t1 WHERE s1 = ANY (SELECT s1 FROM t2);
 SELECT s1 FROM t1 WHERE s1 IN (SELECT s1 FROM t2);
- 
+
 SELECT s1 FROM t1 WHERE s1 > ALL (SELECT s1 FROM t2);
- 
-SELECT s1 FROM t1 WHERE s1 &lt;&gt; ALL (SELECT s1 FROM t2);
+
+SELECT s1 FROM t1 WHERE s1 <> ALL (SELECT s1 FROM t2);
 SELECT s1 FROM t1 WHERE s1 NOT IN (SELECT s1 FROM t2);
 </code></pre>
 </section>
@@ -1642,7 +1642,7 @@ SELECT unnest(array[col1, col2]) as col1 FROM tbl;
 SELECT id, array_to_string(path, '.') as path, name FROM recursetree
 ORDER BY path;
 </code></pre>
-    <table class="classic bordered next" style="font-size: 67%">
+    <table class="classic bordered next" style="font-size: 60%">
         <thead>
         <tr>
             <th>id</th>
@@ -1680,7 +1680,6 @@ ORDER BY path;
             <td>5</td>
             <td>2.5</td>
             <td>Вашингтон</td>
-        </tr>
         </tr>
         </tbody>
     </table>
@@ -1797,25 +1796,191 @@ FROM new_mail m;
 </section>
 
 <section class="slide">
+    <h2 class="shout">Иерархические структуры в базах данных</h2>
+</section>
+
+<section class="slide">
     <h2>Список смежных вершин (Adjacency List)</h2>
     <div style="text-align: center; height: 100%">
-        <img style="height: 70%" src="tree-al.png"/>
+        <img style="height: 70%" src="categories.png"/>
     </div>
 </section>
 
 <section class="slide">
     <h2>Список смежных вершин (Adjacency List)</h2>
+    <div style="font-size: 80%">
+    <pre><code class="sql">
+CREATE TABLE IF NOT EXISTS category(
+    id     serial primary key,
+    name   varchar(20) not null,
+    parent int default null references category (id)
+);
+
+INSERT INTO category VALUES
+        (1,'ELECTRONICS',NULL),
+        (2,'TELEVISIONS',1),(3,'TUBE',2),
+        (4,'LCD',2),
+        (5,'PLASMA',2),
+        (6,'PORTABLE ELECTRONICS',1),
+        (7,'MP3 PLAYERS',6),
+        (8,'FLASH',7),
+        (9,'CD PLAYERS',6),
+        (10,'2 WAY RADIOS',6);
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>Список смежных вершин (Adjacency List)</h2>
+    <div style="font-size: 80%">
+    <pre><code class="sql">
+SELECT * FROM category ORDER BY id;
+</code></pre>
+    </div>
+    <table class="classic bordered next" style="font-size: 60%">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>parent</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr><td>1</td><td>ELECTRONICS</td><td>null</td></tr>
+        <tr><td>2</td><td>TELEVISIONS</td><td>1</td></tr>
+        <tr><td>3</td><td>TUBE</td><td>2</td></tr>
+        <tr><td>4</td><td>LCD</td><td>2</td></tr>
+        <tr><td>5</td><td>PLASMA</td><td>2</td></tr>
+        <tr><td>6</td><td>PORTABLE ELECTRONICS</td><td>1</td></tr>
+        <tr><td>7</td><td>MP3 PLAYERS</td><td>6</td></tr>
+        <tr><td>8</td><td>FLASH</td><td>7</td></tr>
+        <tr><td>9</td><td>CD PLAYERS</td><td>6</td></tr>
+        <tr><td>10</td><td>2 WAY RADIOS</td><td>6</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>Список смежных вершин (Adjacency List)</h2>
+    <h3>Получение всего дерева</h3>
+    <div style="font-size: 80%">
+    <pre><code class="sql">
+SELECT t1.name AS lvl1, t2.name as lvl2, t3.name as lvl3, t4.name as lvl4
+FROM category AS t1
+LEFT JOIN category AS t2 ON t2.parent = t1.id
+LEFT JOIN category AS t3 ON t3.parent = t2.id
+LEFT JOIN category AS t4 ON t4.parent = t3.id
+WHERE t1.name = 'ELECTRONICS';
+</code></pre>
+    </div>
+    <table class="classic bordered next" style="font-size: 60%">
+        <thead>
+        <tr><th>lvl1</th><th>lvl2</th><th>lvl3</th><th>lvl4</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>ELECTRONICS</td><td>PORTABLE ELECTRONICS</td><td>MP3 PLAYERS</td><td>FLASH</td></tr>
+        <tr><td>ELECTRONICS</td><td>PORTABLE ELECTRONICS</td><td>2 WAY RADIOS</td><td>NULL</td></tr>
+        <tr><td>ELECTRONICS</td><td>TELEVISIONS</td><td>PLASMA</td><td>NULL</td></tr>
+        <tr><td>ELECTRONICS</td><td>TELEVISIONS</td><td>LCD</td><td>NULL</td></tr>
+        <tr><td>ELECTRONICS</td><td>TELEVISIONS</td><td>TUBE</td><td>NULL</td></tr>
+        <tr><td>ELECTRONICS</td><td>PORTABLE ELECTRONICS</td><td>CD PLAYERS</td><td>NULL</td></tr>
+        </tbody>
+    </table>
+</section>
+<section class="slide">
+    <h2>Список смежных вершин (Adjacency List)</h2>
+    <h3>Получение всего дерева рекурсивно</h3>
+    <div style="font-size: 70%">
+    <pre><code class="sql">
+WITH RECURSIVE tree(id, name, parent, lvl) AS (
+    SELECT t.id, t.name, t.parent, 0 from category t WHERE t.parent IS NULL
+    UNION ALL
+    SELECT t.id, t.name, t.parent, t1.lvl + 1 FROM category t
+        JOIN tree AS t1 ON t1.id = t.parent
+) SELECT CONCAT(REPEAT('-', lvl::int), name) FROM tree ORDER BY id;
+</code></pre>
+    </div>
+    <table class="classic bordered next" style="font-size: 60%">
+        <thead>
+        <tr><th>name</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>ELECTRONICS</td></tr>
+        <tr><td>-TELEVISIONS</td></tr>
+        <tr><td>--TUBE</td></tr>
+        <tr><td>--LCD</td></tr>
+        <tr><td>--PLASMA</td></tr>
+        <tr><td>-PORTABLE ELECTRONICS</td></tr>
+        <tr><td>--MP3 PLAYERS</td></tr>
+        <tr><td>---FLASH</td></tr>
+        <tr><td>--CD PLAYERS</td></tr>
+        <tr><td>--2 WAY RADIOS</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>Список смежных вершин (Adjacency List)</h2>
+    <h3>Получение листовых узлов</h3>
+    <div style="font-size: 80%">
+    <pre><code class="sql">
+SELECT t1.name
+FROM category as t1
+         LEFT JOIN category as t2 on t1.id = t2.parent
+WHERE t2.id is null;
+</code></pre>
+    </div>
+    <table class="classic bordered next" style="font-size: 60%">
+        <thead>
+        <tr><th>name</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>2 WAY RADIOS</td></tr>
+            <tr><td>FLASH</td></tr>
+            <tr><td>PLASMA</td></tr>
+            <tr><td>LCD</td></tr>
+            <tr><td>TUBE</td></tr>
+            <tr><td>CD PLAYERS</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>Список смежных вершин (Adjacency List)</h2>
+    <h3>Получение одной ветви</h3>
+    <div style="font-size: 80%">
+    <pre><code class="sql">
+SELECT t1.name AS lvl1, t2.name as lvl2, t3.name as lvl3, t4.name as lvl4
+FROM category AS t1
+         LEFT JOIN category AS t2 ON t2.parent = t1.id
+         LEFT JOIN category AS t3 ON t3.parent = t2.id
+         LEFT JOIN category AS t4 ON t4.parent = t3.id
+WHERE t1.name = 'ELECTRONICS' AND t4.name = 'FLASH';
+</code></pre>
+    </div>
+    <table class="classic bordered next" style="font-size: 60%">
+        <thead>
+        <tr><th>lvl1</th><th>lvl2</th><th>lvl3</th><th>lvl4</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>ELECTRONICS</td><td>PORTABLE ELECTRONICS</td><td>MP3 PLAYERS</td><td>FLASH</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>Список смежных вершин (Adjacency List)</h2>
     <div style="font-size: 85%">
-        <p>Главный недостаток такого подхода — необходимо достоверно знать количество уровней вложенности в вашей
+        <p><strong>-</strong> Главный недостаток такого подхода — необходимо достоверно знать количество уровней вложенности в вашей
             иерархии, кроме того, чем больше иерархия, тем больше JOIN'ов — тем ниже производительность.</p>
-        <p>Тем не менее, данный способ обладает и существенными достоинствами — в дерево легко вносить изменения, менять
+        <p><strong>+</strong> Тем не менее, данный способ обладает и существенными достоинствами — в дерево легко вносить изменения, менять
             местами и удалять узлы.</p>
-        <p>Данный алгоритм хорошо применим, если вы оперируете с небольшими древовидными структурами, которые часто
+        <p><strong>+</strong> Данный алгоритм хорошо применим, если вы оперируете с небольшими древовидными структурами, которые часто
             поддаются изменениям.</p>
-        <p>С другой стороны, этот алгоритм также довольно уверенно себя чувствует и с большими деревьями, если считывать
+        <p><strong>+</strong> Алгоритм также довольно уверенно себя чувствует и с большими деревьями, если считывать
             их порциями вида «знаю родителя — прочитать всех наследников». Хороший пример такого случая — динамически
             подгружаемые деревья.</p>
-        <p>Однако он плохо применим, когда нужно вычитывать какие-либо иные куски дерева, находить пути, предыдущие и
+        <p><strong>-</strong> Но он плохо применим, когда нужно вычитывать какие-либо иные куски дерева, находить пути, предыдущие и
             следующие узлы при обходе и вычитывать ветки дерева целиком (на всю глубину).</p>
     </div>
 </section>
@@ -1823,16 +1988,195 @@ FROM new_mail m;
 <section class="slide">
     <h2>Вложенное множество (Nested Set)</h2>
     <div style="text-align: center; height: 100%">
-        <img style="height: 70%" src="tree-ns.png"/>
+        <img style="margin-top: 100px;" src="nested_categories.png"/>
     </div>
 </section>
 
 <section class="slide">
     <h2>Вложенное множество (Nested Set)</h2>
+    <div style="text-align: center; height: 100%">
+        <img style="margin-top: 100px;" src="nested_numbered.png"/>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>Вложенное множество (Nested Set)</h2>
+    <div style="text-align: center; height: 100%">
+        <img src="numbered_tree.png"/>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>Вложенное множество (Nested Set)</h2>
+    <div style="font-size: 70%">
+    <pre><code class="sql">
+CREATE TABLE IF NOT EXISTS nested_category
+(
+    id   serial primary key,
+    name text not null,
+    lft  int  not null,
+    rgt  int  not null
+);
+
+INSERT INTO nested_category
+VALUES (1, 'ELECTRONICS', 1, 20),
+       (2, 'TELEVISIONS', 2, 9),
+       (3, 'TUBE', 3, 4),
+       (4, 'LCD', 5, 6),
+       (5, 'PLASMA', 7, 8),
+       (6, 'PORTABLE ELECTRONICS', 10, 19),
+       (7, 'MP3 PLAYERS', 11, 14),
+       (8, 'FLASH', 12, 13),
+       (9, 'CD PLAYERS', 15, 16),
+       (10, '2 WAY RADIOS', 17, 18);
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>Вложенное множество (Nested Set)</h2>
+    <div style="font-size: 80%">
+    <pre><code class="sql">
+SELECT * FROM nested_category ORDER BY id;
+</code></pre>
+    </div>
+    <table class="classic bordered next" style="font-size: 60%">
+        <thead>
+        <tr><th>id</th><th>name</th><th>lft</th><th>rgt</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>1</td><td>ELECTRONICS</td><td>1</td><td>20</td></tr>
+        <tr><td>2</td><td>TELEVISIONS</td><td>2</td><td>9</td></tr>
+        <tr><td>3</td><td>TUBE</td><td>3</td><td>4</td></tr>
+        <tr><td>4</td><td>LCD</td><td>5</td><td>6</td></tr>
+        <tr><td>5</td><td>PLASMA</td><td>7</td><td>8</td></tr>
+        <tr><td>6</td><td>PORTABLE ELECTRONICS</td><td>10</td><td>19</td></tr>
+        <tr><td>7</td><td>MP3 PLAYERS</td><td>11</td><td>14</td></tr>
+        <tr><td>8</td><td>FLASH</td><td>12</td><td>13</td></tr>
+        <tr><td>9</td><td>CD PLAYERS</td><td>15</td><td>16</td></tr>
+        <tr><td>10</td><td>2 WAY RADIOS</td><td>17</td><td>18</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>Вложенное множество (Nested Set)</h2>
+    <div style="font-size: 80%">
+    <pre><code class="sql">
+SELECT node.name
+FROM nested_category AS node,
+        nested_category AS parent
+WHERE node.lft BETWEEN parent.lft AND parent.rgt
+        AND parent.name = 'ELECTRONICS'
+ORDER BY node.lft;
+</code></pre>
+    </div>
+    <table class="classic bordered next" style="font-size: 60%">
+        <thead>
+        <tr><th>id</th><th>name</th><th>lft</th><th>rgt</th></tr>
+        </thead>
+        <tbody>
+        <tr><td>1</td><td>ELECTRONICS</td><td>1</td><td>20</td></tr>
+        <tr><td>2</td><td>TELEVISIONS</td><td>2</td><td>9</td></tr>
+        <tr><td>3</td><td>TUBE</td><td>3</td><td>4</td></tr>
+        <tr><td>4</td><td>LCD</td><td>5</td><td>6</td></tr>
+        <tr><td>5</td><td>PLASMA</td><td>7</td><td>8</td></tr>
+        <tr><td>6</td><td>PORTABLE ELECTRONICS</td><td>10</td><td>19</td></tr>
+        <tr><td>7</td><td>MP3 PLAYERS</td><td>11</td><td>14</td></tr>
+        <tr><td>8</td><td>FLASH</td><td>12</td><td>13</td></tr>
+        <tr><td>9</td><td>CD PLAYERS</td><td>15</td><td>16</td></tr>
+        <tr><td>10</td><td>2 WAY RADIOS</td><td>17</td><td>18</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>Вложенное множество (Nested Set)</h2>
+    <h3>Получение всего дерева</h3>
+    <div style="font-size: 70%">
+    <pre><code class="sql">
+SELECT CONCAT(REPEAT('-', (COUNT(parent.name) - 1)::int), node.name) AS name
+FROM nested_category AS node,
+     nested_category AS parent
+WHERE node.lft BETWEEN parent.lft AND parent.rgt
+GROUP BY node.name, node.lft
+ORDER BY node.lft;
+</code></pre>
+    </div>
+    <table class="classic bordered next" style="font-size: 60%">
+        <thead>
+        <tr><th>name</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>ELECTRONICS</td></tr>
+            <tr><td>-TELEVISIONS</td></tr>
+            <tr><td>--TUBE</td></tr>
+            <tr><td>--LCD</td></tr>
+            <tr><td>--PLASMA</td></tr>
+            <tr><td>-PORTABLE ELECTRONICS</td></tr>
+            <tr><td>--MP3 PLAYERS</td></tr>
+            <tr><td>---FLASH</td></tr>
+            <tr><td>--CD PLAYERS</td></tr>
+            <tr><td>--2 WAY RADIOS</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>Вложенное множество (Nested Set)</h2>
+    <h3>Получение листовых узлов</h3>
+    <div style="font-size: 80%">
+    <pre><code class="sql">
+SELECT name
+FROM nested_category
+WHERE rgt = lft + 1;
+    </code></pre>
+    </div>
+    <table class="classic bordered next" style="font-size: 60%">
+        <thead>
+        <tr><th>name</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>TUBE</td></tr>
+            <tr><td>LCD</td></tr>
+            <tr><td>PLASMA</td></tr>
+            <tr><td>FLASH</td></tr>
+            <tr><td>CD PLAYERS</td></tr>
+            <tr><td>2 WAY RADIOS</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>Список смежных вершин (Adjacency List)</h2>
+    <h3>Получение одной ветви</h3>
+    <div style="font-size: 80%">
+    <pre><code class="sql">
+SELECT parent.name
+FROM nested_category AS node, nested_category AS parent
+WHERE node.lft BETWEEN parent.lft AND parent.rgt AND node.name = 'FLASH'
+ORDER BY parent.lft;
+    </code></pre>
+    </div>
+    <table class="classic bordered next" style="font-size: 60%">
+        <thead>
+        <tr><th>name</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>ELECTRONICS</td></tr>
+            <tr><td>PORTABLE ELECTRONICS</td></tr>
+            <tr><td>MP3 PLAYERS</td></tr>
+            <tr><td>FLASH</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>Вложенное множество (Nested Set)</h2>
     <div>
-        <p>Nested Set действительно хорош, когда нам необходимо считывать структуру деревьев из БД. При этом он
+        <p><strong>+</strong> Nested Set действительно хорош, когда нам необходимо считывать структуру деревьев из БД. При этом он
             одинаково хорош для деревьев любого объема.</p>
-        <p>Тем не менее, для иерархических структур, которые подвергаются частому изменению он, очевидно, не будет
+        <p><strong>-</strong> Тем не менее, для иерархических структур, которые подвергаются частому изменению он, очевидно, не будет
             являться оптимальным выбором.</p>
     </div>
 </section>
@@ -1861,6 +2205,10 @@ FROM new_mail m;
 </section>
 
 <section class="slide">
+    <h2>Postgres extension LTREE</h2>
+</section>
+
+<section class="slide">
     <h2>Комбинированный подход</h2>
     <p>По сути вопроса следует отметить, что скомбинировать приведенные методы можно лишь в двух направлениях:</p>
     <ul>
@@ -1869,35 +2217,6 @@ FROM new_mail m;
     </ul>
     <p>Комбинировать же Nested Set и Materialized Path особого смысла не имеет, т.к. существенного выигрыша ни в
         чтении, ни в записи вы не получите.</p>
-</section>
-
-<section class="slide">
-    <h2>Adjacency List + Materialized Path</h2>
-    <h3>Для AL при использовании с MP:</h3>
-    <ul>
-        <li>Улучшаются операции выборки ветвей и поддеревьев целиком;</li>
-        <li>Ухудшаются операции переноса ветвей.</li>
-    </ul>
-    <h3>Для MP при использовании с AL:</h3>
-    <ul>
-        <li>Улучшаются операции выборки наследников заданного узла;</li>
-        <li>Улучшаются операции выборки родителей заданного узла.</li>
-    </ul>
-</section>
-
-<section class="slide">
-    <h2>Adjacency List + Nested Set</h2>
-    <p>Для связки AL+NS взаимовыгодность не столь очевидна.</p>
-    <p>В первую очередь это объясняется тем, что недостатки от проблем изменения узлов дерева в модели NS напрочь
-        убивают в этой сфере все достоинства AL.</p>
-    <p>Это значит, что такую связку следует рассматривать лишь как качественное улучшение поиска родителей и наследников
-        заданного узла в алгоритме NS, а также как повышение надежности самого алгоритма (ключи можно всегда перестроить
-        в случае порчи — информацию о связях хранит AL).</p>
-    <p>Но ведь и это качественное улучшение, хотя и не такое очевидное.</p>
-</section>
-
-<section class="slide">
-    <h2>Postgres extension LTREE</h2>
 </section>
 
 <section class="slide">
@@ -1951,7 +2270,7 @@ VIEW name [ ( column_name [, ...] ) ]
 -- ERROR: column "id" specified more than once
 -- SQL-состояние: 42701
 </code></pre>
-        <pre class="next"><code class="sql">
+    <pre class="next"><code class="sql">
 CREATE VIEW v (a_id, b_id) AS
     SELECT a.id, b.id FROM a,b;
 CREATE VIEW v AS
@@ -2021,7 +2340,8 @@ INSERT INTO comedies (imdb, title, kind)
 
 <section class="slide">
     <h2>Составление запроса. Пример 1</h2>
-    <p>Найти имена и классы учеников, которые имеют друзей только в том же классе. Вернуть результат, отсортированный по классу,
+    <p>Найти имена и классы учеников, которые имеют друзей только в том же классе. Вернуть результат, отсортированный по
+        классу,
         затем имени в классе.</p>
     <pre style="font-size: 90%"><code class="sql">CREATE TABLE highschooler (
     id    BIGSERIAL PRIMARY KEY,
@@ -2039,7 +2359,8 @@ CREATE TABLE friend (
 
 <section class="slide">
     <h2>Составление запроса. Пример 1</h2>
-    <p>Найти имена и классы учеников, которые имеют друзей только в том же классе. Вернуть результат, отсортированный по классу,
+    <p>Найти имена и классы учеников, которые имеют друзей только в том же классе. Вернуть результат, отсортированный по
+        классу,
         затем имени в классе.</p>
     <div style="text-align: center" class="next">
         <img src="q1s01.svg" style="width: 75%"/>
@@ -2048,7 +2369,8 @@ CREATE TABLE friend (
 
 <section class="slide">
     <h2>Составление запроса. Пример 1</h2>
-    <p>Найти имена и классы учеников, которые имеют друзей только в том же классе. Вернуть результат, отсортированный по классу,
+    <p>Найти имена и классы учеников, которые имеют друзей только в том же классе. Вернуть результат, отсортированный по
+        классу,
         затем имени в классе.</p>
     <div style="text-align: center">
         <img src="q1s02.svg" style="width: 75%"/>
@@ -2060,7 +2382,8 @@ CREATE TABLE friend (
 
 <section class="slide">
     <h2>Составление запроса. Пример 1</h2>
-    <p>Найти имена и классы учеников, которые имеют друзей только в том же классе. Вернуть результат, отсортированный по классу,
+    <p>Найти имена и классы учеников, которые имеют друзей только в том же классе. Вернуть результат, отсортированный по
+        классу,
         затем имени в классе.</p>
     <div style="text-align: center">
         <img src="q1s03.svg" style="width: 75%"/>
@@ -2080,7 +2403,9 @@ GROUP BY H.grade, H.name, H.id
 HAVING COUNT(O.Id) = 0
 ORDER BY H.grade, H.name
     </code></pre>
-    <footer><code>COUNT</code> нельзя заменить на <code>WHERE O.Id IS NULL</code>, так как в этом случае будут найдены те, у кого есть друзья <font style="text-decoration: line-through;">только</font> в других классах.</footer>
+    <footer><code>COUNT</code> нельзя заменить на <code>WHERE O.Id IS NULL</code>, так как в этом случае будут найдены
+        те, у кого есть друзья <font style="text-decoration: line-through;">только</font> в других классах.
+    </footer>
 </section>
 
 <section class="slide">
