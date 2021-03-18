@@ -10,7 +10,8 @@ description: |
      - Hash индексы;
      - Bitmap индексы;
      - Частичные индексы;
-     - Кластерные и покрывающие индексы.
+     - Кластеризация по индексу;
+     - Покрывающие индексы;
    - План запросов EXPLAIN;
    - Варианты соединения таблиц:
      - Merge join;
@@ -415,7 +416,7 @@ WHERE LOWER(title) = LOWER('Alice in Wonderland');
 </section>
 
 <section class="slide">
-    <h2>Кластерный индекс</h2>
+    <h2>Кластеризация по индексу</h2>
     <pre><code class="sql">CREATE TABLE movies (
 	id SERIAL PRIMARY KEY,
 	title TEXT NOT NULL
@@ -425,7 +426,7 @@ CLUSTER movies USING movies_pkey;
 CLUSTER movies;
 CLUSTER;
 </code></pre>
-    <p>Кластерный индекс (или кластерный ключ) сохраняет не только значения колонки в отсортированном виде, а и данные
+    <p>Кластеризация по индексу сохраняет не только значения колонки в отсортированном виде, а и данные
         всей строки.</p>
     <p>Это позволяет минимизировать количество операций чтения с диска при работе с таким индексом. В таблице может быть
         только один кластерный индекс.</p>
@@ -781,7 +782,7 @@ log_destination = 'csvlog'
 logging_collector = on
 </code></pre>
     <p>Логирование в CSV создаёт файлы в формате, пригодном для анализа утилитами вида <a
-            href="https://github.com/dalibo/pgbadger">pgbadger</a>:</p>
+            href="https://pgbadger.darold.net/">pgbadger</a>:</p>
     <pre class="bash"><code>sudo apt instal libtext-csv-xs-perl pgbadger
 pgbadger /var/log/postgresql/*.csv</code></pre>
 </section>
