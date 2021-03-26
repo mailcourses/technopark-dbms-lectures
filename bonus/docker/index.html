@@ -127,20 +127,6 @@
 </section>
 
 <section class="slide">
-    <h2>Docker</h2>
-    <dl>
-        <dt>Docker</dt>
-        <dd>
-            <p>Программное обеспечение для автоматизации развёртывания и управления приложениями в среде виртуализации
-                на уровне операционной системы.</p>
-            <p>Позволяет «упаковать» приложение со всем его окружением и зависимостями в контейнер, который может быть
-                перенесён на любую Linux-систему с поддержкой cgroups в ядре, а также предоставляет среду по управлению
-                контейнерами.</p>
-        </dd>
-    </dl>
-</section>
-
-<section class="slide">
     <h2>Виды виртуализации</h2>
     <dl style="font-size: 90%">
         <dt>Динамическая трансляция (KVM, VMware, VirutalBox)</dt>
@@ -162,43 +148,43 @@
 </section>
 
 <section class="slide">
-    <img src="docker-containerized-appliction-blue-border_2.png" style="position: absolute; max-width: 830px; top: 0; left: 80px; max-height: 640px;"/>
+    <h2>Docker</h2>
+    <dl>
+        <dt>Docker</dt>
+        <dd>
+            <p>Программное обеспечение для автоматизации упаковки, доставки и запуска приложениями в среде виртуализации
+                на уровне операционной системы.</p>
+            <p>Позволяет «упаковать» приложение со всем его окружением и зависимостями в контейнер, который может быть
+                перенесён на любую Linux-систему с поддержкой cgroups в ядре, а также предоставляет среду по управлению
+                контейнерами.</p>
+        </dd>
+    </dl>
 </section>
 
 <section class="slide">
-    <img src="container-vm-whatcontainer_2.png" style="position: absolute; max-width: 830px; top: 0; left: 154px; max-height: 640px;"/>
+    <h2>Docker</h2>
+    <dl>
+        <dt>Image</dt>
+        <dd>
+            <p>Тиражируемый образ приложения</p>
+        </dd>
+    </dl>
+    <dl>
+        <dt>Container</dt>
+        <dd>
+            <p>Запущенный экземпляр приложения на базе образа</p>
+        </dd>
+    </dl>
 </section>
 
 <section class="slide">
-    <h2>Производительность (TCP, CPU cycles/byte)</h2>
-    <div style="width: 100%; text-align: center">
-        <img src="docker-rtl.png" style="max-width: 100%; max-height: 460px"/>
-    </div>
-    <footer class="footer">Источник: <a
-            href="http://domino.research.ibm.com/library/cyberdig.nsf/papers/0929052195DD819C85257D2300681E7B/$File/rc25482.pdf">http://domino.research.ibm.com/library/cyberdig.nsf/papers/0929052195DD819C85257D2300681E7B/$File/rc25482.pdf</a>
-        (копия: <a href="rc25482.pdf">rc25482.pdf</a>)
-    </footer>
+    <img src="docker-containerized-appliction-blue-border_2.png"
+         style="position: absolute; max-width: 830px; top: 0; left: 80px; max-height: 640px;"/>
 </section>
 
 <section class="slide">
-    <h2>Производительность (TCP)</h2>
-    <div style="width: 100%; text-align: center">
-        <img src="docker-netcpu.png" style="max-width: 100%; max-height: 460px"/>
-    </div>
-</section>
-
-<section class="slide">
-    <h2>Производительность (IO)</h2>
-    <div style="width: 100%; text-align: center">
-        <img src="docker-io-seq.png" style="max-width: 100%; max-height: 460px"/>
-    </div>
-</section>
-
-<section class="slide">
-    <h2>Производительность (IO)</h2>
-    <div style="width: 100%; text-align: center">
-        <img src="docker-io-rnd.png" style="max-width: 100%; max-height: 460px"/>
-    </div>
+    <img src="container-vm-whatcontainer_2.png"
+         style="position: absolute; max-width: 830px; top: 0; left: 154px; max-height: 640px;"/>
 </section>
 
 <section class="slide">
@@ -301,18 +287,24 @@ f0c74fcd39ff        5 minutes ago       /bin/sh -c #(nop)  LABEL maintainer="Art
     <pre><code class="bash">docker kill web</code></pre>
     <h3>Список запущенных контейнеров:</h3>
     <pre><code class="bash">docker ps</code></pre>
+    <h3>Удалить все остановленные контейнеры:</h3>
+    <pre><code class="bash">docker container prune</code></pre>
 </section>
 
 <section class="slide">
     <h2>Работа с контейнером</h2>
-    <h3>Удалить все остановленные контейнеры:</h3>
-    <pre><code class="bash">docker container prune</code></pre>
     <h3>Запустить временный контейнер:</h3>
     <pre><code class="bash">docker run --rm -it ubuntu</code></pre>
     <h3>Запустить терминал внутри контейнера:</h3>
     <pre><code class="bash">docker exec -it web bash</code></pre>
     <h3>Посмотреть вывод контейнера:</h3>
     <pre><code class="bash">docker logs --tail 100 web</code></pre>
+    <h3>Запуск проекта для нагрузочного тестирования семестрового проекта:</h3>
+    <pre><code class="bash">docker run -d \
+        --memory 1G \
+        --log-opt max-size=5M \
+        --log-opt max-file=3 \
+        --name park_perf -p 5000:5000 park</code></pre>
 </section>
 
 <section class="slide">
