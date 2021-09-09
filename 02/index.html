@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="generator" content="Hugo 0.82.0" />
+	<meta name="generator" content="Hugo 0.86.1" />
 	
 	<link rel="icon" href="../common/lecture.png" />
 	
@@ -441,6 +441,22 @@
         </tr>
         </tbody>
     </table>
+</section>
+
+<section class="slide">
+    <h2>Ключи или ключевые аттрибуты</h2>
+    <ul>
+        <li>
+            <strong>Ключи или ключевой атрибут</strong> — атрибут или набор атрибутов, который однозначно идентифицирует кортеж в таблице в базе данных.</li>
+        <li>
+            <strong>Первичный ключ</strong> — используется для идентификации объекта.</li>
+        <li>
+            <strong>Потенциальный ключ</strong> — неиспользуемый, как первичный.</li>
+        <li>
+            <strong>Составной ключ</strong> — использует несколько атрибутов.</li>
+        <li>
+            <strong>Суррогатный ключ</strong> — значение генерируется СУБД.</li>
+    </ul>
 </section>
 
 <section class="slide">
@@ -1545,6 +1561,30 @@ FROM test;
 </section>
 
 <section class="slide">
+    <h2>ORDER BY. Сортировка</h2>
+    <pre><code class="sql" style="font-size: 80%">SELECT select_list
+FROM table_expression
+ORDER BY sort_expression1 [ASC | DESC] [NULLS { FIRST | LAST }]
+      [, sort_expression2 [ASC | DESC] [NULLS { FIRST | LAST }] ...]
+</code></pre>
+    <div style="font-size: 90%">
+    <pre><code class="sql next">
+SELECT a, b FROM table1 ORDER BY a + b, c;
+</code></pre>
+        <pre><code class="sql next">
+SELECT a + b AS sum, c FROM table1 ORDER BY sum;
+SELECT a, max(b) FROM table1 GROUP BY a ORDER BY 1;
+</code></pre>
+        <pre><code class="sql next">
+# SELECT a + b AS sum, c FROM table1 ORDER BY sum + c;
+ERROR:  column "sum" does not exist
+LINE 1: SELECT a + b AS sum, c FROM table1 ORDER BY sum + c;
+                                                    ^
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
     <h2>GROUP BY. Формирование групп</h2>
     <ul>
         <li>Группировка по одному столбцу</li>
@@ -1840,30 +1880,6 @@ SELECT * FROM (
 ) a
 WHERE employee_cnt > 3;
 </code></pre>
-</section>
-
-<section class="slide">
-    <h2>ORDER BY. Сортировка</h2>
-    <pre><code class="sql" style="font-size: 80%">SELECT select_list
-FROM table_expression
-ORDER BY sort_expression1 [ASC | DESC] [NULLS { FIRST | LAST }]
-      [, sort_expression2 [ASC | DESC] [NULLS { FIRST | LAST }] ...]
-</code></pre>
-    <div style="font-size: 90%">
-    <pre><code class="sql next">
-SELECT a, b FROM table1 ORDER BY a + b, c;
-</code></pre>
-        <pre><code class="sql next">
-SELECT a + b AS sum, c FROM table1 ORDER BY sum;
-SELECT a, max(b) FROM table1 GROUP BY a ORDER BY 1;
-</code></pre>
-        <pre><code class="sql next">
-# SELECT a + b AS sum, c FROM table1 ORDER BY sum + c;
-ERROR:  column "sum" does not exist
-LINE 1: SELECT a + b AS sum, c FROM table1 ORDER BY sum + c;
-                                                    ^
-</code></pre>
-    </div>
 </section>
 
 <section class="slide">
