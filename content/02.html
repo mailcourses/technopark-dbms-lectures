@@ -1873,7 +1873,7 @@ FETCH FIRST 10 ROWS ONLY;
 </section>
 
 <section class="slide">
-    <h2>WITH</h2>
+    <h2>WITH (Common Table Expressions)</h2>
     <pre><code class="sql" style="font-size: 70%">WITH regional_sales AS (
         SELECT region, SUM(amount) AS total_sales
         FROM orders
@@ -1891,6 +1891,20 @@ SELECT region,
 FROM orders
 WHERE region IN (SELECT region FROM top_regions)
 GROUP BY region, product;
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>WITH (Common Table Expressions)</h2>
+    <p style="font-size: 80%">В PostgreSQL 12 изменилось дефолтное поведение материализации: </p>
+    <p style="font-size: 80%">если запрос WITH является нерекурсивным и не имеет побочных эффектов, он может быть свёрнут в родительский запрос, что позволит оптимизировать совместно два уровня запросов.</p>
+    <p style="font-size: 80%">По-умолчанию это происходит, только если запрос WITH задействуется в родительском запросе всего в одном месте, а не в нескольких.</p>
+    <pre><code class="sql" style="font-size: 70%">WITH w AS (
+    SELECT * FROM big_table
+)
+SELECT * FROM w WHERE key = 123;</code></pre>
+    <p class="next" style="font-size: 80%">Будет аналогичен:</p>
+    <pre class="next"><code class="sql" style="font-size: 70%">SELECT * FROM big_table WHERE key = 123;
 </code></pre>
 </section>
 
