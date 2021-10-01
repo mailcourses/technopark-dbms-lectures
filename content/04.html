@@ -16,7 +16,6 @@ description: |
      - Примеры триггеров;
      - Недостатки триггеров.
    - View
-   - Персистентные очереди.
 ---
 <div>
     <style>
@@ -167,14 +166,14 @@ description: |
                 <li>Уровни изолированности транзакций.</li>
             </ul>
         </li>
+        <li>Хранимые процедуры и функции</li>
         <li>Триггеры:
             <ul class="compact">
                 <li>Использование триггеров для поддержания целостности и бизнес-логики;</li>
                 <li>Недостатки триггеров.</li>
             </ul>
         </li>
-        <li>Хранимые процедуры и функции</li>
-        <li>Распределенные транзакции (XA) и персистентные очереди.</li>
+        <li>View</li>
     </ul>
 </section>
 
@@ -184,6 +183,10 @@ description: |
         <li>Не забывайте отмечаться на лекциях!</li>
         <li>Оставляйте обратную связь по завершению лекции!</li>
     </ul>
+</section>
+
+<section class="slide">
+    <h2 class="shout">ACID</h2>
 </section>
 
 <section class="slide">
@@ -228,7 +231,11 @@ description: |
 </section>
 
 <section class="slide">
-    <h2>Пример транзакции</h2>
+    <h2>Транзакция</h2>
+    <dl>
+        <dt> Атомарный(неделимый) набор операций.</dt>
+    </dl>
+
     <pre><code class="sql">BEGIN;
 
 UPDATE accounts SET balance = balance - 100.00
@@ -237,7 +244,8 @@ UPDATE accounts SET balance = balance - 100.00
 UPDATE accounts SET balance = balance + 100.00
     WHERE name = 'Bob';
 
-COMMIT;</code></pre>
+COMMIT; -- фиксация, если все хорошо
+ROLLBACK; -- откат, если что-то пошло не так </code></pre>
 </section>
 
 <section class="slide">
@@ -381,7 +389,7 @@ COMMIT;</code></pre>
     <footer class="footer">
         <ul>
             <li>https://www.slideshare.net/robertsosinski/mvcc-robert-sosinski</li>
-            <li>http://momjian.us/main/writings/pgsql/mvcc.pdf</li>
+            <li>https://momjian.us/main/writings/pgsql/mvcc.pdf</li>
         </ul>
     </footer>
 </section>
@@ -1552,6 +1560,17 @@ VALUES (300, 1)</code></pre>
 
 <section class="slide">
     <h2>Уровни изолированности транзакций</h2>
+    <div class="important">
+        <p>Описанные аномалии и уровни изоляции транзакции является частью стандарта SQL:92.</p>
+        <p>На самом деле аномалий гораздо больше.</p>
+        <p>Когда создавался стандарт, ожидалось, что решать проблему аномалий будут блокировки.
+            Но со временем на смену блокировочным протоколам управления транзакциями пришел протокол изоляции на основе снимков (Snapshot Isolation).</p>
+        <p>В PostgreSQL реализован многоверсионный вариант такого протокола. Что автоматически делает невозможным "грязное чтение"</p>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>Уровни изолированности транзакций</h2>
     <table class="classic bordered" style="font-size: 70%">
         <thead>
         <tr>
@@ -1624,6 +1643,12 @@ UPDATE account SET money = 500 WHERE id = 13 AND money = 600;
 UPDATE account SET money = 200 WHERE id = 42 AND money = 100;
 COMMIT;
 </code></pre>
+</section>
+
+<!--TODO https://habr.com/ru/company/postgrespro/blog/442804/ -->
+
+<section class="slide">
+    <h2 class="shout">Хранимые процедуры, функции и триггеры</h2>
 </section>
 
 <section class="slide">
@@ -1867,7 +1892,6 @@ where event can be one of:
     UPDATE [ OF column_name [, ... ] ]
     DELETE
     TRUNCATE
-    TRUNCATE
 </code></pre>
 </section>
 
@@ -1920,6 +1944,26 @@ AFTER INSERT OR UPDATE OR DELETE ON emp
     FOR EACH ROW EXECUTE PROCEDURE process_emp_audit();
 </code></pre>
 </section>
+
+<section class="slide">
+    <h2>Триггеры: пример</h2>
+    <pre style="font-size: 65%"><code class="sql">CREATE TABLE IF NOT EXISTS payment
+(
+    id         SERIAL                                NOT NULL PRIMARY KEY,
+    amount     BYTEA                                 NOT NULL,
+    currency   CHAR(3)                               NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
+);
+
+CREATE TRIGGER modify_payment_updated_at
+    BEFORE UPDATE
+    ON payment
+    FOR EACH ROW
+EXECUTE PROCEDURE public.moddatetime(updated_at);
+</code></pre>
+</section>
+
 <section class="slide">
     <h2 class="shout">Представления (VIEW)</h2>
 </section>
@@ -2036,6 +2080,20 @@ INSERT INTO comedies (imdb, title, kind)
 </section>
 
 <section class="slide">
+    <h2>Materialized VIEW</h2>
+    <pre style="font-size: 80%"><code class="sql">CREATE MATERIALIZED VIEW my_matview AS SELECT * FROM mytab;</code></pre>
+    <pre style="font-size: 80%"><code class="sql">CREATE TABLE my_matview AS SELECT * FROM mytab;</code></pre>
+<br>
+    <p>Разница состоит в том, что материализованное представление впоследствии нельзя будет изменить непосредственно,
+        а запрос, создающий материализованное представление, сохраняется точно так же, как запрос представления,
+        и получить актуальные данные в материализованном представлении можно так.
+    </p>
+<br>
+    <pre style="font-size: 80%"><code class="sql">REFRESH MATERIALIZED VIEW my_matview;</code></pre>
+</section>
+
+<!--
+<section class="slide">
     <h2>Персистентные очереди</h2>
     <p>Мы можем "развязать" и клиента и сервер, т.е. у нас выполнение задач не зависит от того, доступен ли в данный
         момент клиент, или доступен в данный момент сервер.</p>
@@ -2061,3 +2119,4 @@ INSERT INTO comedies (imdb, title, kind)
     </ul>
     <footer class="footer">http://highload.guide/blog/principles-and-methods-of-queuing.html</footer>
 </section>
+-->
