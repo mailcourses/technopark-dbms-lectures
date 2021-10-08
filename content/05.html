@@ -22,6 +22,7 @@ description: |
 <section class="slide">
     <h2>Индексы. Профилирование и оптимизация</h2>
     <ul>
+        <li>Этапы выполнения запроса;</li>
         <li>Индексы;</li>
         <li>Протоколирование запросов;</li>
         <li>План запросов EXPLAIN;</li>
@@ -41,8 +42,39 @@ description: |
 </section>
 
 <section class="slide">
-    <h2>Индексирование</h2>
+    <h2>Этапы обработки запроса</h2>
+    <ol>
+        <li>Разбор
+            <ul>
+                <li>Лексический и синтаксический разбор</li>
+                <li>Семантический разбор</li>
+            </ul>
+        </li>
+        <li>Трансформация (переписывание)</li>
+        <li>Планирование (оптимизация)
+            <ul>
+                <li>Построение возможных планов</li>
+                <li>Выбор плана: либо полный перебор и выбор лучшего, либо генетический алгоритм (GEQO)</li>
+            </ul>
+        </li>
+        <li>Выполнение</li>
+    </ol>
+    <footer class="footer">
+        https://habr.com/ru/company/postgrespro/blog/574702/
+    </footer>
+</section>
+
+<section class="slide">
+    <h2>Индекс</h2>
+    <p>Это вспомогательные структуры: любой индекс можно удалить и восстановить заново по информации в таблице.</p>
+    <p>Индексы могут иметь разную структуру и методы доступа, но идея у всех одна - <strong>установить соответствие между ключом и строками таблицы</strong>, в которых этот ключ встречается.</p>
+    <p>Строки идентифицируются с помощью TID (tuple id), который состоит из номера блока файла и позиции строки внутри блока. Тогда, зная ключ или некоторую информацию о нем, можно быстро прочитать те строки, в которых может находиться интересующая нас информация, не просматривая всю таблицу полностью.</p>
+</section>
+
+<section class="slide">
+    <h2>Что дает индексирование</h2>
     <ul class="compact">
+        <li>Поддержка ограничений целостности;</li>
         <li>Быстрый поиск записей по условию WHERE;</li>
         <li>Объединение таблиц с посредством JOIN. Необходимо использовать одинаковые типы сравниваемых полей.
             Если для сравнения необходимо произвести преобразование типов, то индексы использоваться не будут;
@@ -59,14 +91,54 @@ description: |
 </section>
 
 <section class="slide">
-    <h2>Индексирование btree</h2>
-    <div style="text-align: center; height: 100%">
-        <img style="height: 70%" src="index-btree.png"/>
-    </div>
+    <h2>Создание индекса</h2>
+    <pre style="font-size: 80%"><code class="sql">CREATE [ UNIQUE ] INDEX [ CONCURRENTLY ]
+       [ [ IF NOT EXISTS ] имя ] ON имя_таблицы [ USING метод ]
+    ( { имя_столбца | ( выражение ) }
+      [ COLLATE правило_сортировки ] [ класс_операторов ]
+      [ ASC | DESC ] [ NULLS { FIRST | LAST } ]
+      [, ...]
+    )
+    [ WITH ( параметр_хранения = значение [, ... ] ) ]
+    [ TABLESPACE табл_пространство ]
+    [ WHERE предикат ]
+
+CREATE INDEX test_index ON test_table (col varchar_pattern_ops);
+</code></pre>
+    <p>Класс_операторов:</p>
+    <ul class="compact">
+        <li>text_pattern_ops</li>
+        <li>varchar_pattern_ops</li>
+        <li>bpchar_pattern_ops</li>
+    </ul>
 </section>
 
 <section class="slide">
-    <h2>Индексирование btree (пример)</h2>
+    <h2>Виды индексов в PostgreSQL</h2>
+    <ul>
+        <li>B-Tree Index</li>
+        <li>Hash Index</li>
+        <li>GIN (Generalized Inverted Index)</li>
+        <li>GiST (Generalized Search Tree)</li>
+        <li>SP-GiST (Space Partitioned GiST)</li>
+        <li>(BRIN) Block Range Index</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>B-Tree</h2>
+    <p>В основе лежит алгоритм <a href="https://www.csd.uoc.gr/~hy460/pdf/p650-lehman.pdf" target="_blank">Lehman & Yao Algorithm</a>
+        с некоторыми <a href="https://github.com/postgres/postgres/tree/master/src/backend/access/nbtree" target="_blank">модификациями</a></p>
+    <div style="text-align: center; height: 100%">
+        <img src="index-btree.png"/>
+    </div>
+    <footer class="footer">
+        https://habr.com/ru/company/postgrespro/blog/330544/
+    </footer>
+</section>
+
+<section class="slide">
+    <h2>B-Tree (пример)</h2>
     <img style="position: absolute; bottom: 50px; right: 50px; height: 380px" src="index-btree-2.png"/>
     <pre style="font-size: 80%"><code class="sql">CREATE TABLE people (
 	last_name TEXT NOT NULL,
@@ -84,7 +156,7 @@ ON people USING btree
 </section>
 
 <section class="slide">
-    <h2>Индексирование btree (особенности)</h2>
+    <h2>B-Tree (особенности)</h2>
     <div>
         <h3>Можно:</h3>
         <ul class="compact">
@@ -105,7 +177,7 @@ ON people USING btree
 </section>
 
 <section class="slide">
-    <h2>Индексирование hash-индексы</h2>
+    <h2>Hash-индексы</h2>
     <pre><code class="sql">CREATE TEMPORARY TABLE testhash (
 	fname TEXT NOT NULL,
 	lname TEXT NOT NULL
@@ -141,7 +213,7 @@ ON testhash USING hash (fname);</code></pre>
 </section>
 
 <section class="slide">
-    <h2>Индексирование hash-индексы</h2>
+    <h2>Hash-индексы</h2>
     <pre><code>
 f('Arjen') = 2323
 f('Baron') = 7437
@@ -177,7 +249,7 @@ f('Vadim') = 2458</code></pre>
 </section>
 
 <section class="slide">
-    <h2>Индексирование hash (особенности)</h2>
+    <h2>Hash (особенности)</h2>
     <div style="font-size: 85%">
         <ul class="compact">
             <li>Нельзя использовать данные в индексе, чтобы избежать чтения строк.</li>
@@ -199,24 +271,7 @@ f('Vadim') = 2458</code></pre>
 </section>
 
 <section class="slide">
-    <h2>Индексирование GiST (R-Tree)</h2>
-    <img style="position: absolute; right: 50px; width: 45%" src="index-rtree.png"/>
-    <pre><code class="sql">CREATE TABLE city (
-	id SERIAL PRIMARY KEY,
-	name TEXT NOT NULL,
-	area polygon
-);
-
-CREATE INDEX idx_city_area
-ON city USING gist (area);
-
-</code></pre>
-    <p style="width: 55%">В PostgreSQL GiST позволяет создать для любого собственного типа данных индекс основанный на
-        R-Tree.</p>
-</section>
-
-<section class="slide">
-    <h2>Индексирование GIN (инвертированный)</h2>
+    <h2>GIN (инвертированный)</h2>
     <pre><code class="sql">CREATE TABLE movies (
 	id SERIAL PRIMARY KEY,
 	title TEXT NOT NULL,
@@ -229,7 +284,7 @@ ON movies USING gin (genres);
 </section>
 
 <section class="slide">
-    <h2>Индексирование GIN (инвертированный)</h2>
+    <h2>GIN (инвертированный)</h2>
     <h3>Данные</h3>
     <table class="bordered classic" style="font-size: 80%">
         <thead>
@@ -296,70 +351,19 @@ ON movies USING gin (genres);
 </section>
 
 <section class="slide">
-    <h2>Индексирование: битовый индекс</h2>
-    <h3>Данные</h3>
-    <table class="classic bordered" style="font-size: 90%">
-        <thead>
-        <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>gender</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>1</td>
-            <td>Иван</td>
-            <td>Мужской</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>Евгений</td>
-            <td>Мужской</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>Александра</td>
-            <td>Женский</td>
-        </tr>
-        <tr>
-            <td>4</td>
-            <td>Петр</td>
-            <td>Мужской</td>
-        </tr>
-        <tr>
-            <td>5</td>
-            <td>Мария</td>
-            <td>Женский</td>
-        </tr>
-        </tbody>
-    </table>
-    <h3>Битовые маски</h3>
-    <table class="classic bordered" style="font-size: 90%">
-        <thead>
-        <tr>
-            <th>value</th>
-            <th>first-id</th>
-            <th>bitmask</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>Женский</td>
-            <td>1</td>
-            <td style="font-family: mono">00101</td>
-        </tr>
-        <tr>
-            <td>Мужской</td>
-            <td>1</td>
-            <td style="font-family: mono">11010</td>
-        </tr>
-        </tbody>
-    </table>
+    <h2>Классификация индексов</h2>
+    <ul>
+        <li>Single-column index</li>
+        <li>Multi-column index (составной индекс)</li>
+        <li>Partial index (частичный индекс)</li>
+        <li>Functional index (функциональный индекс)</li>
+        <li>Unique index</li>
+    </ul>
 </section>
 
 <section class="slide">
-    <h2>Селективность</h2>
+    <h2>Multi-column index (составной индекс)</h2>
+    <h3>Селективность индекса</h3>
     <p>Селективность колонки определяется количеством записей в таблице с одинаковыми значениями. <br>
         Когда записей с одинаковым значением мало — селективность высокая.
         Такие колонки необходимо использовать первыми в составных индексах.</p>
@@ -375,7 +379,7 @@ CREATE INDEX idx_users_gender_age
 </section>
 
 <section class="slide">
-    <h2>Частичный индекс</h2>
+    <h2>Partial index (частичный индекс)</h2>
     <pre style="font-size: 80%"><code class="sql">CREATE TABLE items (
     id BIGSERIAL PRIMARY KEY,
     avatar_id INT NULL,
@@ -397,7 +401,7 @@ CREATE INDEX idx_items_auction_id ON items (auction_id)
 </section>
 
 <section class="slide">
-    <h2>Функциональный индекс</h2>
+    <h2>Functional index (функциональный индекс)</h2>
     <pre><code class="sql">CREATE TABLE movies (
 	id SERIAL PRIMARY KEY,
 	title TEXT NOT NULL,
@@ -450,7 +454,7 @@ WHERE title = 'Alice in Wonderland';
 </section>
 
 <section class="slide">
-    <h2>Индексирование. Расплата</h2>
+    <h2>Расплата</h2>
     <img src="devil.jpg" height="500px" style="position: absolute; right: 20px; bottom: 0px; z-index: -1"/>
     <ul style="width: 560px">
         <li>Увеличение числа индексов замедляет операции добавления, обновления, удаления строк таблицы, поскольку при
@@ -464,38 +468,51 @@ WHERE title = 'Alice in Wonderland';
 </section>
 
 <section class="slide">
-    <h2>Индексирование. Создание индекса</h2>
-    <pre style="font-size: 80%"><code class="sql">CREATE [ UNIQUE ] INDEX [ CONCURRENTLY ]
-       [ [ IF NOT EXISTS ] имя ] ON имя_таблицы [ USING метод ]
-    ( { имя_столбца | ( выражение ) }
-      [ COLLATE правило_сортировки ] [ класс_операторов ]
-      [ ASC | DESC ] [ NULLS { FIRST | LAST } ]
-      [, ...]
-    )
-    [ WITH ( параметр_хранения = значение [, ... ] ) ]
-    [ TABLESPACE табл_пространство ]
-    [ WHERE предикат ]
+    <h2>Методы сканирования</h2>
+    <dl>
+        <dt>Sequential Scan</dt>
+        <dd>последовательное сканирование всех страниц с данными из таблицы с диска</dd>
 
-CREATE INDEX test_index ON test_table (col varchar_pattern_ops);
-</code></pre>
-    <p>Класс_операторов:</p>
-    <ul class="compact">
-        <li>text_pattern_ops</li>
-        <li>varchar_pattern_ops</li>
-        <li>bpchar_pattern_ops</li>
-    </ul>
+        <dt>Index Scan</dt>
+        <dd>поиск ключей в индексе с последующим извлечением из таблицы по ROW ID (в случае PG по TID)</dd>
+
+        <dt>Index Only Scan</dt>
+        <dd>то же самое, что index scan, но без чтения данных из таблицы (все нужные данные есть в индексе)</dd>
+
+        <dt>Bitmap Scan</dt>
+        <dd>поиск всех TID, соответствующих условию (Bitmap Index Scan) и построение битовой карты версий строк. Затем версии строк читаются из таблицы (Bitmap Heap Scan).</dd>
+    </dl>
 </section>
 
 <section class="slide">
-    <h2>Индексирование. Итог</h2>
+    <h2>JOIN-стратегии</h2>
+    <dl>
+        <dt>NESTED LOOP</dt>
+        <dd>Соединение вложенными циклами.</dd>
+
+        <dt>HASH JOIN</dt>
+        <dd>Меньшее отношение помещается в хэш-таблицу. Затем для каждой строки из большей таблицы выполняется поиск
+            значений, соответствующих условию соединения.<br/>
+            Соединение только по условию эквивалентности.
+        </dd>
+
+        <dt>MERGE JOIN</dt>
+        <dd>Соединение двух отсортированных последовательностей.<br/>
+            Работает быстро и за один проход обоих списков.
+        </dd>
+    </dl>
+</section>
+
+<section class="slide">
+    <h2>Итог</h2>
     <ul class="compact">
         <li>В большинстве случаев нужен btree-индекс;</li>
         <li>Для специфических случаев нужны GIN и GiST-индексы;</li>
-        <li>Битовые и hash-индексы PostgreSQL активно используюет в процессе выполнения запросов;</li>
+        <li>Битовые и hash-индексы PostgreSQL активно использует в процессе выполнения запросов;</li>
         <li>Частичные индексы могут заметно сократить объем индексов;</li>
         <li>В PostgreSQL нужно явно создавать индексы для FOREIGN KEY;</li>
-        <li>Можно получить очень большой выйгрыш при использовании покрывающих индексов;</li>
-        <li>Каждый индекс требует долнительных затрат на своё поддержание (I/O и память).</li>
+        <li>Можно получить очень большой выигрыш при использовании покрывающих индексов;</li>
+        <li>Каждый индекс требует дополнительных затрат на своё поддержание (I/O и память).</li>
     </ul>
 </section>
 
@@ -535,41 +552,41 @@ CREATE INDEX test_index ON test_table (col varchar_pattern_ops);
         <tr>
             <td>genres</td>
             <td align="right">19</td>
-            <td align="right">48 kB</td>
+            <td align="right">8 192 B</td>
         </tr>
         <tr>
             <td>links</td>
-            <td align="right">40 110</td>
-            <td align="right">2 944 kB</td>
+            <td align="right">58 098</td>
+            <td align="right">2 968 kB</td>
         </tr>
         <tr>
             <td>movie_genres</td>
-            <td align="right">74 229</td>
-            <td align="right">4 856 kB</td>
+            <td align="right">101 841</td>
+            <td align="right">4 408 kB</td>
         </tr>
         <tr>
             <td>movie_tags</td>
-            <td align="right">668 953</td>
-            <td align="right">49 152 kB</td>
+            <td align="right">1 108 997</td>
+            <td align="right">55 MB</td>
         </tr>
         <tr>
             <td>movies</td>
-            <td align="right">40 110</td>
+            <td align="right">58 098</td>
             <td align="right">3 400 kB</td>
         </tr>
         <tr>
             <td>rating</td>
-            <td align="right">24 404 096</td>
-            <td align="right">1 971 200 kB</td>
+            <td align="right">27 753 444</td>
+            <td align="right">1 594 MB</td>
         </tr>
         <tr>
-            <td>genres</td>
-            <td align="right">49 657</td>
-            <td align="right">5 344 kB</td>
+            <td>tags</td>
+            <td align="right">74 715</td>
+            <td align="right">3 728 kB</td>
         </tr>
         </tbody>
     </table>
-    <p>Обзщий размер: ~1995MB</p>
+    <p>Общий размер: ~2 298 MB</p>
     <p>FOREIGN KEY объявлены, но никакие индексы не создавались.</p>
 </section>
 
@@ -667,25 +684,6 @@ order by year;
 
 select * from movies where title <> 'Alice in Wonderland'
 order by year;</code></pre>
-</section>
-
-<section class="slide">
-    <h2>JOIN-стратегии</h2>
-    <dl>
-        <dt>MERGE JOIN</dt>
-        <dd>Соединение двух отсортированных последовательностей.<br/>
-            Работает быстро и за один проход обоих списков.
-        </dd>
-
-        <dt>HASH JOIN</dt>
-        <dd>Меньшее отношение помещается в хэш-таблицу. Затем для каждой строки из большей таблицы выполняется поиск
-            значений, соответствующих условию соединения.<br/>
-            Соединение только по условию эквивалентности.
-        </dd>
-
-        <dt>NESTED LOOP</dt>
-        <dd>Соединение вложенными циклами.</dd>
-    </dl>
 </section>
 
 <section class="slide">
@@ -1048,7 +1046,7 @@ EXPLAIN SELECT * FROM foo JOIN bar ON foo.c1=bar.c1 LIMIT 10000;
         <li>Надо внимательно смотреть на операции с большим cost;</li>
         <li>Seq Scan часто указывают на отсутсвие необходимых индексов;</li>
         <li>Большое кол-во записей в "Rows Removed by Filter" может указывать на проблему;</li>
-        <li>Sort для большого кол-ва записей - очень дорогая операция.</li>
+        <li>Sort для большого количества записей - очень дорогая операция.</li>
     </ul>
 </section>
 
