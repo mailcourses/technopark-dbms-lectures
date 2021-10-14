@@ -60,5 +60,5 @@ text {
   <text x="144" y="28" style="font-size: 12.5px; font-weight: bold; letter-spacing:1px">МГТУ</text>
   <text x="144" y="40" style="font-size: 12.5px; font-weight: bold; letter-spacing:-0.2px">им. Н. Э. Баумана</text>
   <text x="144" y="70" style="font-size: 26.5px">ТЕХНОПАРК</text>
-  <text x="144" y="86" style="font-size: 12.5px; font-weight: bold">Mail.Ru Group</text>
+<!--  <text x="144" y="86" style="font-size: 12.5px; font-weight: bold">Mail.Ru Group</text>-->
 </svg>
