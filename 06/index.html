@@ -663,19 +663,26 @@ INSERT INTO list_customers VALUES
 <section class="slide">
     <h2>Декларативное cекционирование: PostgreSQL 10+</h2>
     <h3>Секционирование по хэшу (hash partitioning)</h3>
-    <pre><code class="sql" style="font-size: 70%">CREATE TABLE hash_customers (
+    <pre><code class="sql" style="font-size: 60%">CREATE TABLE hash_customers (
         id INTEGER,
         status TEXT,
         arr NUMERIC
 ) PARTITION BY HASH(id);
 
-CREATE TABLE customers_part1 PARTITION OF hash_customers FOR VALUES WITH (modulus 3, remainder 0);
+CREATE TABLE customers_part1 PARTITION OF hash_customers
+        FOR VALUES WITH (modulus 3, remainder 0);
 
-CREATE TABLE customers_part2 PARTITION OF hash_customers FOR VALUES WITH (modulus 3, remainder 1);
+CREATE TABLE customers_part2 PARTITION OF hash_customers
+        FOR VALUES WITH (modulus 3, remainder 1);
 
-CREATE TABLE customers_part3 PARTITION OF hash_customers FOR VALUES WITH (modulus 3, remainder 2);
+CREATE TABLE customers_part3 PARTITION OF hash_customers
+        FOR VALUES WITH (modulus 3, remainder 2);
 
-INSERT INTO hash_customers VALUES (1,'ACTIVE',100), (2,'RECURRING',20), (3,'EXPIRED',38), (4,'REACTIVATED',144);
+INSERT INTO hash_customers VALUES
+        (1,'ACTIVE',100),
+        (2,'RECURRING',20),
+        (3,'EXPIRED',38),
+        (4,'REACTIVATED',144);
 </code></pre>
     <footer class="footer">
         <a href="https://www.enterprisedb.com/postgres-tutorials/how-use-table-partitioning-scale-postgresql">https://www.enterprisedb.com/postgres-tutorials/how-use-table-partitioning-scale-postgresql</a>
@@ -686,19 +693,26 @@ INSERT INTO hash_customers VALUES (1,'ACTIVE',100), (2,'RECURRING',20), (3,'EXPI
 <section class="slide">
     <h2>Декларативное cекционирование: PostgreSQL 10+</h2>
     <h3>Секционирование по диапазону (range partitioning)</h3>
-    <pre><code class="sql" style="font-size: 70%">CREATE TABLE range_customers (
+    <pre><code class="sql" style="font-size: 60%">CREATE TABLE range_customers (
         id INTEGER,
         status TEXT,
         arr NUMERIC
 ) PARTITION BY RANGE(arr);
 
-CREATE TABLE customers_arr_small PARTITION OF range_customers FOR VALUES FROM (MINVALUE) TO (25);
+CREATE TABLE customers_arr_small PARTITION OF range_customers
+        FOR VALUES FROM (MINVALUE) TO (25);
 
-CREATE TABLE customers_arr_medium PARTITION OF range_customers FOR VALUES FROM (25) TO (75);
+CREATE TABLE customers_arr_medium PARTITION OF range_customers
+        FOR VALUES FROM (25) TO (75);
 
-CREATE TABLE customers_arr_large PARTITION OF range_customers FOR VALUES FROM (75) TO (MAXVALUE);
+CREATE TABLE customers_arr_large PARTITION OF range_customers
+        FOR VALUES FROM (75) TO (MAXVALUE);
 
-INSERT INTO customers VALUES (1,'ACTIVE',100), (2,'RECURRING',20), (3,'EXPIRED',38), (4,'REACTIVATED',144);
+INSERT INTO customers VALUES
+        (1,'ACTIVE',100),
+        (2,'RECURRING',20),
+        (3,'EXPIRED',38),
+        (4,'REACTIVATED',144);
 </code></pre>
     <footer class="footer">
         <a href="https://www.enterprisedb.com/postgres-tutorials/how-use-table-partitioning-scale-postgresql">https://www.enterprisedb.com/postgres-tutorials/how-use-table-partitioning-scale-postgresql</a>
