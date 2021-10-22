@@ -113,4 +113,4 @@ alter table movie_tags
 alter table ratings
   add constraint fk_movie_id foreign key (movie_id) references movies (id);
 
-vacuum full;
+vacuum full analyze;

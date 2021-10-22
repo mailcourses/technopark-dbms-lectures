@@ -39,6 +39,7 @@ description: |
     <h2 class="shout">Нормализация и денормализация данных</h2>
 </section>
 
+
 <section class="slide">
     <h2>Тестовая база</h2>
     <table>
@@ -53,42 +54,42 @@ description: |
         <tr>
             <td>genres</td>
             <td align="right">19</td>
-            <td align="right">48 kB</td>
+            <td align="right">8 192 B</td>
         </tr>
         <tr>
             <td>links</td>
-            <td align="right">40 110</td>
-            <td align="right">2 944 kB</td>
+            <td align="right">58 098</td>
+            <td align="right">2 968 kB</td>
         </tr>
         <tr>
             <td>movie_genres</td>
-            <td align="right">74 229</td>
-            <td align="right">4 856 kB</td>
+            <td align="right">101 841</td>
+            <td align="right">4 408 kB</td>
         </tr>
         <tr>
             <td>movie_tags</td>
-            <td align="right">668 953</td>
-            <td align="right">49 152 kB</td>
+            <td align="right">1 108 997</td>
+            <td align="right">55 MB</td>
         </tr>
         <tr>
             <td>movies</td>
-            <td align="right">40 110</td>
+            <td align="right">58 098</td>
             <td align="right">3 400 kB</td>
         </tr>
         <tr>
             <td>rating</td>
-            <td align="right">24 404 096</td>
-            <td align="right">1 971 200 kB</td>
+            <td align="right">27 753 444</td>
+            <td align="right">1 594 MB</td>
         </tr>
         <tr>
-            <td>genres</td>
-            <td align="right">49 657</td>
-            <td align="right">5 344 kB</td>
+            <td>tags</td>
+            <td align="right">74 715</td>
+            <td align="right">3 728 kB</td>
         </tr>
         </tbody>
     </table>
-    <p>Общий размер: ~1995MB</p>
-    <p>Запрос для примера: вывести все комедии про зомби по рейтингу.</p>
+    <p>Общий размер: ~2 298 MB</p>
+    <p>FOREIGN KEY объявлены, но никакие индексы не создавались.</p>
 </section>
 
 <section class="slide">
@@ -327,12 +328,12 @@ order by 3 desc
 <section class="slide">
     <h2>Оптимизация COUNT(*)</h2>
     <h3>Получение кол-ва записей в таблице</h3>
-    <pre><code class="sql">SELECT COUNT(*) FROM films;
+    <pre><code class="sql">SELECT COUNT(*) FROM ratings;
 </code></pre>
     <p>Если нужно ориентировочное количество записей в таблице, то можно выполнить запрос вида:</p>
     <pre><code class="sql">SELECT reltuples::bigint AS estimate
 FROM pg_class
-WHERE oid = 'films'::regclass;</code></pre>
+WHERE oid = 'ratings'::regclass;</code></pre>
     <footer class="footer"><a href="https://wiki.postgresql.org/wiki/Count_estimate">https://wiki.postgresql.org/wiki/Count_estimate</a>
     </footer>
 </section>
@@ -578,26 +579,55 @@ SELECT create_range_partitions('journal', 'dt',
 </section>
 
 <section class="slide">
-    <h2>Секционирование: PostgreSQL 10</h2>
-    <pre><code class="sql" style="font-size: 70%">CREATE TABLE test (
-  id         SERIAL PRIMARY KEY,
-  title      TEXT,
-  created_on TIMESTAMPTZ NOT NULL DEFAULT NOW()
-) PARTITION BY RANGE (id);
+    <h2>Декларативное секционирование: PostgreSQL 10+</h2>
+    <h3>Секционирование по списку значений (List partitioning)</h3>
+    <pre><code class="sql" style="font-size: 70%">CREATE TABLE list_customers (id INTEGER, status TEXT, arr NUMERIC) PARTITION BY LIST(status);
+CREATE TABLE customers_active PARTITION OF list_customers FOR VALUES IN ('ACTIVE');
+CREATE TABLE customers_archived PARTITION OF list_customers FOR VALUES IN ('EXPIRED');
+CREATE TABLE customers_others PARTITION OF list_customers DEFAULT;
 
-CREATE TABLE test_1 PARTITION OF test FOR VALUES FROM (100) TO (199);
-CREATE TABLE test_2 PARTITION OF test FOR VALUES FROM (200) TO (299);
-
-CREATE INDEX ON test_1 (id);
-CREATE INDEX ON test_2 (id);
+INSERT INTO list_customers VALUES (1,'ACTIVE',100), (2,'RECURRING',20), (3,'EXPIRED',38), (4,'REACTIVATED',144);
 </code></pre>
-    <footer class="footer"><a
-            href="https://www.postgresql.org/docs/10/static/ddl-partitioning.html">https://www.postgresql.org/docs/10/static/ddl-partitioning.html</a>
+    <footer class="footer">
+        <a href="https://www.enterprisedb.com/postgres-tutorials/how-use-table-partitioning-scale-postgresql">https://www.enterprisedb.com/postgres-tutorials/how-use-table-partitioning-scale-postgresql</a>
+        <a href="https://www.postgresql.org/docs/current/ddl-partitioning.html">https://www.postgresql.org/docs/current/ddl-partitioning.html</a>
     </footer>
 </section>
 
 <section class="slide">
-    <h2>Секционирование: PostgreSQL 10</h2>
+    <h2>Декларативное cекционирование: PostgreSQL 10+</h2>
+    <h3>Секционирование по хэшу (hash partitioning)</h3>
+    <pre><code class="sql" style="font-size: 70%">CREATE TABLE hash_customers (id INTEGER, status TEXT, arr NUMERIC) PARTITION BY HASH(id);
+CREATE TABLE customers_part1 PARTITION OF hash_customers FOR VALUES WITH (modulus 3, remainder 0);
+CREATE TABLE customers_part2 PARTITION OF hash_customers FOR VALUES WITH (modulus 3, remainder 1);
+CREATE TABLE customers_part3 PARTITION OF hash_customers FOR VALUES WITH (modulus 3, remainder 2);
+
+INSERT INTO hash_customers VALUES (1,'ACTIVE',100), (2,'RECURRING',20), (3,'EXPIRED',38), (4,'REACTIVATED',144);
+</code></pre>
+    <footer class="footer">
+        <a href="https://www.enterprisedb.com/postgres-tutorials/how-use-table-partitioning-scale-postgresql">https://www.enterprisedb.com/postgres-tutorials/how-use-table-partitioning-scale-postgresql</a>
+        <a href="https://www.postgresql.org/docs/current/ddl-partitioning.html">https://www.postgresql.org/docs/current/ddl-partitioning.html</a>
+    </footer>
+</section>
+
+<section class="slide">
+    <h2>Декларативное cекционирование: PostgreSQL 10+</h2>
+    <h3>Секционирование по диапазону (range partitioning)</h3>
+    <pre><code class="sql" style="font-size: 70%">CREATE TABLE range_customers (id INTEGER, status TEXT, arr NUMERIC) PARTITION BY RANGE(arr);
+CREATE TABLE customers_arr_small PARTITION OF range_customers FOR VALUES FROM (MINVALUE) TO (25);
+CREATE TABLE customers_arr_medium PARTITION OF range_customers FOR VALUES FROM (25) TO (75);
+CREATE TABLE customers_arr_large PARTITION OF range_customers FOR VALUES FROM (75) TO (MAXVALUE);
+
+INSERT INTO customers VALUES (1,'ACTIVE',100), (2,'RECURRING',20), (3,'EXPIRED',38), (4,'REACTIVATED',144);
+</code></pre>
+    <footer class="footer">
+        <a href="https://www.enterprisedb.com/postgres-tutorials/how-use-table-partitioning-scale-postgresql">https://www.enterprisedb.com/postgres-tutorials/how-use-table-partitioning-scale-postgresql</a>
+        <a href="https://www.postgresql.org/docs/current/ddl-partitioning.html">https://www.postgresql.org/docs/current/ddl-partitioning.html</a>
+    </footer>
+</section>
+
+<section class="slide">
+    <h2>Секционирование: PostgreSQL 10+</h2>
     <h3>Плюсы:</h3>
     <ul>
         <li>Поддержка из коробки.</li>
