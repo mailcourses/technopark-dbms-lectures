@@ -2,7 +2,7 @@ version: "3.9"
 services:
   postgres:
     container_name: techdb
-    image: postgres:14-alpine
+    image: postgres:14-bullseye
     environment:
       POSTGRES_DB: "techdb"
       POSTGRES_USER: "techdb"
@@ -13,4 +13,4 @@ services:
       - ./postgres:/var/lib/postgresql/data
     command: postgres -c config_file=/var/lib/postgresql/data/postgresql.conf
     ports:
-      - "5432:5432"
+      - "5433:5432"
