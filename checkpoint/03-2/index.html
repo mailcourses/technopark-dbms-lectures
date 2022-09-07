@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="generator" content="Hugo 0.89.4" />
+	<meta name="generator" content="Hugo 0.102.3" />
 	
 	<link rel="icon" href="../../common/lecture.png" />
 	
@@ -44,7 +44,7 @@ document.addEventListener("scroll", function(e) {
         Оптимально ли составлен запрос? Какие индексы нужно построить для эффективного выполнения запроса и почему?
         
         <pre tabindex="0"><code>SELECT rental_id FROM rental
-WHERE rental_date BETWEEN '2005-07-01' AND '2005-08-01'
+WHERE rental_date BETWEEN &#39;2005-07-01&#39; AND &#39;2005-08-01&#39;
   AND customer_id = 2
 ORDER BY rental_date, inventory_id;
 </code></pre>
@@ -57,7 +57,7 @@ ORDER BY rental_date, inventory_id;
         Оптимально ли составлен запрос? Какие индексы нужно построить для эффективного выполнения запроса и почему?
         
         <pre tabindex="0"><code>SELECT rental_id FROM rental
-WHERE EXTRACT(EPOCH FROM '2005-07-01'::timestamp - rental_date) &gt; 0
+WHERE EXTRACT(EPOCH FROM &#39;2005-07-01&#39;::timestamp - rental_date) &gt; 0
   AND customer_id = 2
 ORDER BY rental_date;
 </code></pre>
@@ -70,7 +70,7 @@ ORDER BY rental_date;
         Оптимально ли составлен запрос? Какие индексы нужно построить для эффективного выполнения запроса и почему?
         
         <pre tabindex="0"><code>SELECT rental_id FROM rental
-WHERE rental_date BETWEEN '2005-07-01' AND '2005-08-01'
+WHERE rental_date BETWEEN &#39;2005-07-01&#39; AND &#39;2005-08-01&#39;
   AND customer_id IN (2, 42, 73);
 </code></pre>
     </div>
@@ -84,7 +84,7 @@ WHERE rental_date BETWEEN '2005-07-01' AND '2005-08-01'
         <pre tabindex="0"><code>SELECT city.city_id, city.city, country.country
 FROM city
 JOIN country ON city.country_id = country.country_id
-WHERE LOWER(LEFT(city.city, 2)) = 'mo';
+WHERE LOWER(LEFT(city.city, 2)) = &#39;mo&#39;;
 </code></pre>
     </div>
 </section>
@@ -130,7 +130,7 @@ FROM store
 JOIN address ON (store.address_id = address.address_id)
 JOIN city ON (city.city_id = address.city_id)
 JOIN country ON (country.country_id = city.country_id)
-WHERE LOWER(LEFT(country.country, 1)) = 'a'
+WHERE LOWER(LEFT(country.country, 1)) = &#39;a&#39;
 GROUP BY country.country;
 </code></pre>
     </div>
@@ -148,9 +148,9 @@ WHERE (
   FROM actor
   JOIN film_actor ON (film_actor.actor_id = actor.actor_id)
   WHERE film_actor.film_id = film.film_id
-    AND LOWER(actor.last_name) = 'monroe'
+    AND LOWER(actor.last_name) = &#39;monroe&#39;
 ) &gt; 0
-  AND film.rating = 'G'
+  AND film.rating = &#39;G&#39;
   AND film.release_year BETWEEN 2005 AND 2008;
 </code></pre>
     </div>
