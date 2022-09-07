@@ -1,5 +1,7 @@
 #! /usr/bin/env bash
 
+hugo -D
+
 if [ "$(git status -s)" ]
 then
     echo "The working directory is dirty. Please commit any pending changes."

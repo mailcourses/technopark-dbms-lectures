@@ -15,8 +15,8 @@ markup:
       unsafe: true
 
 params:
-  author: "Стрелков Никита / Стулов Игорь"
-  email: "n.strelkov@corp.mail.ru / i.stulov@corp.mail.ru"
+  author: "Стрелков Никита"
+  email: "nikita.strelkov@gmail.com"
   description: "Лекции для Технопарка по курсу СУБД"
   highlightTheme: "idea"
   useMath: false
