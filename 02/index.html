@@ -363,372 +363,386 @@
 </section>
 
 <section class="slide">
-    <h2>Концептуальное проектирование</h2>
-    <h3>Выявление сущностей и связей</h3>
-    <div style="text-align: center; height: 100%">
-        <img style="height: 70%" src="scheme-05.png"/>
-    </div>
+    <h2>Пример проекта</h2>
+    <h3>Задача: спроектировать базу для расчета стоимости работ веб-студии</h3>
+    <p>Компания N занимается разработкой полного цикла и поддержкой веб-приложений.</p>
+    <p>Стоимость часа специалиста зависит от его должности.</p>
+    <p>Стоимость работ по проекту зависит от того сколько специалистов и по сколько часов работали над данным
+        проектом</p>
+    <p>Необходимо спроектировать базу, которая позволит удобно вести учет работ по проектам и выставлять счета
+        клиентам</p>
 </section>
 
 <section class="slide">
-    <h2>Структура таблицы тем</h2>
-    <table class="classic bordered" style="font-size: 60%">
+    <h2>Пример проекта</h2>
+    <h3>Формализация основных бизнес-требований</h3>
+    <ul>
+        <li>веб-студия ведет много проектов</li>
+        <li>над каждым проектом работает не менее одного сотрудника</li>
+        <li>над разными проектами могут работать разные специалисты</li>
+        <li>у сотрудников веб-студии есть должности</li>
+        <li>от должности зависит почасовая ставка</li>
+        <li>стоимость проекта зависит от того какие специалисты и сколько времени работали над ним</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Пример сводной таблицы</h2>
+    <table class="classic bordered" style="font-size: 70%">
         <thead>
         <tr>
-            <th>Заголовок</th>
-            <th>Дата</th>
-            <th>Автор</th>
-            <th>E-Mail</th>
-            <th>Текст</th>
-            <th>Оценка</th>
-            <th>Ответы</th>
+            <th>ProjName</th>
+            <th>EmpName</th>
+            <th>JobType</th>
+            <th>ChargePerHour</th>
+            <th>HoursBilled</th>
+            <th>TotalCharge</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td>Руслан и Людмила</td>
-            <td>01.01.1820</td>
-            <td>Пушкин А.С.</td>
-            <td>pushkin@mail.ru</td>
-            <td>…</td>
-            <td>500</td>
-            <td>120</td>
+            <td rowspan="3">Meta Cortex</td>
+            <td>Thomas A. Anderson</td>
+            <td>Senior Software Engineer</td>
+            <td>$10</td>
+            <td>25.4</td>
+            <td>$254.00</td>
         </tr>
         <tr>
-            <td>Война и Мир</td>
-            <td>01.03.1869</td>
-            <td>Толстой Л.Н.</td>
-            <td>tolstoy@inbox.ru</td>
-            <td>…</td>
-            <td>100</td>
-            <td>345</td>
+            <td>Michelle McGahey</td>
+            <td>UI/UX Designer</td>
+            <td>$5</td>
+            <td>15.0</td>
+            <td>$75.00</td>
         </tr>
         <tr>
-            <td>Анна Каренина</td>
-            <td>01.01.1877</td>
-            <td>Толстой Л.Н.</td>
-            <td>tolstoy@inbox.ru</td>
-            <td>…</td>
-            <td>400</td>
-            <td>134</td>
+            <td>John Anderson</td>
+            <td>Senior DBA</td>
+            <td>$8</td>
+            <td>10.5</td>
+            <td>$84.00</td>
         </tr>
         <tr>
-            <td>Отцы и Дети</td>
-            <td>15.08.1862</td>
-            <td>Иван Тургенев</td>
-            <td>turgen@mail.ru</td>
-            <td>…</td>
-            <td>256</td>
-            <td>18</td>
+            <td colspan="3" style="text-align: right">Subtotal</td>
+            <td colspan="3" style="text-align: right">$413.00</td>
         </tr>
         <tr>
-            <td>Повести Белкина</td>
-            <td>12.06.1830</td>
-            <td>Пушкин А.С.</td>
-            <td>pushkin@mail.ru</td>
-            <td>…</td>
-            <td>400</td>
-            <td>96</td>
+            <td rowspan="4">ENCOM</td>
+            <td>Kevin Flynn</td>
+            <td>Senior Software Engineer</td>
+            <td>$10</td>
+            <td>32.5</td>
+            <td>$325.00</td>
         </tr>
         <tr>
-            <td>Муму</td>
-            <td>10.11.1852</td>
-            <td>Иван Тургенев</td>
-            <td>turgen@mail.ru</td>
-            <td>…</td>
-            <td>312</td>
-            <td>46</td>
+            <td>Sam Flynn</td>
+            <td>Junior Software Engineer</td>
+            <td>$5</td>
+            <td>20.0</td>
+            <td>$100.00</td>
+        </tr>
+        <tr>
+            <td>John Anderson</td>
+            <td>Software Engineer</td>
+            <td>$8</td>
+            <td>30.0</td>
+            <td>$240.00</td>
+        </tr>
+        <tr>
+            <td>Alan Bradley</td>
+            <td>Junior DBA</td>
+            <td>$6</td>
+            <td>8.0</td>
+            <td>$48.00</td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align: right">Subtotal</td>
+            <td colspan="3" style="text-align: right">$713.00</td>
+        </tr>
+        <tr>
+            <td colspan="3" style="text-align: right">Total</td>
+            <td colspan="3" style="text-align: right">$1126.00</td>
         </tr>
         </tbody>
     </table>
 </section>
 
 <section class="slide">
+    <h2>1-ая нормальная форма</h2>
+    <p>Переменная отношения находится в первой нормальной форме (1НФ) тогда и только тогда, когда
+        в любом допустимом значении отношения каждый его кортеж содержит только одно значение для каждого из атрибутов.
+    </p>
+</section>
+
+<section class="slide">
+    <h2>1-ая нормальная форма</h2>
+    <table class="classic bordered" style="font-size: 70%">
+        <thead>
+        <tr>
+            <th>ProjName</th>
+            <th>EmpName</th>
+            <th>JobType</th>
+            <th>ChargePerHour</th>
+            <th>HoursBilled</th>
+            <th>TotalCharge</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Meta Cortex</td>
+            <td>Thomas A. Anderson</td>
+            <td>Senior Software Engineer</td>
+            <td>$10</td>
+            <td>25.4</td>
+            <td>$254.00</td>
+        </tr>
+        <tr>
+            <td>Meta Cortex</td>
+            <td>Michelle McGahey</td>
+            <td>UI/UX Designer</td>
+            <td>$5</td>
+            <td>15.0</td>
+            <td>$75.00</td>
+        </tr>
+        <tr>
+            <td>Meta Cortex</td>
+            <td>John Anderson</td>
+            <td>Senior DBA</td>
+            <td>$8</td>
+            <td>10.5</td>
+            <td>$84.00</td>
+        </tr>
+        <tr>
+            <td>ENCOM</td>
+            <td>Kevin Flynn</td>
+            <td>Senior Software Engineer</td>
+            <td>$10</td>
+            <td>32.5</td>
+            <td>$325.00</td>
+        </tr>
+        <tr>
+            <td>ENCOM</td>
+            <td>Sam Flynn</td>
+            <td>Junior Software Engineer</td>
+            <td>$5</td>
+            <td>20.0</td>
+            <td>$100.00</td>
+        </tr>
+        <tr>
+            <td>ENCOM</td>
+            <td>John Anderson</td>
+            <td>Software Engineer</td>
+            <td>$8</td>
+            <td>30.0</td>
+            <td>$240.00</td>
+        </tr>
+        <tr>
+            <td>ENCOM</td>
+            <td>Alan Bradley</td>
+            <td>Junior DBA</td>
+            <td>$6</td>
+            <td>8.0</td>
+            <td>$48.00</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+
+<section class="slide">
     <h2>Ключи или ключевые атрибуты</h2>
-        <p><dfn>Ключ</dfn> — атрибут или набор атрибутов, который однозначно идентифицирует кортеж в таблице в базе данных.</p>
-        <hr>
-        <p><dfn>Первичный ключ</dfn> — используется для идентификации объекта.</p>
-        <p><dfn>Потенциальный ключ</dfn> — неиспользуемый, как первичный.</p>
-        <hr>
-        <p><dfn>Составной ключ</dfn> — использует несколько атрибутов.</p>
-        <hr>
-        <p><dfn>Естественный ключ</dfn> — набор атрибутов описываемой записью сущности, уникально её идентифицирующий.</p>
-        <p><dfn>Суррогатный ключ</dfn> — искусственно сгенерированное поле, никак не связанное с информационным содержанием записи.</p>
+    <p><dfn>Ключ</dfn> — атрибут или набор атрибутов, который однозначно идентифицирует кортеж в таблице в базе данных.
+    </p>
+    <hr>
+    <p><dfn>Первичный ключ</dfn> — используется для идентификации объекта.</p>
+    <p><dfn>Потенциальный ключ</dfn> — неиспользуемый, как первичный.</p>
+    <hr>
+    <p><dfn>Составной ключ</dfn> — использует несколько атрибутов.</p>
+    <hr>
+    <p><dfn>Естественный ключ</dfn> — набор атрибутов описываемой записью сущности, уникально её идентифицирующий.</p>
+    <p><dfn>Суррогатный ключ</dfn> — искусственно сгенерированное поле, никак не связанное с информационным содержанием
+        записи.</p>
 </section>
 
 <section class="slide">
     <h2>Первичный ключ</h2>
-    <p>Первичный ключ выбирается исходя из соображений удобства и сохранения уникальности. Если такого ключа нет, то
+    <p style="font-size: 80%">Первичный ключ выбирается исходя из соображений удобства и сохранения уникальности. Если
+        такого ключа нет, то
         имеет смысл добавить специальное поле.</p>
     <table class="classic bordered" style="font-size: 60%">
         <thead>
         <tr>
-            <th>TopicID</th>
-            <th>Заголовок</th>
-            <th>Дата</th>
-            <th>Автор</th>
-            <th>E-Mail</th>
-            <th>Текст</th>
-            <th>Оценка</th>
-            <th>Ответы</th>
+            <th>ProjNum</th>
+            <th>ProjName</th>
+            <th>EmpNum</th>
+            <th>EmpName</th>
+            <th>JobType</th>
+            <th>ChargePerHour</th>
+            <th>HoursBilled</th>
+            <th>TotalCharge</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td>5</td>
-            <td>Руслан и Людмила</td>
-            <td>01.01.1820</td>
-            <td>Пушкин А.С.</td>
-            <td>pushkin@mail.ru</td>
-            <td>…</td>
-            <td>500</td>
-            <td>120</td>
+            <td>15</td>
+            <td>Meta Cortex</td>
+            <td>105</td>
+            <td>Thomas A. Anderson</td>
+            <td>Senior Software Engineer</td>
+            <td>$10</td>
+            <td>25.4</td>
+            <td>$254.00</td>
         </tr>
         <tr>
-            <td>8</td>
-            <td>Война и Мир</td>
-            <td>01.03.1869</td>
-            <td>Толстой Л.Н.</td>
-            <td>tolstoy@inbox.ru</td>
-            <td>…</td>
-            <td>100</td>
-            <td>345</td>
+            <td>15</td>
+            <td>Meta Cortex</td>
+            <td>102</td>
+            <td>Michelle McGahey</td>
+            <td>UI/UX Designer</td>
+            <td>$5</td>
+            <td>15.0</td>
+            <td>$75.00</td>
         </tr>
         <tr>
-            <td>20</td>
-            <td>Анна Каренина</td>
-            <td>01.01.1877</td>
-            <td>Толстой Л.Н.</td>
-            <td>tolstoy@inbox.ru</td>
-            <td>…</td>
-            <td>400</td>
-            <td>134</td>
+            <td>15</td>
+            <td>Meta Cortex</td>
+            <td>103</td>
+            <td>John Anderson</td>
+            <td>Senior DBA</td>
+            <td>$8</td>
+            <td>10.5</td>
+            <td>$84.00</td>
         </tr>
         <tr>
             <td>12</td>
-            <td>Отцы и Дети</td>
-            <td>15.08.1862</td>
-            <td>Иван Тургенев</td>
-            <td>turgen@mail.ru</td>
-            <td>…</td>
-            <td>256</td>
-            <td>18</td>
+            <td>ENCOM</td>
+            <td>108</td>
+            <td>Kevin Flynn</td>
+            <td>Senior Software Engineer</td>
+            <td>$10</td>
+            <td>32.5</td>
+            <td>$325.00</td>
         </tr>
         <tr>
-            <td>43</td>
-            <td>Повести Белкина</td>
-            <td>12.06.1830</td>
-            <td>Пушкин А.С.</td>
-            <td>pushkin@mail.ru</td>
-            <td>…</td>
-            <td>400</td>
-            <td>96</td>
+            <td>12</td>
+            <td>ENCOM</td>
+            <td>113</td>
+            <td>Sam Flynn</td>
+            <td>Junior Software Engineer</td>
+            <td>$5</td>
+            <td>20.0</td>
+            <td>$100.00</td>
         </tr>
         <tr>
-            <td>16</td>
-            <td>Муму</td>
-            <td>10.11.1852</td>
-            <td>Иван Тургенев</td>
-            <td>turgen@mail.ru</td>
-            <td>…</td>
-            <td>312</td>
-            <td>46</td>
-        </tr>
-        </tbody>
-    </table>
-</section>
-
-<section class="slide">
-    <h2>Справочник пользователей</h2>
-    <img src="user-form.png" style="float: right; width: 50%"/>
-    <dl style="font-size: 75%">
-        <dt>Нормальная форма</dt>
-        <dd>Свойство отношения в реляционной модели данных, характеризующее его с точки зрения избыточности,
-            потенциально приводящей к логически ошибочным результатам выборки или изменения данных. Нормальная форма
-            определяется как совокупность требований, которым должно удовлетворять отношение.
-        </dd>
-    </dl>
-    <table class="classic bordered" style="font-size: 70%">
-        <thead>
-        <tr>
-            <th>E-Mail</th>
-            <th>Пароль</th>
-            <th>Имя</th>
-            <th>Дата</th>
-            <th>Привилегии</th>
-            <th>Разделы</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>*****</td>
-            <td>Толстой Л.Н.</td>
-            <td>09.09.1828</td>
-            <td>Админ, Модератор</td>
-            <td>Новости, Флуд</td>
+            <td>12</td>
+            <td>ENCOM</td>
+            <td>109</td>
+            <td>John Anderson</td>
+            <td>Software Engineer</td>
+            <td>$8</td>
+            <td>30.0</td>
+            <td>$240.00</td>
         </tr>
         <tr>
-            <td>saltykov@inbox.ru</td>
-            <td>*****</td>
-            <td>Николай Щедрин</td>
-            <td>27.01.1826</td>
-            <td>Модератор</td>
-            <td>Флуд, Юмор</td>
-        </tr>
-        <tr>
-            <td>fmd@mail.ru</td>
-            <td>*****</td>
-            <td>Федор Михайлович</td>
-            <td>11.11.1821</td>
-            <td>Игрок</td>
-            <td>E-Mail</td>
-        </tr>
-        <tr>
-            <td>pushkin@mail.ru</td>
-            <td>*****</td>
-            <td>Пушкин А.С.</td>
-            <td>06.06.1799</td>
-            <td>Админ</td>
-            <td>Поэзия</td>
+            <td>12</td>
+            <td>ENCOM</td>
+            <td>101</td>
+            <td>Alan Bradley</td>
+            <td>Junior DBA</td>
+            <td>$6</td>
+            <td>8.0</td>
+            <td>$48.00</td>
         </tr>
         </tbody>
     </table>
 </section>
 
 <section class="slide">
-    <h2>1-ая нормальная форма</h2>
-    <p style="font-size: 80%">Переменная отношения находится в первой нормальной форме (1НФ) тогда и только тогда, когда
-        в любом допустимом значении отношения каждый его кортеж содержит только одно значение для каждого из атрибутов.
-    </p>
-    <table class="classic bordered" style="font-size: 70%">
+    <h2>Первичный ключ</h2>
+    <p style="font-size: 80%">Составной суррогатный первичный ключ: < ProjNum, EmpNum ></p>
+    <table class="classic bordered" style="font-size: 60%">
         <thead>
         <tr>
-            <th>E-Mail</th>
-            <th>Пароль</th>
-            <th>Имя</th>
-            <th>Дата</th>
-            <th>Привилегии</th>
-            <th>Разделы</th>
+            <th style="color:#cc0000">ProjNum</th>
+            <th>ProjName</th>
+            <th style="color:#cc0000">EmpNum</th>
+            <th>EmpName</th>
+            <th>JobType</th>
+            <th>ChargePerHour</th>
+            <th>HoursBilled</th>
+            <th>TotalCharge</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>*****</td>
-            <td>Толстой Л.Н.</td>
-            <td>09.09.1828</td>
-            <td>Админ, Модератор</td>
-            <td>Новости, Флуд</td>
+            <td>15</td>
+            <td>Meta Cortex</td>
+            <td>105</td>
+            <td>Thomas A. Anderson</td>
+            <td>Senior Software Engineer</td>
+            <td>$10</td>
+            <td>25.4</td>
+            <td>$254.00</td>
         </tr>
         <tr>
-            <td>saltykov@inbox.ru</td>
-            <td>*****</td>
-            <td>Николай Щедрин</td>
-            <td>27.01.1826</td>
-            <td>Модератор</td>
-            <td>Флуд, Юмор</td>
+            <td>15</td>
+            <td>Meta Cortex</td>
+            <td>102</td>
+            <td>Michelle McGahey</td>
+            <td>UI/UX Designer</td>
+            <td>$5</td>
+            <td>15.0</td>
+            <td>$75.00</td>
         </tr>
         <tr>
-            <td>fmd@mail.ru</td>
-            <td>*****</td>
-            <td>Федор Михайлович</td>
-            <td>11.11.1821</td>
-            <td>Игрок</td>
-            <td>E-Mail</td>
+            <td>15</td>
+            <td>Meta Cortex</td>
+            <td>103</td>
+            <td>John Anderson</td>
+            <td>Senior DBA</td>
+            <td>$8</td>
+            <td>10.5</td>
+            <td>$84.00</td>
         </tr>
         <tr>
-            <td>pushkin@mail.ru</td>
-            <td>*****</td>
-            <td>Пушкин А.С.</td>
-            <td>06.06.1799</td>
-            <td>Админ</td>
-            <td>Поэзия</td>
-        </tr>
-        </tbody>
-    </table>
-</section>
-
-<section class="slide">
-    <h2>1-ая нормальная форма</h2>
-    <p style="font-size: 80%">Переменная отношения находится в первой нормальной форме (1НФ) тогда и только тогда, когда
-        в любом допустимом значении отношения каждый его кортеж содержит только одно значение для каждого из атрибутов.
-    </p>
-    <table class="classic bordered" style="font-size: 70%">
-        <thead>
-        <tr>
-            <th>E-Mail</th>
-            <th>Пароль</th>
-            <th>Имя</th>
-            <th>Дата</th>
-            <th>Привилегии</th>
-            <th>Разделы</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>*****</td>
-            <td>Толстой Л.Н.</td>
-            <td>09.09.1828</td>
-            <td>Админ</td>
-            <td>Новости</td>
+            <td>12</td>
+            <td>ENCOM</td>
+            <td>108</td>
+            <td>Kevin Flynn</td>
+            <td>Senior Software Engineer</td>
+            <td>$10</td>
+            <td>32.5</td>
+            <td>$325.00</td>
         </tr>
         <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>*****</td>
-            <td>Толстой Л.Н.</td>
-            <td>09.09.1828</td>
-            <td>Админ</td>
-            <td>Флуд</td>
+            <td>12</td>
+            <td>ENCOM</td>
+            <td>113</td>
+            <td>Sam Flynn</td>
+            <td>Junior Software Engineer</td>
+            <td>$5</td>
+            <td>20.0</td>
+            <td>$100.00</td>
         </tr>
         <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>*****</td>
-            <td>Толстой Л.Н.</td>
-            <td>09.09.1828</td>
-            <td>Модератор</td>
-            <td>Новости</td>
+            <td>12</td>
+            <td>ENCOM</td>
+            <td>109</td>
+            <td>John Anderson</td>
+            <td>Software Engineer</td>
+            <td>$8</td>
+            <td>30.0</td>
+            <td>$240.00</td>
         </tr>
         <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>*****</td>
-            <td>Толстой Л.Н.</td>
-            <td>09.09.1828</td>
-            <td>Модератор</td>
-            <td>Флуд</td>
-        </tr>
-        <tr>
-            <td>saltykov@inbox.ru</td>
-            <td>*****</td>
-            <td>Николай Щедрин</td>
-            <td>27.01.1826</td>
-            <td>Модератор</td>
-            <td>Флуд</td>
-        </tr>
-        <tr>
-            <td>saltykov@inbox.ru</td>
-            <td>*****</td>
-            <td>Николай Щедрин</td>
-            <td>27.01.1826</td>
-            <td>Модератор</td>
-            <td>Юмор</td>
-        </tr>
-        <tr>
-            <td>fmd@mail.ru</td>
-            <td>*****</td>
-            <td>Федор Михайлович</td>
-            <td>11.11.1821</td>
-            <td>Игрок</td>
-            <td>E-Mail</td>
-        </tr>
-        <tr>
-            <td>pushkin@mail.ru</td>
-            <td>*****</td>
-            <td>Пушкин А.С.</td>
-            <td>06.06.1799</td>
-            <td>Админ</td>
-            <td>Поэзия</td>
+            <td>12</td>
+            <td>ENCOM</td>
+            <td>101</td>
+            <td>Alan Bradley</td>
+            <td>Junior DBA</td>
+            <td>$6</td>
+            <td>8.0</td>
+            <td>$48.00</td>
         </tr>
         </tbody>
     </table>
@@ -758,255 +772,147 @@
 </section>
 
 <section class="slide">
-    <h2>2-ая нормальная форма</h2>
-    <p style="font-size: 80%">Переменная отношения находится во второй нормальной форме тогда и только тогда, когда она
-        находится в первой нормальной форме, и каждый неключевой атрибут неприводимо (функционально полно) зависит от ее
-        потенциального ключа.
-    </p>
-    <table class="classic bordered" style="font-size: 70%">
-        <thead>
-        <tr>
-            <th>E-Mail</th>
-            <th>Пароль</th>
-            <th>Имя</th>
-            <th>Дата</th>
-            <th>Привилегии</th>
-            <th>Разделы</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>*****</td>
-            <td>Толстой Л.Н.</td>
-            <td>09.09.1828</td>
-            <td>Админ</td>
-            <td>Новости</td>
-        </tr>
-        <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>*****</td>
-            <td>Толстой Л.Н.</td>
-            <td>09.09.1828</td>
-            <td>Админ</td>
-            <td>Флуд</td>
-        </tr>
-        <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>*****</td>
-            <td>Толстой Л.Н.</td>
-            <td>09.09.1828</td>
-            <td>Модератор</td>
-            <td>Новости</td>
-        </tr>
-        <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>*****</td>
-            <td>Толстой Л.Н.</td>
-            <td>09.09.1828</td>
-            <td>Модератор</td>
-            <td>Флуд</td>
-        </tr>
-        <tr>
-            <td>saltykov@inbox.ru</td>
-            <td>*****</td>
-            <td>Николай Щедрин</td>
-            <td>27.01.1826</td>
-            <td>Модератор</td>
-            <td>Флуд</td>
-        </tr>
-        <tr>
-            <td>saltykov@inbox.ru</td>
-            <td>*****</td>
-            <td>Николай Щедрин</td>
-            <td>27.01.1826</td>
-            <td>Модератор</td>
-            <td>Юмор</td>
-        </tr>
-        <tr>
-            <td>fmd@mail.ru</td>
-            <td>*****</td>
-            <td>Федор Михайлович</td>
-            <td>11.11.1821</td>
-            <td>Игрок</td>
-            <td>E-Mail</td>
-        </tr>
-        <tr>
-            <td>pushkin@mail.ru</td>
-            <td>*****</td>
-            <td>Пушкин А.С.</td>
-            <td>06.06.1799</td>
-            <td>Админ</td>
-            <td>Поэзия</td>
-        </tr>
-        </tbody>
-    </table>
-</section>
-
-<section class="slide">
-    <h2>2-ая нормальная форма</h2>
-    <p style="font-size: 70%">Переменная отношения находится во второй нормальной форме тогда и только тогда, когда она
-        находится в первой нормальной форме, и каждый неключевой атрибут неприводимо (функционально полно) зависит от ее
-        потенциального ключа.
-    </p>
-    <p style="font-size: 70%">Простыми словами: чтобы не было избыточности выводи данные в справочники.</p>
+    <h2>Нормализация</h2>
+    <p>Выделяем все функциональные зависимости:</p>
     <table class="classic bordered" style="font-size: 60%">
         <thead>
         <tr>
-            <th>E-Mail</th>
-            <th>Пароль</th>
-            <th>Имя</th>
-            <th>Дата</th>
+            <th>ProjNum</th>
+            <th>ProjName</th>
+            <th>EmpNum</th>
+            <th>EmpName</th>
+            <th>JobType</th>
+            <th>ChargePerHour</th>
+            <th>HoursBilled</th>
+            <th>TotalCharge</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>*****</td>
-            <td>Толстой Л.Н.</td>
-            <td>09.09.1828</td>
-        </tr>
-        <tr>
-            <td>saltykov@inbox.ru</td>
-            <td>*****</td>
-            <td>Николай Щедрин</td>
-            <td>27.01.1826</td>
-        </tr>
-        <tr>
-            <td>fmd@mail.ru</td>
-            <td>*****</td>
-            <td>Федор Михайлович</td>
-            <td>11.11.1821</td>
-        </tr>
-        <tr>
-            <td>pushkin@mail.ru</td>
-            <td>*****</td>
-            <td>Пушкин А.С.</td>
-            <td>06.06.1799</td>
-        </tr>
-        </tbody>
-    </table>
-    <table class="classic bordered" style="font-size: 60%">
-        <thead>
-        <tr>
-            <th>E-Mail</th>
-            <th>Привилегии</th>
-            <th>Разделы</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>Админ</td>
-            <td>Новости</td>
-        </tr>
-        <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>Админ</td>
-            <td>Флуд</td>
-        </tr>
-        <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>Модератор</td>
-            <td>Новости</td>
-        </tr>
-        <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>Модератор</td>
-            <td>Флуд</td>
-        </tr>
-        <tr>
-            <td>saltykov@inbox.ru</td>
-            <td>Модератор</td>
-            <td>Флуд</td>
-        </tr>
-        <tr>
-            <td>saltykov@inbox.ru</td>
-            <td>Модератор</td>
-            <td>Юмор</td>
-        </tr>
-        <tr>
-            <td>fmd@mail.ru</td>
-            <td>Игрок</td>
-            <td>E-Mail</td>
-        </tr>
-        <tr>
-            <td>pushkin@mail.ru</td>
-            <td>Админ</td>
-            <td>Поэзия</td>
-        </tr>
-        </tbody>
-    </table>
-</section>
-
-<section class="slide">
-    <h2>3-я нормальная форма</h2>
-    <p style="font-size: 80%">Переменная отношения находится в третьей нормальной форме, когда она находится во второй
-        нормальной форме, и отсутствуют транзитивные функциональные зависимости неключевых атрибутов от ключевых.
-    </p>
-    <table class="classic bordered" style="font-size: 60%">
-        <thead>
-        <tr>
-            <th>TopicID</th>
-            <th>Заголовок</th>
-            <th>Дата</th>
-            <th>Автор</th>
-            <th>E-Mail</th>
-            <th>Текст</th>
-            <th>Оценка</th>
-            <th>Ответы</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>5</td>
-            <td>Руслан и Людмила</td>
-            <td>01.01.1820</td>
-            <td>Пушкин А.С.</td>
-            <td>pushkin@mail.ru</td>
-            <td>…</td>
-            <td>500</td>
-            <td>120</td>
-        </tr>
-        <tr>
-            <td>8</td>
-            <td>Война и Мир</td>
-            <td>01.03.1869</td>
-            <td>Толстой Л.Н.</td>
-            <td>tolstoy@inbox.ru</td>
-            <td>…</td>
-            <td>100</td>
-            <td>345</td>
+            <td>15</td>
+            <td>Meta Cortex</td>
+            <td>105</td>
+            <td>Thomas A. Anderson</td>
+            <td>Senior Software Engineer</td>
+            <td>$10</td>
+            <td>25.4</td>
+            <td>$254.00</td>
         </tr>
         <tr>
             <td>12</td>
-            <td>Отцы и Дети</td>
-            <td>15.08.1862</td>
-            <td>Иван Тургенев</td>
-            <td>turgen@mail.ru</td>
-            <td>…</td>
-            <td>256</td>
-            <td>18</td>
+            <td>ENCOM</td>
+            <td>113</td>
+            <td>Sam Flynn</td>
+            <td>Junior Software Engineer</td>
+            <td>$5</td>
+            <td>20.0</td>
+            <td>$100.00</td>
+        </tr>
+        </tbody>
+    </table>
+    <ol style="font-size:70%">
+        <li class="next"><code>ProjNum, EmpNum -> ProjName, EmpName, JobType, ChargePerHour, HoursBilled,
+            TotalCharge</code></li>
+        <li class="next"><code>ProjNum -> ProjName</code></li>
+        <li class="next"><code>EmpNum -> EmpName, JobType, ChargePerHour</code></li>
+        <li class="next"><code>JobType -> ChargePerHour</code></li>
+    </ol>
+</section>
+
+<section class="slide">
+    <h2>2-ая нормальная форма</h2>
+    <p>Переменная отношения находится во второй нормальной форме тогда и только тогда, когда она
+        находится в первой нормальной форме, и каждый неключевой атрибут неприводимо (функционально полно) зависит от ее
+        потенциального ключа.
+    </p>
+    <p class="next"><strong>Простыми словами:</strong> не должно быть зависимости от части ключа.</p>
+    <ol  class="next" style="font-size:80%">
+        <li><code><span style="color: #4caf50">ProjNum</span>, <span style="color: #00b0e8">EmpNum</span> -> ProjName, EmpName, JobType, ChargePerHour, HoursBilled, TotalCharge</code></li>
+        <li><code><span style="color: #4caf50">ProjNum</span> -> ProjName</code></li>
+        <li><code><span style="color: #00b0e8">EmpNum</span> -> EmpName, JobType, ChargePerHour</code></li>
+    </ol>
+</section>
+
+<section class="slide">
+    <h2>2-ая нормальная форма</h2>
+    <p><strong>Простыми словами:</strong> не должно быть зависимости от части ключа.</p>
+    <p>Чтобы этого добиться разбиваем отношение с частичными зависимостями на несколько отдельных:</p>
+    <ul class="next">
+        <li><code>Project (<strong>ProjNum</strong>, ProjName)</code></li>
+        <li><code>Employee (<strong>EmpNum</strong>, EmpName, JobType, ChargePerHour)</code></li>
+        <li><code>Assignment (<strong>ProjNum, EmpNum</strong>, HoursBilled)</code></li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>2-ая нормальная форма</h2>
+    <div style="display: table-cell; padding-right: 40px;">
+        <h4>Project</h4>
+        <table class="classic bordered" style="font-size: 60%">
+            <thead>
+            <tr>
+                <th>ProjNum</th>
+                <th>ProjName</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>15</td>
+                <td>Meta Cortex</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>ENCOM</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="display: table-cell; padding-right: 40px">
+        <h4>Assignment</h4>
+        <table class="classic bordered" style="font-size: 60%">
+            <thead>
+            <tr>
+                <th>ProjNum</th>
+                <th>EmpNum</th>
+                <th>HoursBilled</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>15</td>
+                <td>105</td>
+                <td>25.4</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>113</td>
+                <td>20.0</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <h4>Employee</h4>
+    <table class="classic bordered" style="font-size: 60%">
+        <thead>
+        <tr>
+            <th>EmpNum</th>
+            <th>EmpName</th>
+            <th>JobType</th>
+            <th>ChargePerHour</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>105</td>
+            <td>Thomas A. Anderson</td>
+            <td>Senior Software Engineer</td>
+            <td>$10</td>
         </tr>
         <tr>
-            <td>43</td>
-            <td>Повести Белкина</td>
-            <td>12.06.1830</td>
-            <td>Пушкин А.С.</td>
-            <td>pushkin@mail.ru</td>
-            <td>…</td>
-            <td>400</td>
-            <td>96</td>
-        </tr>
-        <tr>
-            <td>16</td>
-            <td>Муму</td>
-            <td>10.11.1852</td>
-            <td>Иван Тургенев</td>
-            <td>turgen@mail.ru</td>
-            <td>…</td>
-            <td>312</td>
-            <td>46</td>
+            <td>113</td>
+            <td>Sam Flynn</td>
+            <td>Junior Software Engineer</td>
+            <td>$5</td>
         </tr>
         </tbody>
     </table>
@@ -1014,243 +920,190 @@
 
 <section class="slide">
     <h2>3-я нормальная форма</h2>
-    <p style="font-size: 70%">Переменная отношения находится в третьей нормальной форме, когда она находится во второй
+    <p >Переменная отношения находится в третьей нормальной форме, когда она находится во второй
         нормальной форме, и отсутствуют транзитивные функциональные зависимости неключевых атрибутов от ключевых.
     </p>
-    <p style="font-size: 70%">Простыми словами:
+    <p class="next"><strong>Простыми словами:</strong>
         третья нормальная форма избавляет нас от транзитивных зависимостей -
         любой столбец таблицы должен зависеть только от ключевого столбца.
     </p>
-    <table class="classic bordered" style="font-size: 70%">
-        <thead>
-        <tr>
-            <th>E-Mail</th>
-            <th>Автор</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>pushkin@mail.ru</td>
-            <td>Пушкин А.С.</td>
-        </tr>
-        <tr>
-            <td>tolstoy@inbox.ru</td>
-            <td>Толстой Л.Н.</td>
-        </tr>
-        <tr>
-            <td>turgen@mail.ru</td>
-            <td>Иван Тургенев</td>
-        </tr>
-    </table>
+    <ol class="next" style="font-size:80%">
+        <li><code>EmpNum -> EmpName, <span style="color: #4caf50">JobType, ChargePerHour</span></code></li>
+        <li><code><span style="color: #4caf50">JobType -> ChargePerHour</span></code></li>
+
+    </ol>
+</section>
+
+<section class="slide">
+    <h2>3-я нормальная форма</h2>
+    <p><strong>Другими простыми словами:</strong> не должно быть функциональных зависимостей среди неключевых атрибутов.</p>
+    <p class="next">Чтобы этого добиться выделяем транзитивные зависимости в отдельные отношения</p>
+    <ul class="next">
+        <li><code>Project (<strong>ProjNum</strong>, ProjName)</code></li>
+        <li><code>Employee (<strong>EmpNum</strong>, EmpName, JobType)</code></li>
+        <li><code>Assignment (<strong>ProjNum, EmpNum</strong>, HoursBilled)</code></li>
+        <li><code>Job (<strong>JobType</strong>, ChargePerHour)</code></li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>3-я нормальная форма</h2>
+    <div style="display: table-cell; padding-right: 40px;">
+        <h4>Project</h4>
+        <table class="classic bordered" style="font-size: 60%">
+            <thead>
+            <tr>
+                <th>ProjNum</th>
+                <th>ProjName</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>15</td>
+                <td>Meta Cortex</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>ENCOM</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="display: table-cell; padding-right: 40px">
+        <h4>Assignment</h4>
+        <table class="classic bordered" style="font-size: 60%">
+            <thead>
+            <tr>
+                <th>ProjNum</th>
+                <th>EmpNum</th>
+                <th>HoursBilled</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>15</td>
+                <td>105</td>
+                <td>25.4</td>
+            </tr>
+            <tr>
+                <td>12</td>
+                <td>113</td>
+                <td>20.0</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <h4>Employee</h4>
     <table class="classic bordered" style="font-size: 60%">
         <thead>
         <tr>
-            <th>TopicID</th>
-            <th>Заголовок</th>
-            <th>Дата</th>
-            <th>E-Mail</th>
-            <th>Текст</th>
-            <th>Оценка</th>
-            <th>Ответы</th>
+            <th>EmpNum</th>
+            <th>EmpName</th>
+            <th>JobType</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td>5</td>
-            <td>Руслан и Людмила</td>
-            <td>01.01.1820</td>
-            <td>pushkin@mail.ru</td>
-            <td>…</td>
-            <td>500</td>
-            <td>120</td>
+            <td>105</td>
+            <td>Thomas A. Anderson</td>
+            <td>Senior Software Engineer</td>
         </tr>
         <tr>
-            <td>8</td>
-            <td>Война и Мир</td>
-            <td>01.03.1869</td>
-            <td>tolstoy@inbox.ru</td>
-            <td>…</td>
-            <td>100</td>
-            <td>345</td>
-        </tr>
-        <tr>
-            <td>12</td>
-            <td>Отцы и Дети</td>
-            <td>15.08.1862</td>
-            <td>turgen@mail.ru</td>
-            <td>…</td>
-            <td>256</td>
-            <td>18</td>
-        </tr>
-        <tr>
-            <td>43</td>
-            <td>Повести Белкина</td>
-            <td>12.06.1830</td>
-            <td>pushkin@mail.ru</td>
-            <td>…</td>
-            <td>400</td>
-            <td>96</td>
-        </tr>
-        <tr>
-            <td>16</td>
-            <td>Муму</td>
-            <td>10.11.1852</td>
-            <td>turgen@mail.ru</td>
-            <td>…</td>
-            <td>312</td>
-            <td>46</td>
+            <td>113</td>
+            <td>Sam Flynn</td>
+            <td>Junior Software Engineer</td>
         </tr>
         </tbody>
     </table>
-</section>
-
-<!--
-
-<section class="slide">
-    <h2>Нормальная форма Бойса — Кодда (НБКФ)</h2>
-    <p style="font-size: 80%">Переменная отношения находится в BCNF тогда и только тогда, когда каждая её нетривиальная
-        и неприводимая слева функциональная зависимость имеет в качестве своего детерминанта некоторый потенциальный
-        ключ.
-    </p>
-    <p style="font-size: 80%">Менее формально, переменная отношения находится в нормальной форме Бойса — Кодда тогда и
-        только тогда, когда детерминанты всех её функциональных зависимостей являются потенциальными ключами.
-    </p>
-    <table class="classic bordered" style="font-size: 80%">
-        <thead>
-        <tr>
-            <th>E-Mail</th>
-            <th>Привилегии</th>
-            <th>Разделы</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>Админ</td>
-            <td>Новости</td>
-        </tr>
-        <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>Админ</td>
-            <td>Флуд</td>
-        </tr>
-        <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>Модератор</td>
-            <td>Новости</td>
-        </tr>
-        <tr>
-            <td>tolstoy@mail.ru</td>
-            <td>Модератор</td>
-            <td>Флуд</td>
-        </tr>
-        <tr>
-            <td>saltykov@inbox.ru</td>
-            <td>Модератор</td>
-            <td>Флуд</td>
-        </tr>
-        <tr>
-            <td>saltykov@inbox.ru</td>
-            <td>Модератор</td>
-            <td>Юмор</td>
-        </tr>
-        <tr>
-            <td>fmd@mail.ru</td>
-            <td>Игрок</td>
-            <td>E-Mail</td>
-        </tr>
-        <tr>
-            <td>pushkin@mail.ru</td>
-            <td>Админ</td>
-            <td>Поэзия</td>
-        </tr>
-        </tbody>
-    </table>
-</section>
-<section class="slide">
-    <h2>Нормальная форма Бойса — Кодда (НФБК)</h2>
-    <p style="font-size: 80%">Переменная отношения находится в BCNF тогда и только тогда, когда каждая её нетривиальная
-        и неприводимая слева функциональная зависимость имеет в качестве своего детерминанта некоторый потенциальный
-        ключ.
-    </p>
-    <p style="font-size: 80%">Менее формально, переменная отношения находится в нормальной форме Бойса — Кодда тогда и
-        только тогда, когда детерминанты всех её функциональных зависимостей являются потенциальными ключами.
-    </p>
-    <div style="display: table; width: 100%">
-        <div style="display: table-cell; padding-right: 10px">
-            <table class="classic bordered" style="font-size: 80%">
-                <thead>
-                <tr>
-                    <th>E-Mail</th>
-                    <th>Привилегии</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>tolstoy@mail.ru</td>
-                    <td>Админ</td>
-                </tr>
-                <tr>
-                    <td>tolstoy@mail.ru</td>
-                    <td>Модератор</td>
-                </tr>
-                <tr>
-                    <td>saltykov@inbox.ru</td>
-                    <td>Модератор</td>
-                </tr>
-                <tr>
-                    <td>fmd@mail.ru</td>
-                    <td>Игрок</td>
-                </tr>
-                <tr>
-                    <td>pushkin@mail.ru</td>
-                    <td>Админ</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-        <div style="display: table-cell">
-            <table class="classic bordered" style="font-size: 80%">
-                <thead>
-                <tr>
-                    <th>E-Mail</th>
-                    <th>Разделы</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>tolstoy@mail.ru</td>
-                    <td>Новости</td>
-                </tr>
-                <tr>
-                    <td>tolstoy@mail.ru</td>
-                    <td>Флуд</td>
-                </tr>
-                <tr>
-                    <td>saltykov@inbox.ru</td>
-                    <td>Флуд</td>
-                </tr>
-                <tr>
-                    <td>saltykov@inbox.ru</td>
-                    <td>Юмор</td>
-                </tr>
-                <tr>
-                    <td>fmd@mail.ru</td>
-                    <td>E-Mail</td>
-                </tr>
-                <tr>
-                    <td>pushkin@mail.ru</td>
-                    <td>Поэзия</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+    <div style="display: table-cell; padding-right: 40px">
+        <h4>Job</h4>
+        <table class="classic bordered" style="font-size: 60%">
+            <thead>
+            <tr>
+                <th>JobType</th>
+                <th>ChargePerHour</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Senior Software Engineer</td>
+                <td>$10</td>
+            </tr>
+            <tr>
+                <td>Junior Software Engineer</td>
+                <td>$5</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </section>
--->
+
+<!--<section class="slide">-->
+<!--    <h2>Нормальная форма Бойса — Кодда (НБКФ)</h2>-->
+<!--    <p style="font-size: 80%">Переменная отношения находится в BCNF тогда и только тогда, когда каждая её нетривиальная-->
+<!--        и неприводимая слева функциональная зависимость имеет в качестве своего детерминанта некоторый потенциальный-->
+<!--        ключ.-->
+<!--    </p>-->
+<!--    <p style="font-size: 80%">Менее формально, переменная отношения находится в нормальной форме Бойса — Кодда тогда и-->
+<!--        только тогда, когда детерминанты всех её функциональных зависимостей являются потенциальными ключами.-->
+<!--    </p>-->
+<!--</section>-->
+
+<!--<section class="slide">-->
+<!--    <h2>Нормальная форма Бойса — Кодда (НФБК)</h2>-->
+<!--    <dl>-->
+<!--        <dt>Формальное определение:</dt>-->
+<!--        <dd>-->
+<!--            Переменная отношения находится в BCNF тогда и только тогда, когда каждая её нетривиальная-->
+<!--            и неприводимая слева функциональная зависимость имеет в качестве своего детерминанта некоторый потенциальный-->
+<!--            ключ.-->
+<!--        </dd>-->
+<!--    </dl>-->
+<!--    <dl>-->
+<!--        <dt>Менее формальное определение:</dt>-->
+<!--        <dd>-->
+<!--            Переменная отношения находится в нормальной форме Бойса — Кодда тогда и-->
+<!--            только тогда, когда детерминанты всех её функциональных зависимостей являются потенциальными ключами.-->
+<!--        </dd>-->
+<!--    </dl>-->
+<!--</section>-->
+
 
 <section class="slide">
-    <h2>Реляционная часть</h2>
+    <h2>Нормальные формы. Подытожим.</h2>
+    <table class="classic bordered">
+        <thead>
+        <tr>
+            <th>Нормальная форма</th>
+            <th>Определение</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1 НФ</td>
+            <td>Все значения атрибутов атомарны</td>
+        </tr>
+        <tr>
+            <td>2 НФ</td>
+            <td>1 НФ и нет частичных функциональных зависимостей</td>
+        </tr>
+        <tr>
+            <td>3 НФ</td>
+            <td>2 НФ и нет транзитивных зависимостей</td>
+        </tr>
+        <tr>
+            <td colspan="2">...</td>
+        </tr>
+<!--        <tr>-->
+<!--            <td>НФБК</td>-->
+<!--            <td>3 НФ и все детерминанты являются потенциальными ключами</td>-->
+<!--        </tr>-->
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>Виды связей между отношениями</h2>
     <ul>
         <li style="clear: both"><img src="relation-11.svg" style="float: right"/>один-к-одному (1:1)</li>
         <li style="clear: both"><img src="relation-1m.svg" style="float: right"/>один-ко-многим (1:M)</li>
@@ -1297,7 +1150,7 @@
   UNIQUE index_parameters |
   PRIMARY KEY index_parameters |
   REFERENCES reftable [ ( refcolumn ) ]
-    [ MATCH FULL | <strike>MATCH PARTIAL</strike> | MATCH SIMPLE ]
+    [ MATCH FULL | <del>MATCH PARTIAL</del> | MATCH SIMPLE ]
     [ ON DELETE action ] [ ON UPDATE action ] }
 [ DEFERRABLE | NOT DEFERRABLE ] [ INITIALLY DEFERRED | INITIALLY IMMEDIATE ]
 </code></pre>
@@ -1312,7 +1165,7 @@
   PRIMARY KEY ( column_name [, ... ] ) index_parameters |
   FOREIGN KEY ( column_name [, ... ] )
     REFERENCES reftable [ ( refcolumn [, ... ] ) ]
-    [ MATCH FULL | <strike>MATCH PARTIAL</strike> | MATCH SIMPLE ]
+    [ MATCH FULL | <del>MATCH PARTIAL</del> | MATCH SIMPLE ]
     [ ON DELETE action ] [ ON UPDATE action ] }
   EXCLUDE [ USING index_method ] ( exclude_element WITH operator [, ... ] )
     index_parameters [ WHERE ( predicate ) ] |
