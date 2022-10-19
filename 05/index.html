@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="generator" content="Hugo 0.102.3" />
+	<meta name="generator" content="Hugo 0.104.3" />
 	
 	<link rel="icon" href="../common/lecture.png" />
 	
@@ -871,16 +871,19 @@ pgbadger /var/log/postgresql/*.csv</code></pre>
 
 <section class="slide">
     <h2>EXPLAIN</h2>
-    <pre style="font-size: 90%"><code class="sql">EXPLAIN [ ( параметр [, ...] ) ] оператор
-EXPLAIN [ ANALYZE ] [ VERBOSE ] оператор
+    <pre style="font-size: 90%"><code class="sql">EXPLAIN [ ( option [, ...] ) ] statement
+EXPLAIN [ ANALYZE ] [ VERBOSE ] statement
 
-Здесь допускается параметр:
+where option can be one of:
 
     ANALYZE [ boolean ]
     VERBOSE [ boolean ]
     COSTS [ boolean ]
+    SETTINGS [ boolean ]
     BUFFERS [ boolean ]
+    WAL [ boolean ]
     TIMING [ boolean ]
+    SUMMARY [ boolean ]
     FORMAT { TEXT | XML | JSON | YAML }
 
 BEGIN;
@@ -899,6 +902,19 @@ ROLLBACK;</code></pre>
         <li>Часть отображаемой статистической информации – всего лишь оценка, иногда очень неточная.</li>
         <li>Для получения фактически затраченного времени, можно выполнить EXPLAIN ANALYZE.</li>
     </ul>
+</section>
+
+<section class="slide">
+    <h2>Логирование плана запроса</h2>
+    <h3>Конфигурация:</h3>
+    <pre><code># postgresql.conf
+shared_preload_libraries = 'auto_explain'
+
+auto_explain.log_min_duration = '1s'
+auto_explain.log_analyze = true
+auto_explain.log_buffers = true
+auto_explain.log_format = text
+</code></pre>
 </section>
 
 <section class="slide">
