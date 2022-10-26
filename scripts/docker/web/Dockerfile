@@ -1,4 +1,4 @@
-FROM golang:1.16.2-buster AS build
+FROM golang:1.18-buster AS build
 
 RUN mkdir /go/src/examples
 
@@ -16,8 +16,7 @@ MAINTAINER Nikita Strelkov
 
 # Make the "en_US.UTF-8" locale so postgres will be utf-8 enabled by default
 RUN apt-get -y update && apt-get install -y locales gnupg2
-RUN locale-gen en_US.UTF-8
-RUN update-locale LANG=en_US.UTF-8
+RUN locale-gen en_US.UTF-8 && update-locale LANG=en_US.UTF-8
 
 # install Postgres
 ENV PGVER 12
