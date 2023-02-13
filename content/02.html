@@ -10,10 +10,10 @@ description: |
    - Введение в SQL:
      - CREATE TABLE;
      - ALTER TABLE;
-     - SELECT;
      - INSERT;
      - UPDATE;
-     - DELETE.
+     - DELETE;
+     - SELECT.
    - Немного про JOIN-ы;
    - Обзор INFORMATION_SCHEMA;
    - COLLATION и регистронезависимый поиск;
@@ -872,7 +872,6 @@ description: |
         нормальной форме, и отсутствуют транзитивные функциональные зависимости неключевых атрибутов от ключевых.
     </p>
     <p class="next"><strong>Простыми словами:</strong>
-        третья нормальная форма избавляет нас от транзитивных зависимостей -
         любой столбец таблицы должен зависеть только от ключевого столбца.
     </p>
     <ol class="next" style="font-size:80%">
@@ -1200,6 +1199,156 @@ ALTER TABLE foo
         + foo_timestamp * interval '1 second',
     ALTER COLUMN foo_timestamp SET DEFAULT now();
 </code></pre>
+</section>
+
+<section class="slide">
+    <h2>INSERT</h2>
+    <pre style="font-size: 70%"><code class="sql">[ WITH [ RECURSIVE ] with_query [, ...] ]
+INSERT INTO table_name [ AS alias ] [ ( column_name [, ...] ) ]
+    { DEFAULT VALUES | VALUES ( { expression | DEFAULT } [, ...] ) [, ...] | query }
+    [ ON CONFLICT [ conflict_target ] conflict_action ]
+    [ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]
+</code></pre>
+    <h3>conflict_target:</h3>
+    <pre style="font-size: 70%"><code class="sql">( { index_column_name | ( index_expression ) } ... [, ...] )
+[ WHERE index_predicate ]
+ON CONSTRAINT constraint_name
+</code></pre>
+    <h3>conflict_target:</h3>
+    <pre style="font-size: 70%"><code class="sql">DO NOTHING
+DO UPDATE SET { column_name = { expression | DEFAULT } |
+                ( column_name [, ...] ) = ( { expression | DEFAULT } [, ...] ) |
+                ( column_name [, ...] ) = ( sub-SELECT )
+              } [, ...]
+          [ WHERE condition ]
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>INSERT</h2>
+    <div style="font-size: 90%">
+    <pre><code class="sql">INSERT INTO films (code, title, did, date_prod, kind) VALUES
+('B6717', 'Tampopo', 110, '1985-02-10', 'Comedy'),
+('HG120', 'The Dinner Game', 140, DEFAULT, 'Comedy')
+RETURNING *;
+</code></pre>
+        <pre><code class="sql next">
+INSERT INTO films
+SELECT * FROM tmp_films WHERE date_prod < '2004-05-07';
+</code></pre>
+        <pre><code class="sql next">
+INSERT INTO distributors (id, dname)
+VALUES (5, 'Gizmo Transglobal'), (6, 'Associated Computing, Inc')
+ON CONFLICT (id) DO UPDATE SET dname = EXCLUDED.dname;
+</code></pre>
+        <pre><code class="sql next">
+INSERT INTO distributors (id, dname) VALUES (7, 'Redline GmbH')
+ON CONFLICT (id) DO NOTHING;
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>UPDATE</h2>
+    <pre style="font-size: 70%"><code class="sql">[ WITH [ RECURSIVE ] with_query [, ...] ]
+UPDATE [ ONLY ] table_name [ * ] [ [ AS ] alias ]
+    SET { column_name = { expression | DEFAULT } |
+          ( column_name [, ...] ) = ( { expression | DEFAULT } [, ...] ) |
+          ( column_name [, ...] ) = ( sub-SELECT )
+        } [, ...]
+    [ FROM from_list ]
+    [ WHERE condition | WHERE CURRENT OF cursor_name ]
+    [ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>UPDATE</h2>
+    <div style="font-size: 80%">
+    <pre><code class="sql">UPDATE table1
+SET
+    col_name1 = col_name2,
+    col_name2 = col_name1
+WHERE id = 42;
+</code></pre>
+        <pre><code class="sql">
+UPDATE weather
+  SET temp_lo = temp_lo+1, temp_hi = temp_lo+15, prcp = DEFAULT
+  WHERE city = 'San Francisco' AND date = '2003-07-03'
+  RETURNING temp_lo, temp_hi, prcp;
+</code></pre>
+        <pre><code class="sql next">
+UPDATE weather
+  SET (temp_lo, temp_hi, prcp) = (temp_lo+1, temp_lo+15, DEFAULT)
+  WHERE city = 'San Francisco' AND date = '2003-07-03'
+  RETURNING temp_lo, temp_hi, prcp;
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>UPDATE</h2>
+    <div style="font-size: 80%">
+        <pre><code class="sql">UPDATE accounts SET
+  contact_first_name = (
+    SELECT first_name FROM salesmen WHERE salesmen.id = accounts.sales_id
+  ),
+  contact_last_name = (
+    SELECT last_name  FROM salesmen WHERE salesmen.id = accounts.sales_id
+  );
+</code></pre>
+        <pre><code class="sql next">
+UPDATE accounts SET (contact_first_name, contact_last_name) =
+    (SELECT first_name, last_name FROM salesmen
+     WHERE salesmen.id = accounts.sales_id);
+</code></pre>
+        <pre><code class="sql next">
+UPDATE accounts SET contact_first_name = first_name,
+                    contact_last_name = last_name
+  FROM salesmen WHERE salesmen.id = accounts.sales_id;
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>DELETE</h2>
+    <div style="font-size: 80%">
+    <pre><code class="sql">[ WITH [ RECURSIVE ] with_query [, ...] ]
+DELETE FROM [ ONLY ] table_name [ * ] [ [ AS ] alias ]
+    [ USING using_list ]
+    [ WHERE condition | WHERE CURRENT OF cursor_name ]
+    [ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]
+</code></pre>
+        <pre><code class="sql next">
+DELETE FROM films;
+</code></pre>
+        <pre><code class="sql next">
+TRUNCATE [ TABLE ] [ ONLY ] name [ * ] [, ... ]
+    [ RESTART IDENTITY | CONTINUE IDENTITY ] [ CASCADE | RESTRICT ]
+</code></pre>
+        <pre><code class="sql next">
+TRUNCATE TABLE films;
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>DELETE</h2>
+    <div style="font-size: 80%">
+	<pre><code class="sql">DELETE FROM films WHERE kind &lt;&gt; 'Musical';
+</code></pre>
+        <pre><code class="sql">
+DELETE FROM tasks WHERE status = 'DONE' RETURNING *;
+</code></pre>
+        <pre><code class="sql next">
+DELETE FROM films
+  WHERE producer_id IN (SELECT id FROM producers WHERE name = 'foo');
+</code></pre>
+        <pre><code class="sql next">
+DELETE FROM films USING producers
+  WHERE producer_id = producers.id AND producers.name = 'foo';
+</code></pre>
+    </div>
 </section>
 
 <section class="slide">
@@ -1720,156 +1869,6 @@ FROM person
 FETCH FIRST 10 ROWS ONLY;
 </code></pre>
     <h3>PostgreSQL поддерживает оба синтаксиса</h3>
-</section>
-
-<section class="slide">
-    <h2>INSERT</h2>
-    <pre style="font-size: 70%"><code class="sql">[ WITH [ RECURSIVE ] with_query [, ...] ]
-INSERT INTO table_name [ AS alias ] [ ( column_name [, ...] ) ]
-    { DEFAULT VALUES | VALUES ( { expression | DEFAULT } [, ...] ) [, ...] | query }
-    [ ON CONFLICT [ conflict_target ] conflict_action ]
-    [ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]
-</code></pre>
-    <h3>conflict_target:</h3>
-    <pre style="font-size: 70%"><code class="sql">( { index_column_name | ( index_expression ) } ... [, ...] )
-[ WHERE index_predicate ]
-ON CONSTRAINT constraint_name
-</code></pre>
-    <h3>conflict_target:</h3>
-    <pre style="font-size: 70%"><code class="sql">DO NOTHING
-DO UPDATE SET { column_name = { expression | DEFAULT } |
-                ( column_name [, ...] ) = ( { expression | DEFAULT } [, ...] ) |
-                ( column_name [, ...] ) = ( sub-SELECT )
-              } [, ...]
-          [ WHERE condition ]
-</code></pre>
-</section>
-
-<section class="slide">
-    <h2>INSERT</h2>
-    <div style="font-size: 90%">
-    <pre><code class="sql">INSERT INTO films (code, title, did, date_prod, kind) VALUES
-('B6717', 'Tampopo', 110, '1985-02-10', 'Comedy'),
-('HG120', 'The Dinner Game', 140, DEFAULT, 'Comedy')
-RETURNING *;
-</code></pre>
-        <pre><code class="sql next">
-INSERT INTO films
-SELECT * FROM tmp_films WHERE date_prod < '2004-05-07';
-</code></pre>
-        <pre><code class="sql next">
-INSERT INTO distributors (id, dname)
-VALUES (5, 'Gizmo Transglobal'), (6, 'Associated Computing, Inc')
-ON CONFLICT (id) DO UPDATE SET dname = EXCLUDED.dname;
-</code></pre>
-        <pre><code class="sql next">
-INSERT INTO distributors (id, dname) VALUES (7, 'Redline GmbH')
-ON CONFLICT (id) DO NOTHING;
-</code></pre>
-    </div>
-</section>
-
-<section class="slide">
-    <h2>UPDATE</h2>
-    <pre style="font-size: 70%"><code class="sql">[ WITH [ RECURSIVE ] with_query [, ...] ]
-UPDATE [ ONLY ] table_name [ * ] [ [ AS ] alias ]
-    SET { column_name = { expression | DEFAULT } |
-          ( column_name [, ...] ) = ( { expression | DEFAULT } [, ...] ) |
-          ( column_name [, ...] ) = ( sub-SELECT )
-        } [, ...]
-    [ FROM from_list ]
-    [ WHERE condition | WHERE CURRENT OF cursor_name ]
-    [ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]
-</code></pre>
-</section>
-
-<section class="slide">
-    <h2>UPDATE</h2>
-    <div style="font-size: 80%">
-    <pre><code class="sql">UPDATE table1
-SET
-    col_name1 = col_name2,
-    col_name2 = col_name1
-WHERE id = 42;
-</code></pre>
-        <pre><code class="sql">
-UPDATE weather
-  SET temp_lo = temp_lo+1, temp_hi = temp_lo+15, prcp = DEFAULT
-  WHERE city = 'San Francisco' AND date = '2003-07-03'
-  RETURNING temp_lo, temp_hi, prcp;
-</code></pre>
-        <pre><code class="sql next">
-UPDATE weather
-  SET (temp_lo, temp_hi, prcp) = (temp_lo+1, temp_lo+15, DEFAULT)
-  WHERE city = 'San Francisco' AND date = '2003-07-03'
-  RETURNING temp_lo, temp_hi, prcp;
-</code></pre>
-    </div>
-</section>
-
-<section class="slide">
-    <h2>UPDATE</h2>
-    <div style="font-size: 80%">
-        <pre><code class="sql">UPDATE accounts SET
-  contact_first_name = (
-    SELECT first_name FROM salesmen WHERE salesmen.id = accounts.sales_id
-  ),
-  contact_last_name = (
-    SELECT last_name  FROM salesmen WHERE salesmen.id = accounts.sales_id
-  );
-</code></pre>
-        <pre><code class="sql next">
-UPDATE accounts SET (contact_first_name, contact_last_name) =
-    (SELECT first_name, last_name FROM salesmen
-     WHERE salesmen.id = accounts.sales_id);
-</code></pre>
-        <pre><code class="sql next">
-UPDATE accounts SET contact_first_name = first_name,
-                    contact_last_name = last_name
-  FROM salesmen WHERE salesmen.id = accounts.sales_id;
-</code></pre>
-    </div>
-</section>
-
-<section class="slide">
-    <h2>DELETE</h2>
-    <div style="font-size: 80%">
-    <pre><code class="sql">[ WITH [ RECURSIVE ] with_query [, ...] ]
-DELETE FROM [ ONLY ] table_name [ * ] [ [ AS ] alias ]
-    [ USING using_list ]
-    [ WHERE condition | WHERE CURRENT OF cursor_name ]
-    [ RETURNING * | output_expression [ [ AS ] output_name ] [, ...] ]
-</code></pre>
-        <pre><code class="sql next">
-DELETE FROM films;
-</code></pre>
-        <pre><code class="sql next">
-TRUNCATE [ TABLE ] [ ONLY ] name [ * ] [, ... ]
-    [ RESTART IDENTITY | CONTINUE IDENTITY ] [ CASCADE | RESTRICT ]
-</code></pre>
-        <pre><code class="sql next">
-TRUNCATE TABLE films;
-</code></pre>
-    </div>
-</section>
-
-<section class="slide">
-    <h2>DELETE</h2>
-    <div style="font-size: 80%">
-	<pre><code class="sql">DELETE FROM films WHERE kind &lt;&gt; 'Musical';
-</code></pre>
-        <pre><code class="sql">
-DELETE FROM tasks WHERE status = 'DONE' RETURNING *;
-</code></pre>
-        <pre><code class="sql next">
-DELETE FROM films
-  WHERE producer_id IN (SELECT id FROM producers WHERE name = 'foo');
-</code></pre>
-        <pre><code class="sql next">
-DELETE FROM films USING producers
-  WHERE producer_id = producers.id AND producers.name = 'foo';
-</code></pre>
-    </div>
 </section>
 
 <section class="slide">
