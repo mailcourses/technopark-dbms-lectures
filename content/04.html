@@ -1623,28 +1623,6 @@ VALUES (300, 1)</code></pre>
     </div>
 </section>
 
-<section class="slide">
-    <h2>READ COMMITED</h2>
-    <h3>Вариант A</h3>
-    <pre><code class="sql" style="font-size: 75%">SELECT id, money FROM account WHERE name = 'Romeo';
-SELECT id, money FROM account WHERE name = 'Giulietta';
-UPDATE account SET money = 500 WHERE id = 13 AND money = 600;
-UPDATE account SET money = 200 WHERE id = 42 AND money = 100;
-COMMIT;
-</code></pre>
-    <h3>Вариант B</h3>
-    <pre><code class="sql" style="font-size: 75%">SELECT id, money FROM account WHERE name = 'Romeo';
-COMMIT;
----
-SELECT id, money FROM account WHERE name = 'Giulietta';
-COMMIT;
----
-UPDATE account SET money = 500 WHERE id = 13 AND money = 600;
-UPDATE account SET money = 200 WHERE id = 42 AND money = 100;
-COMMIT;
-</code></pre>
-</section>
-
 <!--TODO https://habr.com/ru/company/postgrespro/blog/442804/ -->
 
 <section class="slide">
