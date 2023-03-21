@@ -116,12 +116,15 @@ CREATE INDEX test_index ON test_table (col varchar_pattern_ops);
 <section class="slide">
     <h2>Виды индексов в PostgreSQL</h2>
     <ul>
-        <li>B-Tree Index</li>
-        <li>Hash Index</li>
-        <li>GIN (Generalized Inverted Index)</li>
-        <li>GiST (Generalized Search Tree)</li>
-        <li>SP-GiST (Space Partitioned GiST)</li>
-        <li>(BRIN) Block Range Index</li>
+        <li><a href="https://www.postgresql.org/docs/current/indexes-types.html#INDEXES-TYPES-BTREE" target="_blank">B-Tree Index</a></li>
+        <li><a href="https://www.postgresql.org/docs/current/indexes-types.html#INDEXES-TYPES-HASH" target="_blank">Hash Index</a></li>
+        <li><a href="https://www.postgresql.org/docs/current/indexes-types.html#INDEXES-TYPE-GIST" target="_blank">GiST (Generalized Search Tree)</a></li>
+        <li><a href="https://www.postgresql.org/docs/current/indexes-types.html#INDEXES-TYPE-SPGIST" target="_blank">SP-GiST (Space Partitioned GiST)</a></li>
+        <li><a href="https://www.postgresql.org/docs/current/indexes-types.html#INDEXES-TYPES-GIN" target="_blank">GIN (Generalized Inverted Index)</a></li>
+        <li><a href="https://www.postgresql.org/docs/current/indexes-types.html#INDEXES-TYPES-BRIN" target="_blank">(BRIN) Block Range Index</a></li>
+        <li>----------------------------</li>
+        <li><a href="https://github.com/postgrespro/rum" target="_blank">RUM</a></li>
+        <li><a href="https://www.postgresql.org/docs/current/bloom.html" target="_blank">Bloom</a></li>
     </ul>
 </section>
 
