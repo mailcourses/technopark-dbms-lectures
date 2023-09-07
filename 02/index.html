@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="generator" content="Hugo 0.111.3">
+	<meta name="generator" content="Hugo 0.118.2">
 	
 	<link rel="icon" href="../common/lecture.png" />
 	
@@ -1224,6 +1224,228 @@ CREATE TABLE distributors (
 );
 </code></pre>
 </section>
+
+<!--<section class="slide">-->
+<!--    <h2>Типы данных PostgreSQL</h2>-->
+<!--    <img src="types.jpg" style="float: right" width="60%"/>-->
+<!--    <ul>-->
+<!--        <li>Числовые</li>-->
+<!--        <li>Строковые</li>-->
+<!--        <li>Календарные</li>-->
+<!--        <li>NULL</li>-->
+<!--    </ul>-->
+<!--</section>-->
+
+<!--<section class="slide">-->
+<!--    <h2>NULL</h2>-->
+<!--    <pre style="font-size: 85%"><code class="sql">SELECT 1 = NULL, 1 &lt;&gt; NULL, 1 < NULL, 1 > NULL;</code></pre>-->
+<!--    <table class="classic bordered">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>1 = NULL</th>-->
+<!--            <th>1 &lt;&gt; NULL</th>-->
+<!--            <th>1 < NULL</th>-->
+<!--            <th>1 > NULL</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr>-->
+<!--            <td>-->
+<!--                <null/>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <null/>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <null/>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <null/>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--    <pre style="font-size: 85%; padding-top: 50px"><code class="sql">SELECT 1 IS NULL, 1 IS NOT NULL, NULL IS NULL, NULL IS NOT NULL;</code></pre>-->
+<!--    <table class="classic bordered">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>1 IS NULL</th>-->
+<!--            <th>1 IS NOT NULL</th>-->
+<!--            <th>NULL IS NULL</th>-->
+<!--            <th>NULL IS NOT NULL</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr>-->
+<!--            <td>0</td>-->
+<!--            <td>1</td>-->
+<!--            <td>1</td>-->
+<!--            <td>0</td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</section>-->
+
+<!--<section class="slide">-->
+<!--    <h2>Числовые</h2>-->
+<!--    <table class="classic bordered" style="font-size: 75%">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Тип столбца, поля</th>-->
+<!--            <th>Объём занимаемой памяти</th>-->
+<!--            <th>Диапазон допустимых значений</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr>-->
+<!--            <td>SMALLINT, INT2</td>-->
+<!--            <td>2 байта</td>-->
+<!--            <td>От -32768 до 32767</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>INTEGER, INT, INT4</td>-->
+<!--            <td>4 байта</td>-->
+<!--            <td>От -2147683648 до 2147683648</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>BIGINT, INT8</td>-->
+<!--            <td>8 байт</td>-->
+<!--            <td>От -2<sup>63</sup> до 2<sup>63</sup> -1</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>DECIMAL [(M[,D])],<br/>-->
+<!--                NUMERIC [(M[,D])]-->
+<!--            </td>-->
+<!--            <td>~2 байта на 4 цифры</td>-->
+<!--            <td>Повышенная точность<br/>более 10000 цифр</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>REAL</td>-->
+<!--            <td>4 байта</td>-->
+<!--            <td style="font-size: 75%">-3.402823466E+38 до -1.175494351E-38<br/>-->
+<!--                1.175494351E-38 до 3.402823466E+38-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>DOUBLE PRECISION</td>-->
+<!--            <td>8 байт</td>-->
+<!--            <td style="font-size: 75%">-1.7976931348623157E+308<br/>-->
+<!--                до -2.2250738585072014E-308<br/>-->
+<!--                2.2250738585072014E-308<br/>-->
+<!--                до 1.7976931348623157E+308-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>MONEY</td>-->
+<!--            <td>8 байт</td>-->
+<!--            <td style="font-size: 75%">От -92233720368547758.08 до +92233720368547758.07</td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--    <p>SMALLSERIAL, SERIAL, BIGSERIAL - то же, но с автоинкрементом.</p>-->
+<!--    <p class="next">INT1 и беззнаковые есть в расширении <a href="https://github.com/petere/pguint">https://github.com/petere/pguint</a></p>-->
+<!--</section>-->
+
+<!--<section class="slide">-->
+<!--    <h2>Бинарные</h2>-->
+<!--    <table class="classic bordered" style="font-size: 75%">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Тип столбца, поля</th>-->
+<!--            <th>Объём занимаемой памяти</th>-->
+<!--            <th>Диапазон допустимых значений</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr>-->
+<!--            <td>BIT(N)</td>-->
+<!--            <td>(N + 7) / 8 байт</td>-->
+<!--            <td>Битовая строка с фиксированной длиной</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>BIT VARYING(N), VARBIT(N)</td>-->
+<!--            <td></td>-->
+<!--            <td>Битовая строка с переменной длиной</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>BOOLEAN</td>-->
+<!--            <td>1 байт</td>-->
+<!--            <td>0 или 1</td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</section>-->
+
+<!--<section class="slide">-->
+<!--    <h2>Строки</h2>-->
+<!--    <table class="classic bordered" style="font-size: 75%">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Тип столбца, поля</th>-->
+<!--            <th>Описание</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr>-->
+<!--            <td>CHARACTER(N), CHAR(N)</td>-->
+<!--            <td>Строка фиксированной длины</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>CHARACTER VARYING(N), VARCHAR(M)</td>-->
+<!--            <td>Строка переменной длины</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>TEXT</td>-->
+<!--            <td>Строковые данные без ограничения длины</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>BYTEA</td>-->
+<!--            <td>Двоичный данные без ограничения длины</td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</section>-->
+
+<!--<section class="slide">-->
+<!--    <h2>Дата и время</h2>-->
+<!--    <table class="classic bordered" style="font-size: 75%">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Тип столбца, поля</th>-->
+<!--            <th>Размер</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr>-->
+<!--            <td>TIMESTAMP [ (P) ] [ WITHOUT TIME ZONE ]</td>-->
+<!--            <td>8 байт</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>TIMESTAMP [ (P) ] WITH TIME ZONE</td>-->
+<!--            <td>8 байт</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>DATE</td>-->
+<!--            <td>4 байта</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>TIME [ (P) ] [ WITHOUT TIME ZONE ]</td>-->
+<!--            <td>8 байт</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>TIME [ (P) ] WITH TIME ZONE</td>-->
+<!--            <td>12 байт</td>-->
+<!--        </tr>-->
+<!--        <tr>-->
+<!--            <td>INTERVAL [ FIELDS ] [ (P) ]</td>-->
+<!--            <td>16 байт</td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--    <p>Время хранится с точностью до микросекунд.</p>-->
+<!--    <p>P - кол-во цифр для хранения дробной части секунд.</p>-->
+<!--    <p class="next">WITH TIMEZONE - внутри базы хранится UTC.</p>-->
+<!--</section>-->
 
 <section class="slide">
     <h2>ALTER TABLE</h2>
