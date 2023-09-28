@@ -71,7 +71,7 @@
 </section>
 
 	<section class="slide">
-    <h2>Выборка данных (продолжение)</h2>
+    <h2>Выборка данных</h2>
     <ul>
         <li>Выборка данных:
             <ul>
@@ -115,6 +115,422 @@ SELECT [ ALL | DISTINCT [ ON ( expression [, ...] ) ] ]
     [ FOR { UPDATE | NO KEY UPDATE | SHARE | KEY SHARE }
         [ OF table_name [, ...] ] [ NOWAIT | SKIP LOCKED ] [...] ]
 </code></pre>
+</section>
+
+<section class="slide">
+    <h2>FROM. Типы таблиц</h2>
+    <img src="types.jpg" style="float: right"/>
+    <ul>
+        <li>Постоянные таблицы</li>
+        <li>Временные таблицы</li>
+        <li>Виртуальные таблицы (представления)</li>
+        <li>Подзапросы (вложенные запросы)</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>WHERE. Фильтрация</h2>
+    <img src="filter.jpg" style="float: right" width="400px"/>
+    <ul class="compact">
+        <li>=</li>
+        <li>!=, &lt;&gt;</li>
+        <li>&gt;, &lt;, &gt;=, &lt;=</li>
+        <li>OR, AND, NOT</li>
+        <li>a BETWEEN x AND y</li>
+        <li>a IN (x, y, z...)</li>
+        <li>a LIKE p (_, %)</li>
+    </ul>
+    <pre><code class="sql next">SELECT *
+FROM persons
+WHERE department_id IN (
+    SELECT id FROM departments WHERE company_id = 42
+)</code></pre>
+</section>
+
+<section class="slide">
+    <h2>CASE</h2>
+    <img src="case.png" height="250px" style="position: absolute; right: 50px"/>
+    <div style="font-size: 90%">
+    <pre><code class="sql">CASE WHEN condition THEN result
+     [WHEN ...]
+     [ELSE result]
+END</code></pre>
+        <pre><code class="sql">NULLIF(value1, value2)</code></pre>
+        <pre><code class="sql">GREATEST(value [, ...])</code></pre>
+        <pre><code class="sql">LEAST(value [, ...])</code></pre>
+        <pre class="next"><code class="sql">
+SELECT a,
+   CASE WHEN a=1 THEN 'one'
+        WHEN a=2 THEN 'two'
+        ELSE 'other'
+   END
+FROM test;
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>ORDER BY. Сортировка</h2>
+    <pre><code class="sql" style="font-size: 80%">SELECT select_list
+FROM table_expression
+ORDER BY sort_expression1 [ASC | DESC] [NULLS { FIRST | LAST }]
+      [, sort_expression2 [ASC | DESC] [NULLS { FIRST | LAST }] ...]
+</code></pre>
+    <div style="font-size: 90%">
+    <pre><code class="sql next">
+SELECT a, b FROM table1 ORDER BY a + b, c;
+</code></pre>
+        <pre><code class="sql next">
+SELECT a + b AS sum, c FROM table1 ORDER BY sum;
+SELECT a, max(b) FROM table1 GROUP BY a ORDER BY 1;
+</code></pre>
+        <pre><code class="sql next">
+# SELECT a + b AS sum, c FROM table1 ORDER BY sum + c;
+ERROR:  column "sum" does not exist
+LINE 1: SELECT a + b AS sum, c FROM table1 ORDER BY sum + c;
+                                                    ^
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>GROUP BY. Формирование групп</h2>
+    <ul>
+        <li>Группировка по одному столбцу</li>
+        <li>Группировка по нескольким столбцам</li>
+        <li>Группировка посредством выражений</li>
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>GROUP BY. Формирование групп</h2>
+    <pre><code class="sql">SELECT * FROM employee;</code></pre>
+    <table class="classic bordered" style="font-size: 75%">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>name</th>
+            <th>department</th>
+            <th>grade</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>1</td>
+            <td>John</td>
+            <td>HR</td>
+            <td>A</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>Mark</td>
+            <td>HR</td>
+            <td>A</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Smit</td>
+            <td>IT</td>
+            <td>A</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Lili</td>
+            <td>IT</td>
+            <td>B</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Alex</td>
+            <td>PR</td>
+            <td>B</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>Walton</td>
+            <td>HR</td>
+            <td>B</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>Kim</td>
+            <td>PR</td>
+            <td>B</td>
+        </tr>
+        <tr>
+            <td>8</td>
+            <td>Marry</td>
+            <td>HR</td>
+            <td>A</td>
+        </tr>
+        <tr>
+            <td>9</td>
+            <td>Paul</td>
+            <td>PR</td>
+            <td>C</td>
+        </tr>
+        <tr>
+            <td>10</td>
+            <td>Christ</td>
+            <td>HR</td>
+            <td>A</td>
+        </tr>
+        <tr>
+            <td>11</td>
+            <td>Jiji</td>
+            <td>HR</td>
+            <td>B</td>
+        </tr>
+        <tr>
+            <td>12</td>
+            <td>Bob</td>
+            <td>PR</td>
+            <td>B</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>GROUP BY. Формирование групп</h2>
+    <pre><code class="sql">SELECT grade, department, COUNT(*)
+FROM employee
+GROUP BY grade, department
+ORDER BY grade, department;
+</code></pre>
+    <table class="classic bordered" style="font-size: 75%">
+        <thead>
+        <tr>
+            <th>grade</th>
+            <th>department</th>
+            <th>COUNT(*)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>A</td>
+            <td>HR</td>
+            <td>4</td>
+        </tr>
+        <tr>
+            <td>A</td>
+            <td>IT</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>B</td>
+            <td>HR</td>
+            <td>2</td>
+        </tr>
+        <tr>
+            <td>B</td>
+            <td>IT</td>
+            <td>1</td>
+        </tr>
+        <tr>
+            <td>B</td>
+            <td>PR</td>
+            <td>3</td>
+        </tr>
+        <tr>
+            <td>C</td>
+            <td>PR</td>
+            <td>1</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>Агрегаторы</h2>
+    <pre><code class="sql">aggregate_name (
+    [ ALL | DISTINCT ] expression [ , ... ]
+    [ order_by_clause ]
+) [ FILTER ( WHERE filter_clause ) ]</code></pre>
+    <pre><code class="sql">
+SELECT
+  string_agg(name, ',' ORDER BY name),
+  avg(age),
+  count(*) FILTER (WHERE age BETWEEN 13 AND 19) AS teens
+FROM persons;
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>Агрегаторы</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Функция</th>
+            <th>Описание</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>avg(expression)</td>
+            <td>Среднее арифметическое</td>
+        </tr>
+        <tr>
+            <td>max(expression)</td>
+            <td>Максимальное значение</td>
+        </tr>
+        <tr>
+            <td>min(expression)</td>
+            <td>Минимальное значение</td>
+        </tr>
+        <tr>
+            <td>sum(expression)</td>
+            <td>Сумма</td>
+        </tr>
+        <tr>
+            <td>count(*)</td>
+            <td>Кол-во строк</td>
+        </tr>
+        <tr>
+            <td>count(expression)</td>
+            <td>Кол-во не NULL-значений</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>Агрегаторы</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Функция</th>
+            <th>Описание</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>bit_and(expression)</td>
+            <td>Битовое "И"</td>
+        </tr>
+        <tr>
+            <td>bit_or(expression)</td>
+            <td>Битовое "ИЛИ"</td>
+        </tr>
+        <tr>
+            <td>bool_and(expression), every(expression)</td>
+            <td>Логическое "И"</td>
+        </tr>
+        <tr>
+            <td>bool_or(expression)</td>
+            <td>Логическое "ИЛИ"</td>
+        </tr>
+        <tr>
+            <td>stddev(expression)</td>
+            <td>Стандартное отклонение</td>
+        </tr>
+        <tr>
+            <td>variance(expression)</td>
+            <td>Дисперсия (квадрат отклонения)</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>Агрегаторы</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Функция</th>
+            <th>Описание</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>array_agg(expression)
+            <td>Сформировать массив значений</td>
+        </tr>
+        <tr>
+            <td>json_agg(expression)</td>
+            <td>Сформировать JSON-массив</td>
+        </tr>
+        <tr>
+            <td>jsonb_agg(expression)</td>
+            <td>Сформировать JSONB-массив</td>
+        </tr>
+        <tr>
+            <td>json_object_agg(key, value)</td>
+            <td>Сформировать JSON-объект</td>
+        </tr>
+        <tr>
+            <td>jsonb_object_agg(key, value)</td>
+            <td>Сформировать JSONB-объект</td>
+        </tr>
+        <tr>
+            <td>string_agg(expression, delimiter)</td>
+            <td>Конкатенация строк</td>
+        </tr>
+        <tr>
+            <td>xmlagg(expression)</td>
+            <td>Конкатенация XML-элементов</td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="slide">
+    <h2>HAVING. Фильтрация после группировки</h2>
+    <pre><code class="sql">SELECT grade, department, COUNT(*)
+FROM employee
+GROUP BY grade, department
+HAVING COUNT(*) > 3;
+</code></pre>
+    <pre><code class="next sql">
+SELECT * FROM (
+    SELECT grade, department, COUNT(*) as employee_cnt
+    FROM employee
+    GROUP BY grade, department
+) a
+WHERE employee_cnt > 3;
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>LIMIT. Разбивка на страницы</h2>
+    <h3>ISO SQL:2003 - Window Functions:</h3>
+    <div style="font-size: 80%">
+    <pre><code class="sql">SELECT * FROM (
+  SELECT
+    ROW_NUMBER() OVER (ORDER BY age ASC) AS rownumber,
+    person_id, person_name, age
+  FROM person
+) AS foo
+WHERE rownumber <= 10;
+</code></pre>
+        <pre><code class="sql next">
+SELECT * FROM (
+  SELECT
+    RANK() OVER (ORDER BY age ASC) AS ranking,
+    person_id, person_name, age
+  FROM person
+) AS foo
+WHERE ranking <= 10;
+</code></pre>
+    </div>
+</section>
+
+<section class="slide">
+    <h2>LIMIT. Разбивка на страницы</h2>
+    <h3>Синтаксис MySQL:</h3>
+    <pre><code class="sql" style="font-size: 80%">SELECT
+  person_id, person_name, age
+FROM person
+LIMIT 10
+OFFSET 20;
+</code></pre>
+    <h3>Синтаксис DB2:</h3>
+    <pre><code class="sql" style="font-size: 80%">SELECT
+  person_id, person_name, age
+FROM person
+FETCH FIRST 10 ROWS ONLY;
+</code></pre>
+    <h3>PostgreSQL поддерживает оба синтаксиса</h3>
 </section>
 
 <section class="slide">
@@ -1562,8 +1978,8 @@ GROUP BY region, product;
 
 <section class="slide">
     <h2>WITH (Common Table Expressions)</h2>
-    <p style="font-size: 80%">В PostgreSQL 12 изменилось дефолтное поведение материализации: </p>
-    <p style="font-size: 80%">если запрос WITH является нерекурсивным и не имеет побочных эффектов, он может быть свёрнут в родительский запрос, что позволит оптимизировать совместно два уровня запросов.</p>
+    <p style="font-size: 80%">Главный плюс и минус CTE в том, что запрос описанный в WITH будет вычисляться единожды ДО выполнения основного запроса.</p>
+    <p style="font-size: 80%">Если запрос WITH является нерекурсивным и не имеет побочных эффектов, он может быть свёрнут в родительский запрос, что позволит оптимизировать совместно два уровня запросов.</p>
     <p style="font-size: 80%">По-умолчанию это происходит, только если запрос WITH задействуется в родительском запросе всего в одном месте, а не в нескольких.</p>
     <pre><code class="sql" style="font-size: 70%">WITH w AS (
     SELECT * FROM big_table
