@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="generator" content="Hugo 0.118.2">
+	<meta name="generator" content="Hugo 0.119.0">
 	
 	<link rel="icon" href="../common/lecture.png" />
 	
@@ -239,6 +239,24 @@
 </section>
 
 <section class="slide">
+    <h2>Транзакция</h2>
+    <dl>
+        <dt> Атомарный(неделимый) набор операций.</dt>
+    </dl>
+
+    <pre><code class="sql">BEGIN;
+
+UPDATE accounts SET balance = balance - 100.00
+    WHERE name = 'Alice';
+
+UPDATE accounts SET balance = balance + 100.00
+    WHERE name = 'Bob';
+
+COMMIT; -- фиксация, если все хорошо
+ROLLBACK; -- откат, если что-то пошло не так </code></pre>
+</section>
+
+<section class="slide">
     <h2 class="shout">ACID</h2>
 </section>
 
@@ -281,24 +299,6 @@
     <img style="position: absolute; right: 50px; bottom: 50px" height="320" src="durability.png">
     <p>Независимо от проблем на нижних уровнях (к примеру, обесточивание системы или сбои в оборудовании) изменения,
         сделанные успешно завершённой транзакцией, должны остаться сохранёнными после возвращения системы в работу.</p>
-</section>
-
-<section class="slide">
-    <h2>Транзакция</h2>
-    <dl>
-        <dt> Атомарный(неделимый) набор операций.</dt>
-    </dl>
-
-    <pre><code class="sql">BEGIN;
-
-UPDATE accounts SET balance = balance - 100.00
-    WHERE name = 'Alice';
-
-UPDATE accounts SET balance = balance + 100.00
-    WHERE name = 'Bob';
-
-COMMIT; -- фиксация, если все хорошо
-ROLLBACK; -- откат, если что-то пошло не так </code></pre>
 </section>
 
 <section class="slide">
