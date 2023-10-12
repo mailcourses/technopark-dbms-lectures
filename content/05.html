@@ -115,6 +115,7 @@ CREATE INDEX test_index ON test_table (col varchar_pattern_ops);
 
 <section class="slide">
     <h2>Виды индексов в PostgreSQL</h2>
+    <h3>Встроенные:</h3>
     <ul>
         <li><a href="https://www.postgresql.org/docs/current/indexes-types.html#INDEXES-TYPES-BTREE" target="_blank">B-Tree Index</a></li>
         <li><a href="https://www.postgresql.org/docs/current/indexes-types.html#INDEXES-TYPES-HASH" target="_blank">Hash Index</a></li>
@@ -122,7 +123,9 @@ CREATE INDEX test_index ON test_table (col varchar_pattern_ops);
         <li><a href="https://www.postgresql.org/docs/current/indexes-types.html#INDEXES-TYPE-SPGIST" target="_blank">SP-GiST (Space Partitioned GiST)</a></li>
         <li><a href="https://www.postgresql.org/docs/current/indexes-types.html#INDEXES-TYPES-GIN" target="_blank">GIN (Generalized Inverted Index)</a></li>
         <li><a href="https://www.postgresql.org/docs/current/indexes-types.html#INDEXES-TYPES-BRIN" target="_blank">(BRIN) Block Range Index</a></li>
-        <li>----------------------------</li>
+    </ul>
+    <h3>Сторонние расширения:</h3>
+    <ul>
         <li><a href="https://github.com/postgrespro/rum" target="_blank">RUM</a></li>
         <li><a href="https://www.postgresql.org/docs/current/bloom.html" target="_blank">Bloom</a></li>
     </ul>
