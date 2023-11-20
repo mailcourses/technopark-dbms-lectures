@@ -78,6 +78,7 @@ create table highschooler
     name  text     not null,
     grade smallint not null
 );
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
 
 create table friend
 (
@@ -86,6 +87,7 @@ create table friend
     unique (id1, id2) deferrable initially deferred,
     unique (id2, id1) deferrable initially deferred
 );
+comment on table friend is 'Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
 
 create table likes
 (
@@ -94,6 +96,7 @@ create table likes
     unique (id1, id2) deferrable initially deferred,
     unique (id2, id1) deferrable initially deferred
 );
+comment on table likes is 'Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
 
 insert into highschooler (id, name, grade)
 values (1, 'Cassandra', 8),
