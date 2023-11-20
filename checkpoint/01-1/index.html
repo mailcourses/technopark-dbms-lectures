@@ -41,20 +41,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Найти имена всех студентов кто дружит с кем-то по имени Gabriel.
@@ -64,20 +60,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Для всех студентов, кому понравился кто-то на 2 или более классов младше, чем он вывести имя этого студента и класс, а так же имя и класс студента который ему нравится.
@@ -87,20 +79,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Для каждой пары студентов, которые нравятся друг другу взаимно вывести имя и класс обоих студентов. Включать каждую пару только 1 раз с именами в алфавитном порядке.
@@ -110,20 +98,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Найти всех студентов, которым никто не нравится и которые никому не нравятся одновременно, вывести их имя и класс. Отсортировать по классу, затем по имени в классе.
@@ -133,20 +117,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Для каждой ситуации, когда студенту A нравится студент B, но B никто не нравится, вывести имена и классы A и B.
@@ -156,20 +136,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Найти имена и классы учеников, которые имеют друзей только в том же классе. Вернуть результат, отсортированный по классу, затем имени в классе.
@@ -179,20 +155,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Для каждого студента A, которому нравится студент B, и они не друзья, найти есть ли у них общий друг. Для каждой такой тройки вернуть имя и класс  A, B, и C.
@@ -202,20 +174,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Найти разницу между числом учащихся и числом различных имен.
@@ -225,20 +193,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Найти имя и класс студентов, которые нравятся более чем 1 другому студенту.
@@ -248,20 +212,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Если два школьника - А и В - друзья и А нравится В, но не наоборот, то удалите соответствующую строку из Likes.
@@ -271,20 +231,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Для всех  случаев, когда А нравится В, а В нравится С - получите имена и классы А, В и С.
@@ -294,20 +250,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Найдите имена и классы студентов(-а), у которых все друзья в других классах. Получите имена и классы таких студентов. Отсортировать сначала по классу, затем по имени.
@@ -317,20 +269,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Каково среднее число друзей у студента? (Вы должны получить одно число).
@@ -340,20 +288,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Найдите имена и классы студентов(-а), которые являются друзьями Cassandra, либо друзьями друзей Cassandra. Только не считайте саму Cassandra. Отсортировать сначала по классу, затем по имени.
@@ -363,20 +307,16 @@ document.addEventListener("scroll", function(e) {
 <section class="ticket">
     <div class="ticket">
         
-        <ul>
-    <li>
-        <code>Highschooler ( ID, name, grade )</code>
-        <div>Студент с уникальным ID. Имя и Класс</div>
-    </li>
-    <li>
-        <code>Friend ( ID1, ID2 )</code>
-        <div>Студент с ID1 друг студента с ID2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123)</div>
-    </li>
-    <li>
-        <code>Likes ( ID1, ID2 )</code>
-        <div>Студенту с ID1 нравится студент с ID2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).</div>
-    </li>
-</ul>
+        <pre style="font-size: 90%"><code class="sql">
+create table highschooler (id serial primary key, name text not null, grade smallint not null);
+comment on table highschooler is 'Студент с уникальным ID. Имя и Класс.';
+
+create table friend (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table friend is 'Студент с id1 друг студента с id2. Дружба взаимная, если есть запись (123, 456), то есть и (456, 123).';
+
+create table likes (id1 int not null references highschooler (id), id2 int not null references highschooler (id));
+comment on table likes is 'Студенту с id1 нравится студент с id2. Симпатии не взаимны, если есть запись (123, 456), то необязательно есть (456, 123).';
+</code></pre>
 
         
         Найдите имена и классы студентов(-а) с наибольшим количеством друзей. Отсортировать сначала по классу, затем по имени.
