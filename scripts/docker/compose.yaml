@@ -1,0 +1,43 @@
+services:
+  pg:
+    image: postgres:16-bullseye
+    environment:
+      POSTGRES_DB: "techdb"
+      POSTGRES_USER: "techdb"
+      POSTGRES_PASSWORD: "techdb"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - "./postgres/init/:/docker-entrypoint-initdb.d"
+      - "./postgres:/var/lib/postgresql/data"
+    command: postgres -c config_file=/var/lib/postgresql/data/postgresql.conf
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U techdb" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    ports:
+      - "5432:5432"
+    networks:
+      - techdb
+
+  pgbouncer:
+    image: bitnami/pgbouncer:latest
+    environment:
+      POSTGRESQL_USERNAME: techdb
+      POSTGRESQL_PASSWORD: techdb
+      POSTGRESQL_DATABASE: techdb
+      PGBOUNCER_DATABASE: techdb
+      POSTGRESQL_HOST: pg
+      POSTGRESQL_PORT: 5432
+      POSTGRESQL_POOL_MODE: transactional
+    ports:
+      - "6432:6432"
+    depends_on:
+      pg:
+        condition: service_healthy
+    networks:
+      - techdb
+
+networks:
+  techdb:
+    driver: bridge
