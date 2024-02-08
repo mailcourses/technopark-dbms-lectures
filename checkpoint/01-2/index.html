@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="x-ua-compatible" content="ie=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="generator" content="Hugo 0.120.4">
+	<meta name="generator" content="Hugo 0.122.0">
 	
 	<link rel="icon" href="../../common/lecture.png" />
 	
@@ -44,7 +44,7 @@ document.addEventListener("scroll", function(e) {
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -58,7 +58,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -72,7 +72,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -86,7 +86,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -100,7 +100,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -114,7 +114,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -128,7 +128,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -144,7 +144,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -158,7 +158,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -172,7 +172,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -186,7 +186,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -200,7 +200,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -214,7 +214,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -228,7 +228,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -242,7 +242,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
@@ -258,7 +258,7 @@ create table rating (id int primary key, movie_id int references movie (id), sta
         <pre style="font-size: 90%"><code class="sql">
 create table movie (id int primary key, title text, year int, director text);
 create table reviewer (id int primary key, name text);
-create table rating (id int primary key, movie_id int references movie (id), stars int, rating_date date );
+create table rating (reviewer_id int primary key, movie_id int references movie (id), stars int, rating_date date );
 </code></pre>
 
         
